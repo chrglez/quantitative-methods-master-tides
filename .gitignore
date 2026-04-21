@@ -42,6 +42,10 @@ Thumbs.db
 
 **/*.quarto_ipynb
 
+# Source reference (imported from the departmental PPT) — not versioned
+/PRESENTATION_2026.pptx
+/PRESENTATION_2026.md
+
 # Extension resources copied into deck folders during render
 **/mathjax-config.js
 !_extensions/**/mathjax-config.js

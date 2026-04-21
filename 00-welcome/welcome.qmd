@@ -1,31 +1,63 @@
 ---
 title: "Quantitative Methods in Tourism"
-subtitle: "Welcome · Course overview"
+subtitle: "Master in Tourism and Sustainable Development · TIDES · ULPGC"
 date: last-modified
 ---
 
-## About this course
+## Instructors
 
-- **6 ECTS · core** module of the *Master in Tourism and Sustainable Development*
-- Taught at the **TIDES Institute**, Universidad de Las Palmas de Gran Canaria
-- Two blocks, two instructors:
-  - **Topics 1 & 2** (Christian González) · *Introduction to R* and *Visual exploratory analysis*
-  - **Topics 3 & 4** (Juan Hernández Guerra) · *Machine learning* and *Text classification (NLP)*
+::: {.columns}
 
-::: {.notes}
-Quick tour: what students already know in R, why tourism data, what we expect from them.
+::: {.column width="50%"}
+### Christian González Martel
+Modules I & II · *Introduction to R* · *Visual exploratory analysis*
+
+- <christian.gonzalez@ulpgc.es>
+- Office **D-4-07**
+- Tutorials · Monday 11:00–13:00 · Tuesday 11:00–12:30 · Friday 9:30–12:00
 :::
 
-## What you will learn (Topics 1 & 2)
+::: {.column width="50%"}
+### Juan M. Hernández Guerra
+Module III · *Introduction to machine learning*
 
-::: {.incremental}
-- Load, inspect, clean and transform tourism data with the tidyverse.
-- Produce publishable figures with `ggplot2`.
-- Write reproducible reports in Quarto.
-- Submit your work via Git and GitHub.
+- <juan.hernandez@ulpgc.es>
+- Office **D-4-20**
+- Tutorials · Tuesday 9:00–13:00 · Wednesday 9:00–11:00
 :::
 
-## Schedule · 30 hours, 6 days of 5 h
+:::
+
+::: {.callout-note appearance="minimal"}
+Please email us to make an appointment before coming to tutorials.
+:::
+
+## Contents
+
+- **Module I · Introduction to R**
+  - Data in R
+  - Data wrangling
+  - Basic statistics with R
+- **Module II · Visual exploratory analysis**
+  - One-variable visualisation
+  - Multiple-variables visualisation
+  - Editing reproducible documents
+- **Module III · Introduction to machine learning**
+  - Regression models
+  - Classification models
+  - Text classification (NLP)
+
+## Practical information
+
+|  |  |
+|---|---|
+| **Classroom** | EA 0.1 |
+| **Official exam dates** | June 8 · June 29, 2026 |
+| **Campus Virtual** | News, slides, exercises and final exam material |
+| **Course repo** | <https://github.com/chrglez/quantitative-methods-master-tides> |
+| **Licence** | CC BY-SA 4.0 |
+
+## Schedule · Modules I & II (30 h over 6 days of 5 h)
 
 | Day | Morning | Afternoon |
 |:---:|---|---|
@@ -36,22 +68,47 @@ Quick tour: what students already know in R, why tourism data, what we expect fr
 | 5 | Multi-variable visualisation | Graded exercise |
 | 6 | Editing reproducible documents | Final submission |
 
-## Course materials
+# Evaluation system {background-color="#0067a2"}
 
-- **Slides** · rendered at <https://chrglez.github.io/quantitative-methods-master-tides/>
-- **Source** · <https://github.com/chrglez/quantitative-methods-master-tides>
-- **Datasets** · [ISTAC](https://www.gobiernodecanarias.org/istac/) (Canary Islands) and
-  [Eurostat tourism](https://ec.europa.eu/eurostat/web/tourism/data/database)
-- **Licence** · CC BY-SA 4.0
+## Weights
 
-## Grading
+::: {.incremental}
+- **In-class exercises · 50 %**
+  - Guided exercises · **25 %**
+  - Proposed exercises · **25 %**
+- **Final exercise · 50 %**
+- **Pass threshold · 50 %** overall
+:::
 
-- Guided exercises (Days 1–2) · formative, not graded
-- Graded exercises (Days 3–5) · 20 % each = **60 %**
-- Final submission (Day 6) · **40 %**
+## Weighting across modules
 
-All submissions are pushed to each student's fork of the course repository.
-Details in the *Git & GitHub essentials* session.
+::: {.callout-important}
+Modules **I and II combined** count as **50 %** of the subject mark.
+Module **III** accounts for the other **50 %**.
+:::
+
+So within the first half of the subject, each module weighs the same:
+Module I contributes 25 % and Module II contributes 25 % of the final
+subject mark.
+
+## How you submit {.smaller}
+
+Every in-class and final exercise is handed in via your personal fork
+of the course repository on GitHub:
+
+1. **Fork** <https://github.com/chrglez/quantitative-methods-master-tides>.
+2. **Clone** your fork, open the `.qmd` template under `exercises/dayN/`,
+   fill it in.
+3. **Commit and push** to your fork.
+4. Paste the commit URL in the submission form on Campus Virtual.
+
+The full Git workflow is covered in the first hour of Day 1.
+
+## Resources
+
+- **Slides** · <https://chrglez.github.io/quantitative-methods-master-tides/>
+- **Campus Virtual** · all announcements, exercise briefs and grades.
+- **Office hours** · see top slide — email first.
 
 # Let's get started {background-color="#0067a2"}
 

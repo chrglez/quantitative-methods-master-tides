@@ -12,25 +12,42 @@ Rendered site: <https://chrglez.github.io/quantitative-methods-master-tides/>
 
 ## Instructors
 
-- **Christian González** — Topics 1 & 2 (Introduction to R, Visual exploratory analysis)
-- **Juan Hernández Guerra** — Topics 3 & 4 (Machine learning, NLP)
+- **Christian González Martel** — <christian.gonzalez@ulpgc.es> · Office D-4-07 · Modules I & II
+- **Juan M. Hernández Guerra** — <juan.hernandez@ulpgc.es> · Office D-4-20 · Module III
 
 Both at the Department of Quantitative Methods in Economics and
-Management, ULPGC.
+Management, ULPGC. Full tutorial hours on the welcome deck.
 
 ## Programme
 
-| # | Topic | Sessions | Slides | Status |
-|---|---|---|---|---|
-| 1 | Introduction to R | Days 1–3 (15 h) | [Git & GitHub](01-introduction-to-r/01-git-github.qmd) · [Data in R](01-introduction-to-r/02-data-in-r.qmd) · [Data wrangling](01-introduction-to-r/03-data-wrangling.qmd) · [Basic statistics](01-introduction-to-r/04-basic-statistics.qmd) | 🚧 Draft |
-| 2 | Visual exploratory analysis | Days 4–6 (15 h) | [One variable](02-visual-exploratory-analysis/01-one-variable.qmd) · [Multiple variables](02-visual-exploratory-analysis/02-multiple-variables.qmd) · [Editing documents](02-visual-exploratory-analysis/03-editing-documents.qmd) | 🚧 Draft |
-| 3 | Introduction to machine learning | Instructor: Juan Hernández Guerra | — | — |
-| 4 | Text classification (NLP) | Instructor: Juan Hernández Guerra | — | — |
+The subject has **three modules**. This repository covers Modules I
+and II (30 h, 6 days of 5 h); Module III is taught separately.
+
+| # | Module | Slides | Status |
+|---|---|---|---|
+| I | Introduction to R | [Git & GitHub](01-introduction-to-r/01-git-github.qmd) · [Data in R](01-introduction-to-r/02-data-in-r.qmd) · [Data wrangling](01-introduction-to-r/03-data-wrangling.qmd) · [Basic statistics](01-introduction-to-r/04-basic-statistics.qmd) | 🚧 Draft |
+| II | Visual exploratory analysis | [One variable](02-visual-exploratory-analysis/01-one-variable.qmd) · [Multiple variables](02-visual-exploratory-analysis/02-multiple-variables.qmd) · [Editing documents](02-visual-exploratory-analysis/03-editing-documents.qmd) | 🚧 Draft |
+| III | Introduction to machine learning | Regression · Classification · Text classification (NLP) | Out of scope |
 
 Each deck is served both as **HTML** (live, via GitHub Pages) and
 **PDF** (exported via `quarto render`).
 
-## Day-by-day schedule (Topics 1 & 2, 30 h over 6 days of 5 h)
+## Evaluation
+
+Within each of Modules I and II:
+
+| Component | Weight |
+|---|---:|
+| Guided exercises (Days 1–2) | 25 % |
+| Proposed exercises (Days 3–5) | 25 % |
+| Final exercise (Day 6) | 50 % |
+
+Pass threshold: **50 %** overall. Modules I + II together contribute
+**50 %** of the subject mark; Module III contributes the other 50 %.
+
+Classroom **EA 0.1** · Official exam dates **June 8** and **June 29, 2026**.
+
+## Day-by-day schedule (Modules I & II, 30 h over 6 days of 5 h)
 
 | Day | Morning | Afternoon |
 |---|---|---|
