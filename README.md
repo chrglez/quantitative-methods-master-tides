@@ -49,7 +49,10 @@ Classroom **EA 0.1** · Official exam dates **June 8** and **June 29, 2026**.
 
 ## Day-by-day schedule (Modules I & II, 30 h over 6 days of 5 h)
 
-| Day | Morning | Afternoon |
+Sessions run **16:00–21:00** at classroom **EA 0.1**, with a short break
+around 18:00.
+
+| Day | First half · lecture | Second half · hands-on |
 |---|---|---|
 | 1 | 1 h Git & GitHub essentials · 3 h Data in R | 1 h guided exercise |
 | 2 | 4 h Data wrangling with the tidyverse | 1 h guided exercise |

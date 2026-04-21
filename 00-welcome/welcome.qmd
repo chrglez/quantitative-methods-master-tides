@@ -57,9 +57,12 @@ Please email us to make an appointment before coming to tutorials.
 | **Course repo** | <https://github.com/chrglez/quantitative-methods-master-tides> |
 | **Licence** | CC BY-SA 4.0 |
 
-## Schedule · Modules I & II (30 h over 6 days of 5 h)
+## Schedule · Modules I & II
 
-| Day | Morning | Afternoon |
+30 h over 6 days of 5 h · **16:00–21:00** at classroom **EA 0.1** · short
+break around 18:00.
+
+| Day | First half · lecture | Second half · hands-on |
 |:---:|---|---|
 | 1 | Git & GitHub · Data in R | Guided exercise |
 | 2 | Data wrangling (tidyverse) | Guided exercise |
@@ -93,15 +96,19 @@ subject mark.
 
 ## How you submit {.smaller}
 
-Every in-class and final exercise is handed in via your personal fork
-of the course repository on GitHub:
+Every in-class and final exercise is handed in via a **Pull Request**
+from your personal fork of the course repository on GitHub:
 
 1. **Fork** <https://github.com/chrglez/quantitative-methods-master-tides>.
-2. **Clone** your fork, open the `.qmd` template under `exercises/dayN/`,
-   fill it in.
-3. **Commit and push** to your fork.
-4. Paste the commit URL in the submission form on Campus Virtual.
+2. **Clone** your fork and branch off `main` at the start of every day.
+3. Solve the template (`.R` for Days 1–5, `.qmd` for Day 6),
+   **commit and push** the branch to your fork.
+4. Open a **Pull Request** targeting `chrglez:main` with title
+   `Day N — Your Full Name`.
+5. I review with inline comments. PRs are never merged — they are the
+   audit trail of your submission.
 
+Campus Virtual is used only for announcements and the final grade.
 The full Git workflow is covered in the first hour of Day 1.
 
 ## Resources

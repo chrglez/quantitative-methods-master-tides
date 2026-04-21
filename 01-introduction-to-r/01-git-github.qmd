@@ -58,24 +58,40 @@ on GitHub**. You need the workflow working by the end of this hour.
 flowchart LR
   A[chrglez/quantitative-methods-master-tides] -->|fork| B[yourname/quantitative-methods-master-tides]
   B -->|clone| C[your laptop]
-  C -->|commit + push| B
-  B -->|submission URL| D[instructor]
+  C -->|commit + push branch| B
+  B -->|Pull Request| A
+  A -->|review comments| B
 ```
 
-1. **Fork** the course repo on GitHub.
+1. **Fork** the course repo on GitHub (one-off, Day 1).
 2. **Clone** your fork to your laptop.
-3. For each exercise: open the template, solve it, `commit`, `push`.
-4. Paste your fork URL (or PR link) into the submission form.
+3. For each exercise: branch → solve → `commit` → `push` → open PR.
+4. Christian reviews the PR with inline comments. PRs are never merged.
 
-## Live demo · the four commands you will use every day
+## Live demo · the commands you will use every day
 
 ```bash
-# inside your cloned project folder
-git status                     # what changed?
-git add  exercises/day1/       # stage specific files
-git commit -m "Day 1 solution" # snapshot with a message
-git push                       # upload to your GitHub fork
+# start each day from an up-to-date main
+git checkout main
+git pull upstream main
+
+# branch for the day
+git checkout -b day-1
+
+# ...edit exercises/day1/exercise-template.R...
+
+git add    exercises/day1/exercise-template.R
+git commit -m "Day 1 solution"
+git push -u origin day-1
 ```
+
+Then on GitHub: **Compare & pull request** → base `chrglez:main`,
+compare `you:day-1` → title `Day 1 — Your Full Name` → Create.
+
+::: {.callout-note}
+Days 1–5 you submit plain **`.R` scripts**. Quarto (`.qmd`) comes in
+on Day 6 — that is when reproducibility becomes part of the grade.
+:::
 
 ## Common pitfalls
 
