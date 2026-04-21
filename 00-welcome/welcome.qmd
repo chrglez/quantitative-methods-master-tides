@@ -1,0 +1,58 @@
+---
+title: "Quantitative Methods in Tourism"
+subtitle: "Welcome · Course overview"
+date: last-modified
+---
+
+## About this course
+
+- **6 ECTS · core** module of the *Master in Tourism and Sustainable Development*
+- Taught at the **TIDES Institute**, Universidad de Las Palmas de Gran Canaria
+- Two blocks, two instructors:
+  - **Topics 1 & 2** (Christian González) · *Introduction to R* and *Visual exploratory analysis*
+  - **Topics 3 & 4** (Juan Hernández Guerra) · *Machine learning* and *Text classification (NLP)*
+
+::: {.notes}
+Quick tour: what students already know in R, why tourism data, what we expect from them.
+:::
+
+## What you will learn (Topics 1 & 2)
+
+::: {.incremental}
+- Load, inspect, clean and transform tourism data with the tidyverse.
+- Produce publishable figures with `ggplot2`.
+- Write reproducible reports in Quarto.
+- Submit your work via Git and GitHub.
+:::
+
+## Schedule · 30 hours, 6 days of 5 h
+
+| Day | Morning | Afternoon |
+|:---:|---|---|
+| 1 | Git & GitHub · Data in R | Guided exercise |
+| 2 | Data wrangling (tidyverse) | Guided exercise |
+| 3 | Basic statistics with R | Graded exercise |
+| 4 | One-variable visualisation | Graded exercise |
+| 5 | Multi-variable visualisation | Graded exercise |
+| 6 | Editing reproducible documents | Final submission |
+
+## Course materials
+
+- **Slides** · rendered at <https://chrglez.github.io/quantitative-methods-master-tides/>
+- **Source** · <https://github.com/chrglez/quantitative-methods-master-tides>
+- **Datasets** · [ISTAC](https://www.gobiernodecanarias.org/istac/) (Canary Islands) and
+  [Eurostat tourism](https://ec.europa.eu/eurostat/web/tourism/data/database)
+- **Licence** · CC BY-SA 4.0
+
+## Grading
+
+- Guided exercises (Days 1–2) · formative, not graded
+- Graded exercises (Days 3–5) · 20 % each = **60 %**
+- Final submission (Day 6) · **40 %**
+
+All submissions are pushed to each student's fork of the course repository.
+Details in the *Git & GitHub essentials* session.
+
+# Let's get started {background-color="#0067a2"}
+
+Welcome aboard.

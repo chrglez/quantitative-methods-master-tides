@@ -1,0 +1,47 @@
+---
+title: "Day 4 · Exercise (graded)"
+subtitle: "One-variable visualisation"
+author: "Your Name"
+date: today
+format: html
+---
+
+```{r}
+#| include: false
+library(tidyverse)
+library(here)
+theme_set(theme_minimal(base_size = 12))
+```
+
+# 1. Histogram + density
+
+Produce a combined histogram and density plot for a continuous tourism
+variable from an ISTAC series. Label axes and units, include a source
+line.
+
+```{r}
+# your code here
+```
+
+# 2. Boxplot
+
+Produce a boxplot of the same variable, highlighting the outliers.
+
+```{r}
+# your code here
+```
+
+# 3. Categorical bar chart
+
+Choose a categorical tourism variable (origin country, purpose of
+visit, island of stay...) and produce a bar chart ordered by
+frequency, with a meaningful title.
+
+```{r}
+# your code here
+```
+
+# 4. Brief commentary
+
+In 5–8 sentences, describe what each plot reveals about the
+distribution and whether the three views are consistent.

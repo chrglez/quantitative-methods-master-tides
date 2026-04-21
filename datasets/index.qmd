@@ -1,0 +1,21 @@
+---
+title: "Datasets"
+---
+
+The course uses two public tourism data sources. Raw downloads live
+under `datasets/raw/` (gitignored); only the [`download.R`](download.R)
+script is versioned.
+
+## ISTAC · Instituto Canario de Estadística
+
+Local tourism statistics for the Canary Islands — expenditure,
+occupancy, capacity, border flows. Entry point:
+<https://www.gobiernodecanarias.org/istac/>.
+
+## Eurostat tourism
+
+European-level nights spent, arrivals, capacity and receipts, pulled
+through the [`eurostat`](https://ropengov.github.io/eurostat/) package.
+
+See [`datasets/README.md`](README.md) for the list of series we use and
+the download procedure.

@@ -1,0 +1,85 @@
+project:
+  type: website
+  output-dir: _site
+  render:
+    - "index.qmd"
+    - "00-welcome/*.qmd"
+    - "01-introduction-to-r/*.qmd"
+    - "02-visual-exploratory-analysis/*.qmd"
+
+website:
+  title: "Quantitative Methods in Tourism"
+  description: |
+    Slides, code and exercises for the core course *Quantitative Methods in
+    Tourism* (6 ECTS) of the Master in Tourism and Sustainable Development,
+    TIDES Institute, Universidad de Las Palmas de Gran Canaria.
+  site-url: "https://chrglez.github.io/quantitative-methods-master-tides/"
+  repo-url: "https://github.com/chrglez/quantitative-methods-master-tides"
+  repo-actions: [edit, issue]
+  page-navigation: true
+  navbar:
+    background: light
+    left:
+      - text: "Home"
+        href: index.qmd
+      - text: "Topic 1 · Introduction to R"
+        menu:
+          - text: "Git & GitHub essentials"
+            href: 01-introduction-to-r/01-git-github.qmd
+          - text: "Data in R"
+            href: 01-introduction-to-r/02-data-in-r.qmd
+          - text: "Data wrangling"
+            href: 01-introduction-to-r/03-data-wrangling.qmd
+          - text: "Basic statistics"
+            href: 01-introduction-to-r/04-basic-statistics.qmd
+      - text: "Topic 2 · Visual exploratory analysis"
+        menu:
+          - text: "One variable"
+            href: 02-visual-exploratory-analysis/01-one-variable.qmd
+          - text: "Multiple variables"
+            href: 02-visual-exploratory-analysis/02-multiple-variables.qmd
+          - text: "Editing documents"
+            href: 02-visual-exploratory-analysis/03-editing-documents.qmd
+      - text: "Exercises"
+        href: exercises/index.qmd
+      - text: "Datasets"
+        href: datasets/index.qmd
+    right:
+      - icon: github
+        href: "https://github.com/chrglez/quantitative-methods-master-tides"
+        aria-label: GitHub repository
+
+format:
+  clean-revealjs:
+    theme: [default, _extensions/grantmcdermott/clean/clean.scss, custom.scss]
+    logo: assets/tides_rev_hacron_1.svg
+    footer: "Quantitative Methods in Tourism · Master in Tourism and Sustainable Development · TIDES · ULPGC"
+    slide-number: c/t
+    chalkboard: true
+    incremental: false
+    code-fold: false
+    code-copy: true
+    code-link: true
+    highlight-style: github
+    embed-resources: false
+    fig-align: center
+    fig-cap-location: bottom
+    tbl-cap-location: top
+    width: 1280
+    height: 720
+
+author:
+  - name: Christian González
+    affiliation: Universidad de Las Palmas de Gran Canaria
+    email: christian.gonzalez@ulpgc.es
+  - name: Juan Hernández Guerra
+    affiliation: Universidad de Las Palmas de Gran Canaria
+
+license: "CC BY-SA 4.0"
+lang: en
+
+execute:
+  echo: true
+  warning: false
+  message: false
+  freeze: auto

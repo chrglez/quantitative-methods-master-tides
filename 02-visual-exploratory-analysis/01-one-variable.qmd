@@ -1,0 +1,93 @@
+---
+title: "One-variable visualisation"
+subtitle: "Topic 2 · Day 4 · 2 hours"
+date: last-modified
+---
+
+## Outline
+
+::: {.incremental}
+- Why visualise before you model.
+- Distribution at a glance: histograms, density, rug plots.
+- Robust alternatives: boxplots and violin plots.
+- Categorical: bars, lollipop, waffle.
+- From base R to `ggplot2`: the grammar of graphics.
+:::
+
+## Base R · quick and local
+
+```{r}
+#| echo: true
+#| eval: false
+hist(hotels$price,
+     breaks = 20,
+     col    = "#0067a2",
+     main   = "Distribution of nightly price",
+     xlab   = "Price (€)")
+```
+
+## `ggplot2` · the grammar
+
+```{r}
+#| echo: true
+#| eval: false
+library(ggplot2)
+
+ggplot(hotels, aes(x = price)) +
+  geom_histogram(bins = 30, fill = "#0067a2", alpha = 0.85) +
+  labs(title = "Distribution of nightly price",
+       x = "Price (€)", y = "Hotels") +
+  theme_minimal(base_size = 12)
+```
+
+## Histogram vs density
+
+```{r}
+#| echo: true
+#| eval: false
+ggplot(hotels, aes(x = price)) +
+  geom_histogram(aes(y = after_stat(density)),
+                 bins = 30, fill = "#0067a2", alpha = 0.55) +
+  geom_density(linewidth = 1) +
+  theme_minimal()
+```
+
+## Boxplot · robust summary
+
+```{r}
+#| echo: true
+#| eval: false
+ggplot(hotels, aes(y = price)) +
+  geom_boxplot(fill = "#f4f3ee") +
+  coord_flip() +
+  theme_minimal()
+```
+
+## Categorical · ordered bar chart
+
+```{r}
+#| echo: true
+#| eval: false
+library(forcats)
+
+tourists |>
+  count(origin_country) |>
+  mutate(origin_country = fct_reorder(origin_country, n)) |>
+  ggplot(aes(n, origin_country)) +
+  geom_col(fill = "#0067a2") +
+  labs(x = "Tourists", y = NULL) +
+  theme_minimal()
+```
+
+## Rules of thumb
+
+- **One variable → one plot type**: continuous → histogram/density;
+  categorical → bar chart.
+- Order matters for categories — reorder by frequency or by value.
+- Minimise ink; use `theme_minimal()` (or `theme_void()` for maps).
+- Titles, units, source line — always.
+
+# Hands-on {background-color="#0067a2"}
+
+Produce publication-ready histogram and boxplot of **nights spent**
+in an ISTAC series of your choice, for 2024. Push to your fork.

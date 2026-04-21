@@ -1,0 +1,112 @@
+---
+title: "Data in R"
+subtitle: "Topic 1 · Day 1 · 3 hours"
+date: last-modified
+---
+
+## Outline
+
+::: {.incremental}
+- R, RStudio, and the tidyverse: what each is for.
+- R as a calculator: expressions, assignment, functions.
+- Atomic types: numeric, character, logical, factor, date.
+- Vectors and their arithmetic.
+- Data frames and tibbles: the rectangular data model.
+- Importing tourism data: CSV, Excel, SPSS/Stata.
+:::
+
+## R and RStudio
+
+- **R** is the language and the engine.
+- **RStudio / Positron** is the IDE — four panes: editor, console, environment, files.
+- **Quarto** is how we write slides, reports, dashboards in R.
+- **tidyverse** is a family of packages with consistent design — we use it throughout.
+
+## First commands
+
+```{r}
+#| echo: true
+2 + 2
+x <- c(1, 2, 3, 5, 8)
+mean(x)
+sqrt(x)
+```
+
+## Atomic types
+
+```{r}
+#| echo: true
+typeof(3.14)           # "double"
+typeof("Canarias")     # "character"
+typeof(TRUE)           # "logical"
+class(factor(c("a","b","a")))   # "factor"
+class(Sys.Date())      # "Date"
+```
+
+## Vectors
+
+- Every value in R is a vector. Scalars are vectors of length 1.
+- Arithmetic is vectorised — no loops needed for element-wise ops.
+
+```{r}
+#| echo: true
+nights  <- c(2, 5, 7, 10, 14)
+price   <- c(65, 85, 90, 120, 140)
+revenue <- nights * price
+revenue
+```
+
+## Data frames and tibbles
+
+```{r}
+#| echo: true
+library(tibble)
+hotels <- tibble(
+  island  = c("Gran Canaria", "Tenerife", "Lanzarote"),
+  nights  = c(12.5, 18.3, 9.8),
+  price   = c(82, 95, 110)
+)
+hotels
+```
+
+## Importing data · the usual suspects
+
+| Format | Package | Function |
+|---|---|---|
+| CSV | `readr` | `read_csv()` |
+| Excel (.xlsx, .xls) | `readxl` | `read_excel()` |
+| SPSS (.sav) | `haven` | `read_sav()` |
+| Stata (.dta) | `haven` | `read_dta()` |
+| JSON | `jsonlite` | `read_json()` |
+| Eurostat | `eurostat` | `get_eurostat()` |
+
+## Tourism example · ISTAC hotel occupancy
+
+```{r}
+#| echo: true
+#| eval: false
+library(readr)
+library(here)
+
+occupancy <- read_csv(
+  here("datasets", "raw", "istac-hotel-occupancy.csv"),
+  locale = locale(decimal_mark = ",", grouping_mark = ".")
+)
+
+head(occupancy)
+```
+
+::: {.callout-tip}
+Always use `here::here()` — never hard-code absolute paths.
+:::
+
+## Recap
+
+- R objects: **atomic vectors** → **data frames** (the 99 % case).
+- Import with the matching package: `readr`, `readxl`, `haven`, `eurostat`.
+- `here::here()` for portable paths.
+
+# Hands-on {background-color="#0067a2"}
+
+Load one ISTAC tourism CSV and one Eurostat dataset, inspect them with
+`glimpse()`, `summary()`, and `head()`. Commit & push.

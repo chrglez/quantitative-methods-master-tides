@@ -1,0 +1,105 @@
+---
+title: "Multi-variable visualisation"
+subtitle: "Topic 2 · Day 5 · 2 hours"
+date: last-modified
+---
+
+## Outline
+
+::: {.incremental}
+- Mapping aesthetics: `x`, `y`, `colour`, `size`, `shape`, `alpha`.
+- Two continuous variables: scatter, with smoothers.
+- One continuous + one categorical: side-by-side distributions.
+- Facets: small multiples.
+- Correlation matrices and heatmaps.
+- Mapping tourism data to Canary Islands geography.
+:::
+
+## Scatter · price vs rating
+
+```{r}
+#| echo: true
+#| eval: false
+library(ggplot2)
+
+ggplot(hotels, aes(x = rating, y = price, colour = island)) +
+  geom_point(alpha = 0.7) +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "Rating (1–10)", y = "Nightly price (€)") +
+  theme_minimal()
+```
+
+## Facets · one panel per island
+
+```{r}
+#| echo: true
+#| eval: false
+ggplot(hotels, aes(x = nights, y = price)) +
+  geom_point(alpha = 0.5) +
+  facet_wrap(~ island, ncol = 4) +
+  theme_minimal()
+```
+
+## Categorical × continuous · violin + boxplot
+
+```{r}
+#| echo: true
+#| eval: false
+ggplot(hotels, aes(x = island, y = price)) +
+  geom_violin(fill = "#f4f3ee", linewidth = 0.3) +
+  geom_boxplot(width = 0.2, fill = "#0067a2", colour = "white") +
+  coord_flip() +
+  theme_minimal()
+```
+
+## Correlation heatmap
+
+```{r}
+#| echo: true
+#| eval: false
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+
+hotels |>
+  select(where(is.numeric)) |>
+  cor(use = "pairwise.complete.obs") |>
+  as.data.frame() |>
+  tibble::rownames_to_column("var1") |>
+  pivot_longer(-var1, names_to = "var2", values_to = "r") |>
+  ggplot(aes(var1, var2, fill = r)) +
+  geom_tile() +
+  scale_fill_gradient2(midpoint = 0, limits = c(-1, 1)) +
+  theme_minimal()
+```
+
+## Maps · ISTAC data on Canary Islands
+
+```{r}
+#| echo: true
+#| eval: false
+library(sf)
+library(ggplot2)
+
+# Shape file for Canary Islands municipalities (download separately).
+muni <- read_sf("datasets/raw/canarias-municipios.geojson")
+
+muni |>
+  left_join(occupancy_by_muni, by = "muni_code") |>
+  ggplot() +
+  geom_sf(aes(fill = nights_per_capita), colour = "white", linewidth = 0.2) +
+  scale_fill_viridis_c() +
+  theme_void()
+```
+
+## Principles
+
+- **One story per plot.** If it takes a paragraph to read, split it.
+- Colour should encode **one** variable at a time.
+- Prefer facets over a forest of overlaid lines.
+- Check for overplotting — use `alpha`, jitter, or 2D binning.
+
+# Hands-on {background-color="#0067a2"}
+
+Produce a faceted scatterplot of Eurostat *nights spent* vs *GDP per
+capita* by country, faceted by year, from 2019 to 2024.

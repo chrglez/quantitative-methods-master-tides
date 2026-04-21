@@ -1,0 +1,62 @@
+---
+title: "Day 6 · Final submission"
+subtitle: "A reproducible report on Canary Islands tourism"
+author: "Your Name"
+date: today
+format:
+  html:
+    toc: true
+  pdf:
+    toc: false
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+#| include: false
+library(tidyverse)
+library(here)
+library(gt)
+theme_set(theme_minimal(base_size = 11))
+```
+
+# 1. Research question
+
+State in one paragraph the tourism question you address and why it
+matters.
+
+# 2. Data
+
+Describe the data source (ISTAC or Eurostat), the time coverage, and
+the cleaning steps you applied. Include one summary table produced
+with `gt`.
+
+```{r}
+# your code here
+```
+
+# 3. Descriptive analysis
+
+Include at least three plots (one univariate, two multivariate) and
+one inferential test. Every plot must have a title, labelled axes, and
+a source line.
+
+```{r}
+# your code here
+```
+
+# 4. Conclusions
+
+Two-paragraph conclusion. State what you found, what you did **not**
+find, and one limitation of your analysis.
+
+# 5. Reproducibility checklist
+
+- [ ] The `.qmd` renders end-to-end from a clean clone.
+- [ ] Data files live under `datasets/raw/` (gitignored) and are
+  downloaded by a script in `datasets/download.R`.
+- [ ] No absolute paths. All paths go through `here::here()`.
+- [ ] The repository is a fork of the course repo, pushed to
+  `github.com/<you>/quantitative-methods-master-tides`.

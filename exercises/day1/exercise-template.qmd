@@ -1,0 +1,65 @@
+---
+title: "Day 1 · Exercise"
+subtitle: "Git, GitHub and Data in R"
+author: "Your Name"
+date: today
+format: html
+---
+
+```{r}
+#| include: false
+library(tidyverse)
+library(here)
+```
+
+# 1. Identify yourself
+
+Replace the placeholder with your name and GitHub handle.
+
+- **Name:** Your Name
+- **GitHub:** @yourhandle
+
+# 2. R as a calculator
+
+Compute the sum of the first 100 positive integers and the geometric
+mean of the vector `c(2, 4, 8, 16)`. Write both results below.
+
+```{r}
+# your code here
+```
+
+# 3. Vectors
+
+Build a vector of the monthly average temperatures in Las Palmas
+(°C) from a source of your choice. Compute its minimum, maximum,
+mean, and standard deviation.
+
+```{r}
+# your code here
+```
+
+# 4. Load a tourism dataset
+
+Load one of the ISTAC CSV files placed under `datasets/raw/`. Use
+`glimpse()` to inspect it and report in prose:
+
+- how many rows and columns it has,
+- the types of each column,
+- whether there are missing values.
+
+```{r}
+# your code here
+```
+
+# 5. Commit and push
+
+Once you are happy with this document, run in a terminal:
+
+```bash
+git add exercises/day1/exercise-template.qmd
+git commit -m "Day 1 solution — <your name>"
+git push
+```
+
+Then paste the URL of the committed file on your fork in the course
+submission form.

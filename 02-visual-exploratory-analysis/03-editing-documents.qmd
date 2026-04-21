@@ -1,0 +1,91 @@
+---
+title: "Editing reproducible documents"
+subtitle: "Topic 2 · Day 6 · 2 hours"
+date: last-modified
+---
+
+## Outline
+
+::: {.incremental}
+- What *reproducible* means in practice.
+- Quarto vs R Markdown — one shared engine, two dialects.
+- YAML front-matter: metadata, output formats, execution options.
+- Chunk options: `echo`, `eval`, `cache`, `fig-cap`, `tbl-cap`.
+- Publication-ready tables with `gt` and `knitr::kable()`.
+- Export: HTML, PDF (via LaTeX), Word.
+:::
+
+## Anatomy of a Quarto document
+
+```markdown
+---
+title: "Tourism in the Canary Islands, 2024"
+author: "Your Name"
+date: last-modified
+format:
+  html:
+    toc: true
+  pdf: default
+execute:
+  echo: false
+  warning: false
+---
+
+# Introduction
+Regular prose. Markdown **works** as expected.
+
+# Data
+```{r}
+library(dplyr)
+occupancy |> summarise(mean(nights))
+```
+```
+
+## Chunk options you'll use daily
+
+| Option | What it does |
+|---|---|
+| `echo: false`      | hide the code, keep the output |
+| `eval: false`      | show the code, don't run it |
+| `include: false`   | run silently, hide everything |
+| `fig-cap: "..."`   | figure caption (cross-referable) |
+| `tbl-cap: "..."`   | table caption |
+| `cache: true`      | skip re-runs until the chunk changes |
+
+## Publishable tables · `gt`
+
+```{r}
+#| echo: true
+#| eval: false
+library(gt)
+
+summary_by_island |>
+  gt() |>
+  fmt_number(columns = price, decimals = 0, use_seps = TRUE) |>
+  fmt_percent(columns = occupancy_rate, decimals = 1) |>
+  tab_header(title   = "Canary Islands hotel summary",
+             subtitle = "2024 · ISTAC") |>
+  tab_source_note("Source: ISTAC, author's elaboration.")
+```
+
+## Rendering
+
+```bash
+quarto render report.qmd              # to default (html)
+quarto render report.qmd --to pdf     # to PDF
+quarto render report.qmd --to docx    # to Word
+```
+
+## Best practices
+
+- One `.qmd` per analysis — not one mega-notebook.
+- Keep raw data untouched; scripts transform it into intermediate
+  datasets.
+- Use `here::here()` so your report renders on any machine.
+- Commit the `.qmd`, not the rendered `.html` — the CI builds it.
+
+# Final submission {background-color="#0067a2"}
+
+Write a 3-page reproducible report on one Canary Islands tourism
+question of your choice, using ISTAC or Eurostat data. Render to HTML
+and PDF. Push the `.qmd` (not the outputs) to your fork.

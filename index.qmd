@@ -1,0 +1,47 @@
+---
+title: "Quantitative Methods in Tourism"
+subtitle: "Master in Tourism and Sustainable Development · TIDES · ULPGC"
+format:
+  html:
+    toc: true
+    toc-location: right
+---
+
+Slides, code and exercises for the core course **Quantitative Methods in
+Tourism** (6 ECTS) of the [Master in Tourism and Sustainable
+Development](https://tides.ulpgc.es/) at the
+[TIDES Institute](https://tides.ulpgc.es/), Universidad de Las Palmas de
+Gran Canaria.
+
+## Instructors
+
+| | |
+|---|---|
+| Topics 1 & 2 · Introduction to R, Visual exploratory analysis | **Christian González** |
+| Topics 3 & 4 · Machine learning, NLP | **Juan Hernández Guerra** |
+
+Both at the Department of Quantitative Methods in Economics and
+Management, ULPGC.
+
+## Topic 1 · Introduction to R
+
+- [Git & GitHub essentials](01-introduction-to-r/01-git-github.qmd)
+- [Data in R](01-introduction-to-r/02-data-in-r.qmd)
+- [Data wrangling](01-introduction-to-r/03-data-wrangling.qmd)
+- [Basic statistics with R](01-introduction-to-r/04-basic-statistics.qmd)
+
+## Topic 2 · Visual exploratory analysis
+
+- [One-variable visualisation](02-visual-exploratory-analysis/01-one-variable.qmd)
+- [Multi-variable visualisation](02-visual-exploratory-analysis/02-multiple-variables.qmd)
+- [Editing reproducible documents](02-visual-exploratory-analysis/03-editing-documents.qmd)
+
+## Resources
+
+- [Exercises](exercises/index.qmd) — per-day templates, submitted via fork.
+- [Datasets](datasets/index.qmd) — ISTAC and Eurostat tourism data.
+
+## License
+
+Content released under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
+Source code on [GitHub](https://github.com/chrglez/quantitative-methods-master-tides).

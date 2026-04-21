@@ -1,0 +1,123 @@
+/*-- scss:defaults --*/
+
+// Warm neutral palette, a step away from the default cool greys of the
+// clean theme. Slate-on-off-white, a muted teal as accent, TIDES blue
+// reserved for highlight-on-hover and links.
+
+$body-bg: #fdfdfb;
+$body-color: #1f2430;
+
+$presentation-heading-color: #0f172a;
+$presentation-heading-font: "Inter", "IBM Plex Sans", "Source Sans Pro",
+  system-ui, -apple-system, "Segoe UI", sans-serif;
+$presentation-font-family: "Inter", "IBM Plex Sans", "Source Sans Pro",
+  system-ui, -apple-system, "Segoe UI", sans-serif;
+$presentation-font-size-root: 34px;
+
+$link-color: #0067a2;               // ULPGC / TIDES blue
+$link-color-hover: #de6449;         // terracotta accent
+$selection-bg: rgba(0, 103, 162, 0.15);
+
+// Tweak some variables exposed by the clean theme
+$body-heading-color: $presentation-heading-color;
+$code-block-bg: #f4f3ee;
+$code-block-border-color: #e5e2d9;
+
+
+/*-- scss:rules --*/
+
+// Title slide — centred layout, softer institutional strip at the bottom
+.reveal .title-slide {
+  h1.title {
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.3em;
+  }
+  .subtitle {
+    color: #4b5563;
+    font-weight: 400;
+    margin-bottom: 1.2em;
+  }
+  .quarto-title-authors {
+    font-size: 0.75em;
+    color: #374151;
+  }
+  .quarto-title-affiliation,
+  .institute {
+    font-size: 0.65em;
+    color: #6b7280;
+  }
+}
+
+// Section-divider slides — flat tint, tighter layout
+.reveal section.level1:not(.title-slide) {
+  h1 {
+    font-size: 2.2em;
+    padding-bottom: 0.2em;
+    border-bottom: 2px solid $link-color;
+    display: inline-block;
+  }
+}
+
+// Footer — slim, greyed, institutional strip
+.reveal .footer {
+  color: #6b7280;
+  font-size: 0.45em;
+  letter-spacing: 0.02em;
+}
+
+// Slide-number chip, subtle
+.reveal .slide-number {
+  background-color: transparent;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+// Inline code: lighter panel, monospace weight unchanged
+.reveal code:not(.sourceCode) {
+  background-color: #f4f3ee;
+  color: #b4561e;
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+  font-size: 0.88em;
+}
+
+// Lists: slightly tighter line-height than default
+.reveal ul, .reveal ol {
+  line-height: 1.35;
+}
+.reveal li + li { margin-top: 0.18em; }
+
+// Block quotes for asides
+.reveal blockquote {
+  border-left: 3px solid #cbd5e1;
+  background: #f8f7f2;
+  padding: 0.4em 0.8em;
+  font-style: normal;
+  color: #334155;
+}
+
+// Tables — cleaner, lighter gridlines
+.reveal table {
+  font-size: 0.8em;
+  th { border-bottom: 2px solid #0f172a; }
+  td, th { padding: 0.35em 0.6em; }
+  tr:nth-child(even) { background: #f8f7f2; }
+}
+
+// Callouts inherit better contrast on warm background
+.reveal .callout {
+  background-color: #f8f7f2;
+}
+
+// Institutional logos row on title slide (rendered via the "logo" YAML
+// plus a secondary logo we inject via a template partial below)
+.reveal .title-slide .logos {
+  display: flex;
+  justify-content: center;
+  gap: 2.5em;
+  align-items: center;
+  margin-top: 2em;
+
+  img { max-height: 52px; width: auto; }
+}

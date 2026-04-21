@@ -1,0 +1,109 @@
+---
+title: "Data wrangling with the tidyverse"
+subtitle: "Topic 1 · Day 2 · 4 hours"
+date: last-modified
+---
+
+## Outline
+
+::: {.incremental}
+- The pipe `|>` and the tidyverse grammar.
+- `dplyr` verbs: `filter`, `select`, `mutate`, `arrange`, `summarise`, `group_by`.
+- Reshaping with `tidyr`: `pivot_longer`, `pivot_wider`, `separate`, `unite`.
+- Joining tables: `left_join`, `inner_join`, `anti_join`.
+- Missing values and type coercion gotchas.
+:::
+
+## The pipe
+
+```{r}
+#| echo: true
+#| eval: false
+hotels |>
+  filter(nights > 7) |>
+  mutate(revenue = nights * price) |>
+  arrange(desc(revenue))
+```
+
+Read as: *take `hotels`, keep long stays, compute revenue, sort
+descending*.
+
+## The six `dplyr` verbs
+
+| Verb | Purpose |
+|---|---|
+| `filter()`   | keep rows that match a condition |
+| `select()`   | keep / drop columns |
+| `mutate()`   | add or transform columns |
+| `arrange()`  | sort rows |
+| `summarise()`| collapse to one row per group |
+| `group_by()` | set the grouping context |
+
+## Group-wise summaries · Eurostat nights spent
+
+```{r}
+#| echo: true
+#| eval: false
+library(dplyr)
+
+nights |>
+  filter(year == 2024, purpose == "total") |>
+  group_by(country) |>
+  summarise(
+    total_nights = sum(value, na.rm = TRUE),
+    .groups = "drop"
+  ) |>
+  arrange(desc(total_nights))
+```
+
+## Wide vs long · `pivot_longer()`
+
+```{r}
+#| echo: true
+#| eval: false
+library(tidyr)
+
+nights_wide <- nights |>
+  pivot_wider(names_from = year, values_from = value)
+
+nights_wide |>
+  pivot_longer(cols = `2019`:`2024`,
+               names_to = "year", values_to = "value")
+```
+
+## Joins · occupancy + capacity
+
+```{r}
+#| echo: true
+#| eval: false
+occupancy |>
+  left_join(capacity, by = c("island", "year", "month")) |>
+  mutate(occupancy_rate = nights / available_beds)
+```
+
+Know your joins:
+
+- `left_join()` — keep every row of the left table.
+- `inner_join()` — keep only matches.
+- `anti_join()` — rows from left **without** a match on the right.
+
+## NA handling
+
+```{r}
+#| echo: true
+x <- c(2, NA, 7, 4)
+mean(x)                # NA
+mean(x, na.rm = TRUE)  # 4.33
+sum(is.na(x))          # count NAs
+```
+
+## Recap
+
+- Pipe `|>` chains verbs, reads left-to-right.
+- `group_by() |> summarise()` is the bread and butter of reporting.
+- Always pivot when a column stores values, not variables.
+
+# Hands-on {background-color="#0067a2"}
+
+Join an ISTAC occupancy file with an ISTAC capacity file, compute
+monthly occupancy rate by island, and produce a summary table for 2024.

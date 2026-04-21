@@ -1,0 +1,16 @@
+---
+title: "Exercises"
+---
+
+Templates for every hands-on session. Submissions are pushed to each
+student's fork of the course repository — see the full workflow in
+[`exercises/README.md`](README.md).
+
+| Day | Session | Type | Template |
+|:---:|---|---|---|
+| 1 | Git & GitHub · Data in R | Guided | [Day 1](day1/exercise-template.qmd) |
+| 2 | Data wrangling | Guided | [Day 2](day2/exercise-template.qmd) |
+| 3 | Basic statistics | Graded | [Day 3](day3/exercise-template.qmd) |
+| 4 | One-variable visualisation | Graded | [Day 4](day4/exercise-template.qmd) |
+| 5 | Multi-variable visualisation | Graded | [Day 5](day5/exercise-template.qmd) |
+| 6 | Reproducible documents | Final submission | [Day 6](day6/exercise-template.qmd) |

@@ -1,0 +1,48 @@
+# R
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+*.Rproj.user
+.Rapp.history
+
+# Quarto
+/_site/
+/.quarto/
+/_freeze/
+/_book/
+
+# Rendered outputs (generated on CI, not in source)
+**/*_files/
+**/*.html
+**/*.pdf
+!assets/**/*.pdf
+
+# Data that shouldn't be versioned (raw downloads)
+datasets/raw/
+*.csv
+*.xlsx
+*.sav
+*.dta
+*.rds
+!datasets/examples/**
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*~
+
+# Claude Code
+.claude/
+
+**/*.quarto_ipynb
+
+# Extension resources copied into deck folders during render
+**/mathjax-config.js
+!_extensions/**/mathjax-config.js
+

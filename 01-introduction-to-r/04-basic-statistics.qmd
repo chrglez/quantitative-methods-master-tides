@@ -1,0 +1,100 @@
+---
+title: "Basic statistics with R"
+subtitle: "Topic 1 · Day 3 · 2 hours"
+date: last-modified
+---
+
+## Outline
+
+::: {.incremental}
+- Univariate descriptives: mean, median, variance, quantiles.
+- Frequency tables and cross-tabulations.
+- Correlation and covariance.
+- Inference 101: t-test, chi-squared, proportion test.
+- Communicating results: `broom::tidy()` and nicely formatted tables.
+:::
+
+## Descriptives in one line
+
+```{r}
+#| echo: true
+#| eval: false
+library(dplyr)
+
+hotels |>
+  summarise(
+    n        = n(),
+    mean     = mean(price, na.rm = TRUE),
+    sd       = sd(price,   na.rm = TRUE),
+    median   = median(price, na.rm = TRUE),
+    q25      = quantile(price, 0.25, na.rm = TRUE),
+    q75      = quantile(price, 0.75, na.rm = TRUE)
+  )
+```
+
+## Frequency tables
+
+```{r}
+#| echo: true
+#| eval: false
+library(janitor)
+
+tourists |>
+  tabyl(origin_country) |>
+  adorn_totals("row") |>
+  adorn_pct_formatting()
+```
+
+## Cross-tabs
+
+```{r}
+#| echo: true
+#| eval: false
+tourists |>
+  tabyl(island, main_purpose) |>
+  adorn_percentages("row") |>
+  adorn_pct_formatting()
+```
+
+## Correlation
+
+```{r}
+#| echo: true
+#| eval: false
+hotels |>
+  select(price, rating, nights) |>
+  cor(use = "pairwise.complete.obs")
+```
+
+## A simple t-test · does price differ between two islands?
+
+```{r}
+#| echo: true
+#| eval: false
+t.test(price ~ island,
+       data   = filter(hotels, island %in% c("Gran Canaria", "Tenerife")))
+```
+
+## Tidy inference with `broom`
+
+```{r}
+#| echo: true
+#| eval: false
+library(broom)
+
+t.test(price ~ island,
+       data = filter(hotels, island %in% c("Gran Canaria", "Tenerife"))) |>
+  tidy()
+```
+
+## Recap
+
+- `summarise()` + a handful of functions covers most univariate reporting.
+- `janitor::tabyl()` beats base `table()` for presentable frequency tables.
+- `broom::tidy()` converts any test into a one-row data frame.
+
+# Hands-on {background-color="#0067a2"}
+
+Produce a summary table of average nightly price and average stay
+length by island, and test whether nights spent in 2024 differ between
+two Canary islands of your choice.
