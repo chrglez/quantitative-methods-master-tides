@@ -17,7 +17,7 @@ date: last-modified
 
 ## Anatomy of a Quarto document
 
-```markdown
+````markdown
 ---
 title: "Tourism in the Canary Islands, 2024"
 author: "Your Name"
@@ -35,11 +35,11 @@ execute:
 Regular prose. Markdown **works** as expected.
 
 # Data
-```{r}
+```{{r}}
 library(dplyr)
 occupancy |> summarise(mean(nights))
 ```
-```
+````
 
 ## Chunk options you'll use daily
 
