@@ -86,7 +86,7 @@ break around 18:00.
 
 | Day | First half · lecture | Second half · hands-on |
 |:---:|---|---|
-| 1 | Git & GitHub · Data in R | Guided exercise |
+| 1 | Data in R · Git & GitHub | Guided exercise |
 | 2 | Data wrangling (tidyverse) | Guided exercise |
 | 3 | Basic statistics with R | Graded exercise |
 | 4 | One-variable visualisation | Graded exercise |

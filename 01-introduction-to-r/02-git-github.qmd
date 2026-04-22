@@ -1,0 +1,250 @@
+---
+title: "Git & GitHub essentials"
+subtitle: "Module I · Day 1 · 1 hour"
+date: "2026-04-23"
+---
+
+## Why version control?
+
+::: {.incremental}
+- Keep a **full history** of every change — who, what, when, why.
+- Collaborate without emailing `analysis_final_v3_reallyfinal.R`.
+- **Revert safely** when an experiment breaks your code.
+- Make your work **reproducible** and publicly auditable.
+:::
+
+::: {.callout-important}
+In this course **every exercise you submit lives on GitHub**. The
+workflow has to work for you by the end of this hour.
+:::
+
+## Git vs GitHub
+
+|  | **Git** | **GitHub** |
+|---|---|---|
+| What it is | A tool that tracks changes | A web service that hosts Git projects |
+| Runs | Locally, on your laptop | On github.com |
+| Needed for | Any version control at all | Sharing, collaboration, PRs |
+| Cost | Free, open source | Free for public repos and education |
+
+You need **both**: Git installed locally, a GitHub account online.
+
+## The three Git areas
+
+```
+┌─────────────┐   git add   ┌─────────────┐  git commit  ┌────────────────┐
+│   Working   │ ──────────▶ │   Staging   │ ───────────▶ │  Local repo    │
+│  directory  │             │   (index)   │              │  (your laptop) │
+└─────────────┘             └─────────────┘              └────────────────┘
+                                                                  │
+                                                         git push │
+                                                                  ▼
+                                                         ┌────────────────┐
+                                                         │  GitHub remote │
+                                                         └────────────────┘
+```
+
+Each arrow is a Git command. Mastering the three areas makes the rest fall into place.
+
+## One-off setup · step 1 of 3 {.smaller}
+
+**Install Git**
+
+- macOS · `brew install git`, or install the Xcode Command Line Tools.
+- Windows · download [Git for Windows](https://git-scm.com/download/win).
+- Linux · `sudo apt install git` / `sudo dnf install git`.
+
+**Configure your identity** (name and email that will sign every commit):
+
+```bash
+git config --global user.name  "Your Name"
+git config --global user.email "you@ulpgc.es"
+git config --global init.defaultBranch main
+git config --global pull.rebase false
+```
+
+## One-off setup · step 2 of 3 {.smaller}
+
+**Create a GitHub account** at <https://github.com/signup> using your
+ULPGC email. Apply for the [Student Pack](https://education.github.com/pack)
+— private repos, Copilot and more, free for students.
+
+**Authenticate from R** with a Personal Access Token (PAT):
+
+```{r}
+#| echo: true
+#| eval: false
+install.packages(c("usethis", "gitcreds"))
+
+usethis::create_github_token()   # opens the browser
+gitcreds::gitcreds_set()         # paste the token when prompted
+```
+
+## One-off setup · step 3 of 3 {.smaller}
+
+**Check everything works** from RStudio:
+
+1. `Tools → Global Options → Git/SVN` — confirm the Git executable is detected.
+2. Open this course's `.Rproj` — the *Git* pane should appear in the top-right.
+3. From the R console:
+
+```{r}
+#| echo: true
+#| eval: false
+usethis::gh_token_help()   # reports on your PAT status
+usethis::git_sitrep()      # full "situation report" on your Git setup
+```
+
+If both commands end with green check marks, you are ready.
+
+## Core vocabulary {.smaller}
+
+::: {.incremental}
+- **Repository (repo)** · a project folder tracked by Git.
+- **Commit** · a saved snapshot with a message.
+- **Branch** · an independent line of development.
+- **HEAD** · the branch (and commit) you are currently on.
+- **Remote** · a copy of the repo hosted elsewhere (e.g. GitHub).
+- **Fork** · your personal copy of someone else's repo on GitHub.
+- **Pull Request (PR)** · a proposal to merge changes from one branch to another, with review.
+- **Clone** · local download of a remote repo.
+- **Push / Pull** · send commits to / receive commits from a remote.
+:::
+
+# The course workflow {background-color="#0067a2"}
+
+## How everything flows
+
+```{mermaid}
+flowchart LR
+  A[chrglez/<br/>course repo] -->|fork| B[yourname/<br/>course repo fork]
+  B -->|clone| C[your<br/>laptop]
+  C -->|commit and<br/>push branch| B
+  B -->|Pull Request| A
+  A -->|review<br/>comments| B
+```
+
+## The same story, in words
+
+1. **Fork** the course repo on GitHub — one click, one time only.
+2. **Clone** your fork to your laptop.
+3. Solve the day's exercise, commit and push the branch to your fork.
+4. Open a **Pull Request** against `chrglez:main`.
+5. Christian reviews with inline comments. The PR is the audit trail.
+
+## Branching convention
+
+Each day you work on its own branch, **never on `main`**:
+
+```bash
+git checkout main
+git pull upstream main       # sync with the course repo
+git checkout -b day-1        # start a fresh branch for today
+# ...edit files, solve exercise...
+git add exercises/day1/exercise-template.R
+git commit -m "Day 1 solution"
+git push -u origin day-1     # push the new branch to your fork
+```
+
+The `-u origin day-1` only needs to be typed the first time you push a
+new branch. After that, `git push` is enough.
+
+## Opening the Pull Request
+
+Once you push, GitHub shows a yellow banner on your fork's main page:
+
+> **day-1 had recent pushes** · `[ Compare & pull request ]`
+
+Clicking it opens the PR form:
+
+- **base repository** · `chrglez/quantitative-methods-master-tides` · **base** `main`
+- **head repository** · `you/quantitative-methods-master-tides` · **compare** `day-1`
+- **Title** · `Day N — Your Full Name`
+- **Description** · anything you want Christian to know.
+
+Click **Create pull request** and you are done submitting.
+
+## Live demo · the commands of the day {.smaller}
+
+```bash
+# status — what changed?
+git status
+
+# diff — what EXACTLY did I change?
+git diff
+
+# add — stage specific files (never use -A by default)
+git add exercises/day1/exercise-template.R
+
+# commit — snapshot with a descriptive message
+git commit -m "Day 1 solution"
+
+# push — upload the branch to your fork
+git push
+
+# log — see the history
+git log --oneline --graph --decorate
+```
+
+Learn these seven and you cover 90 % of what you will ever do.
+
+## Commit messages that don't suck
+
+::: {.columns}
+
+::: {.column width="50%"}
+**Bad**
+
+```text
+asdf
+update
+fix
+final version
+ok
+stuff
+```
+
+Nobody — not even *you* next week — can tell what those changed.
+:::
+
+::: {.column width="50%"}
+**Good**
+
+```text
+Add summary table by island
+Fix NA handling in occupancy_rate
+Day 2 solution
+Rename variable for clarity
+```
+
+Imperative mood, starts with a verb, ≤ 50 chars in the subject line.
+:::
+
+:::
+
+## Common pitfalls {.smaller}
+
+::: {.incremental}
+- **Never commit secrets** · `.Rdata`, tokens, credentials. The course `.gitignore` already excludes the usual suspects.
+- **Never force-push** (`git push --force`) to a shared branch. It rewrites history everyone else pulled.
+- If `git push` says *Authentication failed*, regenerate your PAT with `usethis::create_github_token()` and `gitcreds::gitcreds_set()`.
+- **Large files** (> 50 MB) do not belong in Git. Put them under `datasets/raw/` (already gitignored) and commit only the download script.
+- **Conflicts** during a `pull` are normal, not a disaster. Open the file, look for `<<<<<<<` markers, decide which version wins, `git add` + `git commit`.
+:::
+
+## Where to ask for help
+
+- [Happy Git with R](https://happygitwithr.com/) · Jenny Bryan's canonical guide, covers every step of this workflow in depth.
+- [Pro Git book](https://git-scm.com/book/en/v2) · free, exhaustive.
+- [GitHub Skills](https://skills.github.com/) · short interactive tracks.
+- Inside this repo · `exercises/README.md` for the workflow, tutorial hours on the welcome deck.
+
+# Your turn {background-color="#0067a2"}
+
+1. Fork the course repo.
+2. Clone your fork.
+3. On a `day-1` branch, open `exercises/day1/exercise-template.R` and add your name in the header.
+4. `git add` → `git commit -m "Day 1 · hello"` → `git push -u origin day-1`.
+5. Open the Pull Request on GitHub.
+
+Show me the PR URL in class.

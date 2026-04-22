@@ -1,0 +1,562 @@
+---
+title: "Data in R"
+subtitle: "Module I · Day 1 · 3 hours"
+date: "2026-04-23"
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## Outline
+
+::: {.incremental}
+1. R, RStudio, Quarto, tidyverse — what each is for.
+2. R as a calculator · expressions, assignment, functions.
+3. **Atomic types** · numeric, character, logical, factor, date.
+4. **Vectors** · creation, arithmetic, subsetting.
+5. **Data frames and tibbles** · the rectangular data model.
+6. **Importing tourism data** · CSV, Excel, SPSS, Eurostat API.
+:::
+
+# 1 · R, RStudio, Quarto, tidyverse {background-color="#0067a2"}
+
+## Four pieces, one stack
+
+|  | What it is | You write… |
+|---|---|---|
+| **R** | The language and engine. | Code that computes. |
+| **RStudio / Positron** | The IDE where you work. | Nothing R-specific — it's the editor. |
+| **Quarto** | The publishing system. | Reports, slides, web pages, books. |
+| **tidyverse** | A family of R packages with consistent design. | `library(tidyverse)` at the top of every script. |
+
+Install R from <https://cloud.r-project.org>, RStudio from <https://posit.co/download/rstudio-desktop/>.
+
+## The RStudio layout
+
+```
+┌───────────────────────────────┬──────────────────────────┐
+│                               │                          │
+│   Editor                      │   Environment / History  │
+│   (your .R or .qmd files)     │   (objects currently     │
+│                               │    in memory)            │
+│                               │                          │
+├───────────────────────────────┼──────────────────────────┤
+│                               │                          │
+│   Console                     │   Files / Plots /        │
+│   (live R session)            │   Packages / Help        │
+│                               │                          │
+└───────────────────────────────┴──────────────────────────┘
+```
+
+- Write in the **editor**, send a line with **Ctrl + Enter** (**Cmd + Enter** on Mac).
+- The **console** shows the output.
+- **Files** pane is your file browser; **Git** pane appears when the folder is a repo.
+
+## Projects · always work inside an `.Rproj`
+
+- Double-click `quantitative-methods-master-tides.Rproj` to open the project.
+- Working directory is fixed to the project root → paths are portable.
+- Packages, history and environment are isolated per project.
+
+::: {.callout-tip}
+**Never** run `setwd("C:/Users/yourname/...")`. If you see that in any
+tutorial, close the tab.
+:::
+
+## Packages · extending R
+
+Base R is a small kernel. Everything useful — tidyverse, plotting,
+model fitting, reading Excel, hitting the Eurostat API — ships as a
+**package** that you install separately from
+[CRAN](https://cran.r-project.org), the canonical mirror.
+
+```{r}
+#| eval: false
+# install once per laptop
+install.packages("tidyverse")
+install.packages(c("readxl", "haven", "here", "eurostat"))
+
+# load at the top of every script that uses them
+library(tidyverse)
+library(here)
+```
+
+::: {.callout-tip}
+`install.packages()` downloads and compiles — slow, but only once.
+`library()` is fast and goes at the top of every script. One single
+`library(tidyverse)` pulls in eight core packages (`dplyr`,
+`ggplot2`, `tibble`, `readr`, `tidyr`, `purrr`, `stringr`,
+`forcats`) — the workhorses for the rest of the course.
+:::
+
+# 2 · R as a calculator {background-color="#0067a2"}
+
+## First expressions
+
+```{r}
+2 + 2
+17 %% 5        # modulo
+2 ^ 10         # power
+sqrt(81)
+log(exp(1))    # natural log of e
+```
+
+R evaluates each line top-to-bottom and prints the result. Nothing else happens.
+
+## Assignment
+
+```{r}
+visitors <- 1250          # store a value in a name
+nights   <- 4.2
+spending <- 85
+
+total <- visitors * nights * spending
+total
+```
+
+Use `<-` (`Alt` + `-` in RStudio inserts it) for assignment. Names can
+contain letters, digits, `_` and `.`, but must **start with a letter**.
+
+## Functions
+
+Functions take inputs and return an output:
+
+```{r}
+round(4.2, digits = 0)
+mean(c(2, 5, 7, 10, 14))
+seq(from = 2024, to = 2026, by = 1)
+```
+
+::: {.callout-tip}
+Type `mean(` and press **F1** in RStudio to open the help page for the
+function. `?mean` does the same from the console.
+:::
+
+## Getting help
+
+```{r}
+#| eval: false
+?mean              # help for one function
+??"linear model"   # search across packages
+example(lm)        # run the documented examples
+```
+
+Sites you will use a lot:
+
+- <https://stat.ethz.ch/R-manual/> — canonical reference.
+- <https://r4ds.hadley.nz/> — R for Data Science, 2nd edition (free online).
+- Stack Overflow, tagged `[r]`.
+
+# 3 · Atomic types {background-color="#0067a2"}
+
+## The five types you meet every day
+
+```{r}
+typeof(3.14)              # "double"   — real numbers
+typeof(1L)                # "integer"  — note the L suffix
+typeof("Gran Canaria")    # "character"
+typeof(TRUE)              # "logical"
+class(factor(c("a","b","a")))   # "factor"
+class(Sys.Date())         # "Date"
+```
+
+We lump *numeric* (double + integer) together in practice.
+
+## Numeric
+
+```{r}
+price    <- 82.50            # double
+stars    <- 4L               # integer
+is.numeric(price)
+is.numeric(stars)
+
+# be careful with floating-point comparisons
+0.1 + 0.2 == 0.3             # FALSE!
+all.equal(0.1 + 0.2, 0.3)    # TRUE
+```
+
+## Character
+
+```{r}
+island <- "Lanzarote"
+nchar(island)
+toupper(island)
+
+# paste strings together
+paste("Hotel", island, sep = " · ")
+
+# case matters
+"Lanzarote" == "lanzarote"
+```
+
+## Logical
+
+```{r}
+is_open <- TRUE
+T == TRUE                # TRUE — but don't use T, it can be overwritten
+sum(c(TRUE, FALSE, TRUE, TRUE))   # 3 — logicals coerce to 0/1
+```
+
+Operators return logicals:
+
+```{r}
+82.50 > 70
+"Lanzarote" %in% c("Tenerife", "Lanzarote", "La Palma")
+```
+
+## Factor · categories with known levels
+
+```{r}
+island <- factor(
+  c("Gran Canaria", "Tenerife", "Gran Canaria", "Lanzarote"),
+  levels = c("Gran Canaria", "Tenerife", "Lanzarote",
+             "Fuerteventura", "La Palma", "La Gomera", "El Hierro")
+)
+
+levels(island)
+table(island)
+```
+
+Factors matter when the order of categories is meaningful (e.g. *low*,
+*medium*, *high*) or when all levels should appear in a table even if
+some have zero observations.
+
+## Date and time
+
+```{r}
+today <- Sys.Date()
+today
+class(today)
+
+# arithmetic on dates
+today + 30
+as.Date("2026-06-08") - today     # days to the first exam
+
+format(today, "%A, %d %B %Y")     # pretty-print
+```
+
+Use the `lubridate` package (inside the tidyverse) for anything more
+serious — we'll cover it in *Data wrangling*.
+
+## Coercion gotchas
+
+```{r}
+c(1, 2, "three")      # everything becomes character
+c(1, 2, TRUE)         # TRUE becomes 1 — all numeric
+c(1L, 2L, 3.14)       # integer → double
+```
+
+R's rule: when mixing types in one vector, coerce **up** to the most
+flexible type (`character` > `double` > `integer` > `logical`).
+
+# 4 · Vectors {background-color="#0067a2"}
+
+## One type per vector
+
+An atomic vector is **homogeneous**: every element must be of the
+**same type** — all `double`, or all `integer`, or all `character`,
+or all `logical`, etc.
+
+```{r}
+typeof(c(1.5, 2.7, 3.0))          # "double"
+typeof(c(1L, 2L, 3L))             # "integer"
+typeof(c("GC", "TF", "LZ"))       # "character"
+typeof(c(TRUE, FALSE, TRUE))      # "logical"
+```
+
+::: {.callout-important}
+Mixing types is not forbidden — R silently coerces everything to one
+common type (see *Coercion gotchas* below), which is almost never
+what you want. If you need several types in one object, use a
+**data frame**: one column per type.
+:::
+
+## Creating vectors
+
+```{r}
+# combine — the main way to build a vector
+nights  <- c(2, 5, 7, 10, 14)
+islands <- c("Gran Canaria", "Tenerife", "Lanzarote",
+             "Fuerteventura", "La Palma")
+
+# sequences
+1:5
+seq(from = 0, to = 1, by = 0.25)
+rep("GC", times = 3)
+
+length(nights)
+```
+
+## Vectorised arithmetic
+
+```{r}
+price   <- c(82, 95, 110, 100, 78)
+revenue <- nights * price                 # element-wise — no loops
+revenue
+
+mean(revenue)
+sum(revenue)
+range(revenue)       # min and max
+```
+
+This is the point of R. *Whenever* you are tempted to write a `for`
+loop, ask yourself whether vectorisation solves it.
+
+## Subsetting vectors
+
+```{r}
+nights
+nights[1]             # first element — R is 1-indexed
+nights[c(1, 3, 5)]    # several positions
+nights[-1]            # everything EXCEPT the first
+nights[nights > 5]    # logical subsetting — most useful
+```
+
+The logical form (`x[condition]`) is the one you will use 95 % of the time.
+
+## Named vectors
+
+```{r}
+price <- c(
+  "Gran Canaria"  = 82,
+  "Tenerife"      = 95,
+  "Lanzarote"     = 110,
+  "Fuerteventura" = 100,
+  "La Palma"      = 78
+)
+
+price["Tenerife"]
+price[price > 90]
+```
+
+Named vectors are a stepping stone to data frames.
+
+# 5 · Data frames and tibbles {background-color="#0067a2"}
+
+## The rectangular data model
+
+```{r}
+library(tibble)
+
+hotels <- tibble(
+  island = c("Gran Canaria", "Tenerife", "Lanzarote",
+             "Fuerteventura", "La Palma"),
+  stars  = c(4L, 5L, 4L, 3L, 3L),
+  price  = c(82, 95, 110, 100, 78),
+  nights = c(12.5, 18.3, 9.8, 11.2, 6.4)
+)
+
+hotels
+```
+
+- Rows = observations (one hotel per row).
+- Columns = variables (each has one type).
+- Every column has the **same length**.
+
+## Inspecting a data frame
+
+```{r}
+dim(hotels)      # rows, columns
+nrow(hotels)
+ncol(hotels)
+names(hotels)
+```
+
+```{r}
+#| eval: false
+head(hotels)     # first 6 rows
+tail(hotels)     # last 6 rows
+glimpse(hotels)  # tidyverse — compact overview
+summary(hotels)  # base R — stats per column
+View(hotels)     # spreadsheet view (RStudio)
+```
+
+## Selecting columns
+
+```{r}
+hotels$price           # dollar notation — a single column as a vector
+hotels[["price"]]      # equivalent, bracket form
+hotels[, "price"]      # still a one-column tibble
+
+mean(hotels$price)
+```
+
+## Adding and modifying columns
+
+```{r}
+hotels$revenue <- hotels$price * hotels$nights
+hotels
+```
+
+Later, with `dplyr`, we'll write this as:
+
+```{r}
+#| eval: false
+library(dplyr)
+hotels <- hotels |> mutate(revenue = price * nights)
+```
+
+## Filtering rows
+
+```{r}
+# base R
+hotels[hotels$stars >= 4, ]
+
+# dplyr preview
+library(dplyr)
+hotels |> filter(stars >= 4)
+```
+
+Pick one style and stick to it. We'll standardise on **dplyr** from
+*Data wrangling* onwards.
+
+# 6 · Importing tourism data {background-color="#0067a2"}
+
+## The usual suspects
+
+| Format | Package | Function |
+|---|---|---|
+| CSV | `readr` | `read_csv()` |
+| Excel (`.xlsx`, `.xls`) | `readxl` | `read_excel()` |
+| SPSS (`.sav`) | `haven` | `read_sav()` |
+| Stata (`.dta`) | `haven` | `read_dta()` |
+| JSON | `jsonlite` | `read_json()` |
+| Eurostat | `eurostat` | `get_eurostat()` |
+
+All of these are part of — or play nicely with — the tidyverse.
+
+## CSV with `readr::read_csv`
+
+```{r}
+#| eval: false
+library(readr)
+library(here)
+
+occupancy <- read_csv(
+  here("datasets", "raw", "istac-nights-by-island.csv"),
+  locale = locale(decimal_mark = ",", grouping_mark = ".")
+)
+
+glimpse(occupancy)
+```
+
+::: {.callout-tip}
+Always go through `here::here()`. Your script will work on the lab
+machines, on your laptop, and on my laptop with zero changes.
+:::
+
+## Excel with `readxl`
+
+```{r}
+#| eval: false
+library(readxl)
+
+capacity <- read_excel(
+  here("datasets", "raw", "istac-hotel-capacity.xlsx"),
+  sheet = "2024",
+  skip  = 3           # skip the first three header rows
+)
+
+glimpse(capacity)
+```
+
+Excel files often have merged cells, titles and footers. Use `skip` and
+`range = "B5:K120"` to carve out the actual data table.
+
+## SPSS and Stata with `haven`
+
+```{r}
+#| eval: false
+library(haven)
+
+survey <- read_sav(
+  here("datasets", "raw", "tourism-survey.sav")
+)
+
+# haven preserves SPSS variable and value labels
+attributes(survey$origin_country)
+```
+
+Use `as_factor(survey)` to convert labelled numeric variables into R
+factors in one go.
+
+## Eurostat · live from the API
+
+```{r}
+#| eval: false
+library(eurostat)
+library(dplyr)
+
+nights <- get_eurostat("tour_occ_nim", time_format = "date") |>
+  filter(unit    == "NR",     # number of nights
+         c_resid == "TOTAL",  # all residency statuses
+         nace_r2 == "I551")   # hotels only
+
+nights
+```
+
+The `eurostat` package caches downloads locally, so the slow step only
+happens the first time.
+
+## Reproducible paths with `here::here()`
+
+```{r}
+#| eval: false
+library(here)
+
+here()
+# [1] "C:/Users/you/.../quantitative-methods-master-tides"
+
+here("datasets", "raw", "eurostat-nights.csv")
+# [1] "C:/Users/you/.../datasets/raw/eurostat-nights.csv"
+```
+
+`here()` always resolves relative to the project root (the folder with
+the `.Rproj`), regardless of which subfolder your `.R` or `.qmd` file
+lives in.
+
+## A first tourism pipeline {.smaller}
+
+```{r}
+library(dplyr)
+library(tibble)
+
+hotels <- tribble(
+  ~island,          ~month,  ~nights,  ~beds,
+  "Gran Canaria",   "2024-06",  142500, 165000,
+  "Gran Canaria",   "2024-07",  168300, 165000,
+  "Tenerife",       "2024-06",  198200, 220000,
+  "Tenerife",       "2024-07",  231100, 220000,
+  "Lanzarote",      "2024-06",   88100, 105000,
+  "Lanzarote",      "2024-07",   98400, 105000
+)
+
+hotels |>
+  mutate(occupancy = nights / beds) |>
+  group_by(island) |>
+  summarise(mean_occupancy = mean(occupancy), .groups = "drop") |>
+  arrange(desc(mean_occupancy))
+```
+
+This is essentially every report in tourism statistics: *load · clean ·
+group · summarise*. Tomorrow we unpack each verb.
+
+## Recap
+
+::: {.incremental}
+- R objects climb a ladder: **atomic vectors → named vectors → data frames**.
+- Learn the five types (`numeric`, `character`, `logical`, `factor`, `Date`) and you understand 90 % of what R prints.
+- Arithmetic on vectors is element-wise — avoid loops.
+- `tibble` / `data.frame` is the 99 %-of-the-time workhorse.
+- Import with the package that matches the file: `readr`, `readxl`, `haven`, `eurostat`.
+- Always use `here::here()` for paths.
+:::
+
+# Next up {background-color="#0067a2"}
+
+Short break, then one hour on **Git & GitHub** to set up your submission workflow.
+
+After that, the Day 1 exercise: open `exercises/day1/exercise-template.R`,
+load one ISTAC CSV and one Eurostat dataset, and inspect them with
+`glimpse()`, `summary()` and `head()`.

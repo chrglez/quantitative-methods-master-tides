@@ -28,7 +28,7 @@ and II (30 h, 6 days of 5 h); Module III is taught separately.
 
 | # | Module | Slides | Status |
 |---|---|---|---|
-| I | Introduction to R | [Git & GitHub](01-introduction-to-r/01-git-github.qmd) · [Data in R](01-introduction-to-r/02-data-in-r.qmd) · [Data wrangling](01-introduction-to-r/03-data-wrangling.qmd) · [Basic statistics](01-introduction-to-r/04-basic-statistics.qmd) | 🚧 Draft |
+| I | Introduction to R | [Data in R](01-introduction-to-r/01-data-in-r.qmd) · [Git & GitHub](01-introduction-to-r/02-git-github.qmd) · [Data wrangling](01-introduction-to-r/03-data-wrangling.qmd) · [Basic statistics](01-introduction-to-r/04-basic-statistics.qmd) | 🚧 Draft |
 | II | Visual exploratory analysis | [One variable](02-visual-exploratory-analysis/01-one-variable.qmd) · [Multiple variables](02-visual-exploratory-analysis/02-multiple-variables.qmd) · [Editing documents](02-visual-exploratory-analysis/03-editing-documents.qmd) | 🚧 Draft |
 | III | Introduction to machine learning | Regression · Classification · Text classification (NLP) | Out of scope |
 
@@ -57,7 +57,7 @@ around 18:00.
 
 | Day | First half · lecture | Second half · hands-on |
 |---|---|---|
-| 1 | 1 h Git & GitHub essentials · 3 h Data in R | 1 h guided exercise |
+| 1 | 3 h Data in R · 1 h Git & GitHub essentials | 1 h guided exercise |
 | 2 | 4 h Data wrangling with the tidyverse | 1 h guided exercise |
 | 3 | 2 h Basic statistics with R | 3 h graded exercise |
 | 4 | 2 h One-variable visualisation | 3 h graded exercise |

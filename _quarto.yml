@@ -22,17 +22,17 @@ website:
     left:
       - text: "Home"
         href: index.qmd
-      - text: "Topic 1 · Introduction to R"
+      - text: "Module I · Introduction to R"
         menu:
-          - text: "Git & GitHub essentials"
-            href: 01-introduction-to-r/01-git-github.qmd
           - text: "Data in R"
-            href: 01-introduction-to-r/02-data-in-r.qmd
+            href: 01-introduction-to-r/01-data-in-r.qmd
+          - text: "Git & GitHub essentials"
+            href: 01-introduction-to-r/02-git-github.qmd
           - text: "Data wrangling"
             href: 01-introduction-to-r/03-data-wrangling.qmd
           - text: "Basic statistics"
             href: 01-introduction-to-r/04-basic-statistics.qmd
-      - text: "Topic 2 · Visual exploratory analysis"
+      - text: "Module II · Visual exploratory analysis"
         menu:
           - text: "One variable"
             href: 02-visual-exploratory-analysis/01-one-variable.qmd

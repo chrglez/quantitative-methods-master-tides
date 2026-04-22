@@ -23,14 +23,14 @@ Gran Canaria.
 Both at the Department of Quantitative Methods in Economics and
 Management, ULPGC.
 
-## Topic 1 · Introduction to R
+## Module I · Introduction to R
 
-- [Git & GitHub essentials](01-introduction-to-r/01-git-github.qmd)
-- [Data in R](01-introduction-to-r/02-data-in-r.qmd)
+- [Data in R](01-introduction-to-r/01-data-in-r.qmd)
+- [Git & GitHub essentials](01-introduction-to-r/02-git-github.qmd)
 - [Data wrangling](01-introduction-to-r/03-data-wrangling.qmd)
 - [Basic statistics with R](01-introduction-to-r/04-basic-statistics.qmd)
 
-## Topic 2 · Visual exploratory analysis
+## Module II · Visual exploratory analysis
 
 - [One-variable visualisation](02-visual-exploratory-analysis/01-one-variable.qmd)
 - [Multi-variable visualisation](02-visual-exploratory-analysis/02-multiple-variables.qmd)
