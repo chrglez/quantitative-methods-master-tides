@@ -1,7 +1,7 @@
 ---
 title: "Quantitative Methods in Tourism"
 subtitle: "Master in Tourism and Sustainable Development · TIDES · ULPGC"
-date: last-modified
+date: "2026-04-23"
 ---
 
 ## Instructors
@@ -34,23 +34,45 @@ Please email us to make an appointment before coming to tutorials.
 
 ## Contents
 
-- **Module I · Introduction to R**
-  - Data in R
-  - Data wrangling
-  - Basic statistics with R
-- **Module II · Visual exploratory analysis**
-  - One-variable visualisation
-  - Multiple-variables visualisation
-  - Editing reproducible documents
-- **Module III · Introduction to machine learning**
-  - Regression models
-  - Classification models
-  - Text classification (NLP)
+::: {.columns}
+
+::: {.column width="33%"}
+**Module I**
+
+*Introduction to R*
+
+- Data in R
+- Data wrangling
+- Basic statistics with R
+:::
+
+::: {.column width="33%"}
+**Module II**
+
+*Visual exploratory analysis*
+
+- One-variable visualisation
+- Multiple-variables visualisation
+- Editing reproducible documents
+:::
+
+::: {.column width="33%"}
+**Module III**
+
+*Introduction to machine learning*
+
+- Regression models
+- Classification models
+- Text classification (NLP)
+:::
+
+:::
 
 ## Practical information
 
 |  |  |
 |---|---|
+| **Starts** | 23 April 2026 |
 | **Classroom** | EA 0.1 |
 | **Official exam dates** | June 8 · June 29, 2026 |
 | **Campus Virtual** | [aep26.ulpgc.es · course 2942](https://aep26.ulpgc.es/course/view.php?id=2942) — announcements and final grade |

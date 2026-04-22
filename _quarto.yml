@@ -70,10 +70,10 @@ format:
 
 author:
   - name: Christian González Martel
-    affiliation: Universidad de Las Palmas de Gran Canaria
+    affiliation: "Department of Quantitative Methods in Economics and Management · ULPGC"
     email: christian.gonzalez@ulpgc.es
   - name: Juan M. Hernández Guerra
-    affiliation: Universidad de Las Palmas de Gran Canaria
+    affiliation: "Department of Quantitative Methods in Economics and Management · ULPGC"
     email: juan.hernandez@ulpgc.es
 
 license: "CC BY-SA 4.0"
