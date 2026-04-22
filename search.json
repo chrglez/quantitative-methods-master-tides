@@ -1,0 +1,765 @@
+[
+  {
+    "objectID": "02-visual-exploratory-analysis/03-editing-documents.html#outline",
+    "href": "02-visual-exploratory-analysis/03-editing-documents.html#outline",
+    "title": "Editing reproducible documents",
+    "section": "Outline",
+    "text": "Outline\n\nWhat reproducible means in practice.\nQuarto vs R Markdown — one shared engine, two dialects.\nYAML front-matter: metadata, output formats, execution options.\nChunk options: echo, eval, cache, fig-cap, tbl-cap.\nPublication-ready tables with gt and knitr::kable().\nExport: HTML, PDF (via LaTeX), Word."
+  },
+  {
+    "objectID": "02-visual-exploratory-analysis/03-editing-documents.html#anatomy-of-a-quarto-document",
+    "href": "02-visual-exploratory-analysis/03-editing-documents.html#anatomy-of-a-quarto-document",
+    "title": "Editing reproducible documents",
+    "section": "Anatomy of a Quarto document",
+    "text": "Anatomy of a Quarto document\n---\ntitle: \"Tourism in the Canary Islands, 2024\"\nauthor: \"Your Name\"\ndate: last-modified\nformat:\n  html:\n    toc: true\n  pdf: default\nexecute:\n  echo: false\n  warning: false\n---\n\n# Introduction\nRegular prose. Markdown **works** as expected.\n\n# Data\n```{r}\nlibrary(dplyr)\noccupancy |&gt; summarise(mean(nights))\n```"
+  },
+  {
+    "objectID": "02-visual-exploratory-analysis/03-editing-documents.html#chunk-options-youll-use-daily",
+    "href": "02-visual-exploratory-analysis/03-editing-documents.html#chunk-options-youll-use-daily",
+    "title": "Editing reproducible documents",
+    "section": "Chunk options you’ll use daily",
+    "text": "Chunk options you’ll use daily\n\n\n\nOption\nWhat it does\n\n\n\n\necho: false\nhide the code, keep the output\n\n\neval: false\nshow the code, don’t run it\n\n\ninclude: false\nrun silently, hide everything\n\n\nfig-cap: \"...\"\nfigure caption (cross-referable)\n\n\ntbl-cap: \"...\"\ntable caption\n\n\ncache: true\nskip re-runs until the chunk changes"
+  },
+  {
+    "objectID": "02-visual-exploratory-analysis/03-editing-documents.html#publishable-tables-gt",
+    "href": "02-visual-exploratory-analysis/03-editing-documents.html#publishable-tables-gt",
+    "title": "Editing reproducible documents",
+    "section": "Publishable tables · gt",
+    "text": "Publishable tables · gt\n\nlibrary(gt)\n\nsummary_by_island |&gt;\n  gt() |&gt;\n  fmt_number(columns = price, decimals = 0, use_seps = TRUE) |&gt;\n  fmt_percent(columns = occupancy_rate, decimals = 1) |&gt;\n  tab_header(title   = \"Canary Islands hotel summary\",\n             subtitle = \"2024 · ISTAC\") |&gt;\n  tab_source_note(\"Source: ISTAC, author's elaboration.\")"
+  },
+  {
+    "objectID": "02-visual-exploratory-analysis/03-editing-documents.html#rendering",
+    "href": "02-visual-exploratory-analysis/03-editing-documents.html#rendering",
+    "title": "Editing reproducible documents",
+    "section": "Rendering",
+    "text": "Rendering\nquarto render report.qmd              # to default (html)\nquarto render report.qmd --to pdf     # to PDF\nquarto render report.qmd --to docx    # to Word"
+  },
+  {
+    "objectID": "02-visual-exploratory-analysis/03-editing-documents.html#best-practices",
+    "href": "02-visual-exploratory-analysis/03-editing-documents.html#best-practices",
+    "title": "Editing reproducible documents",
+    "section": "Best practices",
+    "text": "Best practices\n\nOne .qmd per analysis — not one mega-notebook.\nKeep raw data untouched; scripts transform it into intermediate datasets.\nUse here::here() so your report renders on any machine.\nCommit the .qmd, not the rendered .html — the CI builds it."
+  },
+  {
+    "objectID": "02-visual-exploratory-analysis/01-one-variable.html#outline",
+    "href": "02-visual-exploratory-analysis/01-one-variable.html#outline",
+    "title": "One-variable visualisation",
+    "section": "Outline",
+    "text": "Outline\n\nWhy visualise before you model.\nDistribution at a glance: histograms, density, rug plots.\nRobust alternatives: boxplots and violin plots.\nCategorical: bars, lollipop, waffle.\nFrom base R to ggplot2: the grammar of graphics."
+  },
+  {
+    "objectID": "02-visual-exploratory-analysis/01-one-variable.html#base-r-quick-and-local",
+    "href": "02-visual-exploratory-analysis/01-one-variable.html#base-r-quick-and-local",
+    "title": "One-variable visualisation",
+    "section": "Base R · quick and local",
+    "text": "Base R · quick and local\n\nhist(hotels$price,\n     breaks = 20,\n     col    = \"#0067a2\",\n     main   = \"Distribution of nightly price\",\n     xlab   = \"Price (€)\")"
+  },
+  {
+    "objectID": "02-visual-exploratory-analysis/01-one-variable.html#ggplot2-the-grammar",
+    "href": "02-visual-exploratory-analysis/01-one-variable.html#ggplot2-the-grammar",
+    "title": "One-variable visualisation",
+    "section": "ggplot2 · the grammar",
+    "text": "ggplot2 · the grammar\n\nlibrary(ggplot2)\n\nggplot(hotels, aes(x = price)) +\n  geom_histogram(bins = 30, fill = \"#0067a2\", alpha = 0.85) +\n  labs(title = \"Distribution of nightly price\",\n       x = \"Price (€)\", y = \"Hotels\") +\n  theme_minimal(base_size = 12)"
+  },
+  {
+    "objectID": "02-visual-exploratory-analysis/01-one-variable.html#histogram-vs-density",
+    "href": "02-visual-exploratory-analysis/01-one-variable.html#histogram-vs-density",
+    "title": "One-variable visualisation",
+    "section": "Histogram vs density",
+    "text": "Histogram vs density\n\nggplot(hotels, aes(x = price)) +\n  geom_histogram(aes(y = after_stat(density)),\n                 bins = 30, fill = \"#0067a2\", alpha = 0.55) +\n  geom_density(linewidth = 1) +\n  theme_minimal()"
+  },
+  {
+    "objectID": "02-visual-exploratory-analysis/01-one-variable.html#boxplot-robust-summary",
+    "href": "02-visual-exploratory-analysis/01-one-variable.html#boxplot-robust-summary",
+    "title": "One-variable visualisation",
+    "section": "Boxplot · robust summary",
+    "text": "Boxplot · robust summary\n\nggplot(hotels, aes(y = price)) +\n  geom_boxplot(fill = \"#f4f3ee\") +\n  coord_flip() +\n  theme_minimal()"
+  },
+  {
+    "objectID": "02-visual-exploratory-analysis/01-one-variable.html#categorical-ordered-bar-chart",
+    "href": "02-visual-exploratory-analysis/01-one-variable.html#categorical-ordered-bar-chart",
+    "title": "One-variable visualisation",
+    "section": "Categorical · ordered bar chart",
+    "text": "Categorical · ordered bar chart\n\nlibrary(forcats)\n\ntourists |&gt;\n  count(origin_country) |&gt;\n  mutate(origin_country = fct_reorder(origin_country, n)) |&gt;\n  ggplot(aes(n, origin_country)) +\n  geom_col(fill = \"#0067a2\") +\n  labs(x = \"Tourists\", y = NULL) +\n  theme_minimal()"
+  },
+  {
+    "objectID": "02-visual-exploratory-analysis/01-one-variable.html#rules-of-thumb",
+    "href": "02-visual-exploratory-analysis/01-one-variable.html#rules-of-thumb",
+    "title": "One-variable visualisation",
+    "section": "Rules of thumb",
+    "text": "Rules of thumb\n\nOne variable → one plot type: continuous → histogram/density; categorical → bar chart.\nOrder matters for categories — reorder by frequency or by value.\nMinimise ink; use theme_minimal() (or theme_void() for maps).\nTitles, units, source line — always."
+  },
+  {
+    "objectID": "01-introduction-to-r/03-data-wrangling.html#outline",
+    "href": "01-introduction-to-r/03-data-wrangling.html#outline",
+    "title": "Data wrangling with the tidyverse",
+    "section": "Outline",
+    "text": "Outline\n\nThe pipe |&gt; and the tidyverse grammar.\ndplyr verbs: filter, select, mutate, arrange, summarise, group_by.\nReshaping with tidyr: pivot_longer, pivot_wider, separate, unite.\nJoining tables: left_join, inner_join, anti_join.\nMissing values and type coercion gotchas."
+  },
+  {
+    "objectID": "01-introduction-to-r/03-data-wrangling.html#the-pipe",
+    "href": "01-introduction-to-r/03-data-wrangling.html#the-pipe",
+    "title": "Data wrangling with the tidyverse",
+    "section": "The pipe",
+    "text": "The pipe\n\nhotels |&gt;\n  filter(nights &gt; 7) |&gt;\n  mutate(revenue = nights * price) |&gt;\n  arrange(desc(revenue))\n\nRead as: take hotels, keep long stays, compute revenue, sort descending."
+  },
+  {
+    "objectID": "01-introduction-to-r/03-data-wrangling.html#the-six-dplyr-verbs",
+    "href": "01-introduction-to-r/03-data-wrangling.html#the-six-dplyr-verbs",
+    "title": "Data wrangling with the tidyverse",
+    "section": "The six dplyr verbs",
+    "text": "The six dplyr verbs\n\n\n\nVerb\nPurpose\n\n\n\n\nfilter()\nkeep rows that match a condition\n\n\nselect()\nkeep / drop columns\n\n\nmutate()\nadd or transform columns\n\n\narrange()\nsort rows\n\n\nsummarise()\ncollapse to one row per group\n\n\ngroup_by()\nset the grouping context"
+  },
+  {
+    "objectID": "01-introduction-to-r/03-data-wrangling.html#group-wise-summaries-eurostat-nights-spent",
+    "href": "01-introduction-to-r/03-data-wrangling.html#group-wise-summaries-eurostat-nights-spent",
+    "title": "Data wrangling with the tidyverse",
+    "section": "Group-wise summaries · Eurostat nights spent",
+    "text": "Group-wise summaries · Eurostat nights spent\n\nlibrary(dplyr)\n\nnights |&gt;\n  filter(year == 2024, purpose == \"total\") |&gt;\n  group_by(country) |&gt;\n  summarise(\n    total_nights = sum(value, na.rm = TRUE),\n    .groups = \"drop\"\n  ) |&gt;\n  arrange(desc(total_nights))"
+  },
+  {
+    "objectID": "01-introduction-to-r/03-data-wrangling.html#wide-vs-long-pivot_longer",
+    "href": "01-introduction-to-r/03-data-wrangling.html#wide-vs-long-pivot_longer",
+    "title": "Data wrangling with the tidyverse",
+    "section": "Wide vs long · pivot_longer()",
+    "text": "Wide vs long · pivot_longer()\n\nlibrary(tidyr)\n\nnights_wide &lt;- nights |&gt;\n  pivot_wider(names_from = year, values_from = value)\n\nnights_wide |&gt;\n  pivot_longer(cols = `2019`:`2024`,\n               names_to = \"year\", values_to = \"value\")"
+  },
+  {
+    "objectID": "01-introduction-to-r/03-data-wrangling.html#joins-occupancy-capacity",
+    "href": "01-introduction-to-r/03-data-wrangling.html#joins-occupancy-capacity",
+    "title": "Data wrangling with the tidyverse",
+    "section": "Joins · occupancy + capacity",
+    "text": "Joins · occupancy + capacity\n\noccupancy |&gt;\n  left_join(capacity, by = c(\"island\", \"year\", \"month\")) |&gt;\n  mutate(occupancy_rate = nights / available_beds)\n\nKnow your joins:\n\nleft_join() — keep every row of the left table.\ninner_join() — keep only matches.\nanti_join() — rows from left without a match on the right."
+  },
+  {
+    "objectID": "01-introduction-to-r/03-data-wrangling.html#na-handling",
+    "href": "01-introduction-to-r/03-data-wrangling.html#na-handling",
+    "title": "Data wrangling with the tidyverse",
+    "section": "NA handling",
+    "text": "NA handling\n\nx &lt;- c(2, NA, 7, 4)\nmean(x)                # NA\n\n[1] NA\n\nmean(x, na.rm = TRUE)  # 4.33\n\n[1] 4.333333\n\nsum(is.na(x))          # count NAs\n\n[1] 1"
+  },
+  {
+    "objectID": "01-introduction-to-r/03-data-wrangling.html#recap",
+    "href": "01-introduction-to-r/03-data-wrangling.html#recap",
+    "title": "Data wrangling with the tidyverse",
+    "section": "Recap",
+    "text": "Recap\n\nPipe |&gt; chains verbs, reads left-to-right.\ngroup_by() |&gt; summarise() is the bread and butter of reporting.\nAlways pivot when a column stores values, not variables."
+  },
+  {
+    "objectID": "01-introduction-to-r/01-data-in-r.html#outline",
+    "href": "01-introduction-to-r/01-data-in-r.html#outline",
+    "title": "Data in R",
+    "section": "Outline",
+    "text": "Outline\n\nR, RStudio, Quarto, tidyverse — what each is for.\nR as a calculator · expressions, assignment, functions.\nAtomic types · numeric, character, logical, factor, date.\nVectors · creation, arithmetic, subsetting.\nData frames and tibbles · the rectangular data model.\nImporting tourism data · CSV, Excel, SPSS, Eurostat API."
+  },
+  {
+    "objectID": "01-introduction-to-r/01-data-in-r.html#four-pieces-one-stack",
+    "href": "01-introduction-to-r/01-data-in-r.html#four-pieces-one-stack",
+    "title": "Data in R",
+    "section": "Four pieces, one stack",
+    "text": "Four pieces, one stack\n\n\n\n\n\n\n\n\n\nWhat it is\nYou write…\n\n\n\n\nR\nThe language and engine.\nCode that computes.\n\n\nRStudio / Positron\nThe IDE where you work.\nNothing R-specific — it’s the editor.\n\n\nQuarto\nThe publishing system.\nReports, slides, web pages, books.\n\n\ntidyverse\nA family of R packages with consistent design.\nlibrary(tidyverse) at the top of every script.\n\n\n\nInstall R from https://cloud.r-project.org, RStudio from https://posit.co/download/rstudio-desktop/."
+  },
+  {
+    "objectID": "01-introduction-to-r/01-data-in-r.html#the-rstudio-layout",
+    "href": "01-introduction-to-r/01-data-in-r.html#the-rstudio-layout",
+    "title": "Data in R",
+    "section": "The RStudio layout",
+    "text": "The RStudio layout\n┌───────────────────────────────┬──────────────────────────┐\n│                               │                          │\n│   Editor                      │   Environment / History  │\n│   (your .R or .qmd files)     │   (objects currently     │\n│                               │    in memory)            │\n│                               │                          │\n├───────────────────────────────┼──────────────────────────┤\n│                               │                          │\n│   Console                     │   Files / Plots /        │\n│   (live R session)            │   Packages / Help        │\n│                               │                          │\n└───────────────────────────────┴──────────────────────────┘\n\nWrite in the editor, send a line with Ctrl + Enter (Cmd + Enter on Mac).\nThe console shows the output.\nFiles pane is your file browser; Git pane appears when the folder is a repo."
+  },
+  {
+    "objectID": "01-introduction-to-r/01-data-in-r.html#projects-always-work-inside-an-.rproj",
+    "href": "01-introduction-to-r/01-data-in-r.html#projects-always-work-inside-an-.rproj",
+    "title": "Data in R",
+    "section": "Projects · always work inside an .Rproj",
+    "text": "Projects · always work inside an .Rproj\n\nDouble-click quantitative-methods-master-tides.Rproj to open the project.\nWorking directory is fixed to the project root → paths are portable.\nPackages, history and environment are isolated per project.\n\n\n\n\n\n\n\nTip\n\n\nNever run setwd(\"C:/Users/yourname/...\"). If you see that in any tutorial, close the tab."
+  },
+  {
+    "objectID": "01-introduction-to-r/01-data-in-r.html#packages-extending-r",
+    "href": "01-introduction-to-r/01-data-in-r.html#packages-extending-r",
+    "title": "Data in R",
+    "section": "Packages · extending R",
+    "text": "Packages · extending R\nBase R is a small kernel. Everything useful — tidyverse, plotting, model fitting, reading Excel, hitting the Eurostat API — ships as a package that you install separately from CRAN, the canonical mirror.\n\n# install once per laptop\ninstall.packages(\"tidyverse\")\ninstall.packages(c(\"readxl\", \"haven\", \"here\", \"eurostat\"))\n\n# load at the top of every script that uses them\nlibrary(tidyverse)\nlibrary(here)\n\n\n\n\n\n\n\nTip\n\n\ninstall.packages() downloads and compiles — slow, but only once. library() is fast and goes at the top of every script. One single library(tidyverse) pulls in eight core packages (dplyr, ggplot2, tibble, readr, tidyr, purrr, stringr, forcats) — the workhorses for the rest of the course."
+  },
+  {
+    "objectID": "01-introduction-to-r/01-data-in-r.html#first-expressions",
+    "href": "01-introduction-to-r/01-data-in-r.html#first-expressions",
+    "title": "Data in R",
+    "section": "First expressions",
+    "text": "First expressions\n\n2 + 2\n\n[1] 4\n\n17 %% 5        # modulo\n\n[1] 2\n\n2 ^ 10         # power\n\n[1] 1024\n\nsqrt(81)\n\n[1] 9\n\nlog(exp(1))    # natural log of e\n\n[1] 1\n\n\nR evaluates each line top-to-bottom and prints the result. Nothing else happens."
+  },
+  {
+    "objectID": "01-introduction-to-r/01-data-in-r.html#assignment",
+    "href": "01-introduction-to-r/01-data-in-r.html#assignment",
+    "title": "Data in R",
+    "section": "Assignment",
+    "text": "Assignment\n\nvisitors &lt;- 1250          # store a value in a name\nnights   &lt;- 4.2\nspending &lt;- 85\n\ntotal &lt;- visitors * nights * spending\ntotal\n\n[1] 446250\n\n\nUse &lt;- (Alt + - in RStudio inserts it) for assignment. Names can contain letters, digits, _ and ., but must start with a letter."
+  },
+  {
+    "objectID": "01-introduction-to-r/01-data-in-r.html#functions",
+    "href": "01-introduction-to-r/01-data-in-r.html#functions",
+    "title": "Data in R",
+    "section": "Functions",
+    "text": "Functions\nFunctions take inputs and return an output:\n\nround(4.2, digits = 0)\n\n[1] 4\n\nmean(c(2, 5, 7, 10, 14))\n\n[1] 7.6\n\nseq(from = 2024, to = 2026, by = 1)\n\n[1] 2024 2025 2026\n\n\n\n\n\n\n\n\nTip\n\n\nType mean( and press F1 in RStudio to open the help page for the function. ?mean does the same from the console."
+  },
+  {
+    "objectID": "01-introduction-to-r/01-data-in-r.html#getting-help",
+    "href": "01-introduction-to-r/01-data-in-r.html#getting-help",
+    "title": "Data in R",
+    "section": "Getting help",
+    "text": "Getting help\n\n?mean              # help for one function\n??\"linear model\"   # search across packages\nexample(lm)        # run the documented examples\n\nSites you will use a lot:\n\nhttps://stat.ethz.ch/R-manual/ — canonical reference.\nhttps://r4ds.hadley.nz/ — R for Data Science, 2nd edition (free online).\nStack Overflow, tagged [r]."
+  },
+  {
+    "objectID": "01-introduction-to-r/01-data-in-r.html#the-five-types-you-meet-every-day",
+    "href": "01-introduction-to-r/01-data-in-r.html#the-five-types-you-meet-every-day",
+    "title": "Data in R",
+    "section": "The five types you meet every day",
+    "text": "The five types you meet every day\n\ntypeof(3.14)              # \"double\"   — real numbers\n\n[1] \"double\"\n\ntypeof(1L)                # \"integer\"  — note the L suffix\n\n[1] \"integer\"\n\ntypeof(\"Gran Canaria\")    # \"character\"\n\n[1] \"character\"\n\ntypeof(TRUE)              # \"logical\"\n\n[1] \"logical\"\n\nclass(factor(c(\"a\",\"b\",\"a\")))   # \"factor\"\n\n[1] \"factor\"\n\nclass(Sys.Date())         # \"Date\"\n\n[1] \"Date\"\n\n\nWe lump numeric (double + integer) together in practice."
+  },
+  {
+    "objectID": "01-introduction-to-r/01-data-in-r.html#numeric",
+    "href": "01-introduction-to-r/01-data-in-r.html#numeric",
+    "title": "Data in R",
+    "section": "Numeric",
+    "text": "Numeric\n\nprice    &lt;- 82.50            # double\nstars    &lt;- 4L               # integer\nis.numeric(price)\n\n[1] TRUE\n\nis.numeric(stars)\n\n[1] TRUE\n\n# be careful with floating-point comparisons\n0.1 + 0.2 == 0.3             # FALSE!\n\n[1] FALSE\n\nall.equal(0.1 + 0.2, 0.3)    # TRUE\n\n[1] TRUE"
+  },
+  {
+    "objectID": "01-introduction-to-r/01-data-in-r.html#character",
+    "href": "01-introduction-to-r/01-data-in-r.html#character",
+    "title": "Data in R",
+    "section": "Character",
+    "text": "Character\n\nisland &lt;- \"Lanzarote\"\nnchar(island)\n\n[1] 9\n\ntoupper(island)\n\n[1] \"LANZAROTE\"\n\n# paste strings together\npaste(\"Hotel\", island, sep = \" · \")\n\n[1] \"Hotel · Lanzarote\"\n\n# case matters\n\"Lanzarote\" == \"lanzarote\"\n\n[1] FALSE"
+  },
+  {
+    "objectID": "01-introduction-to-r/01-data-in-r.html#logical",
+    "href": "01-introduction-to-r/01-data-in-r.html#logical",
+    "title": "Data in R",
+    "section": "Logical",
+    "text": "Logical\n\nis_open &lt;- TRUE\nT == TRUE                # TRUE — but don't use T, it can be overwritten\n\n[1] TRUE\n\nsum(c(TRUE, FALSE, TRUE, TRUE))   # 3 — logicals coerce to 0/1\n\n[1] 3\n\n\nOperators return logicals:\n\n82.50 &gt; 70\n\n[1] TRUE\n\n\"Lanzarote\" %in% c(\"Tenerife\", \"Lanzarote\", \"La Palma\")\n\n[1] TRUE"
+  },
+  {
+    "objectID": "01-introduction-to-r/01-data-in-r.html#factor-categories-with-known-levels",
+    "href": "01-introduction-to-r/01-data-in-r.html#factor-categories-with-known-levels",
+    "title": "Data in R",
+    "section": "Factor · categories with known levels",
+    "text": "Factor · categories with known levels\n\nisland &lt;- factor(\n  c(\"Gran Canaria\", \"Tenerife\", \"Gran Canaria\", \"Lanzarote\"),\n  levels = c(\"Gran Canaria\", \"Tenerife\", \"Lanzarote\",\n             \"Fuerteventura\", \"La Palma\", \"La Gomera\", \"El Hierro\")\n)\n\nlevels(island)\n\n[1] \"Gran Canaria\"  \"Tenerife\"      \"Lanzarote\"     \"Fuerteventura\"\n[5] \"La Palma\"      \"La Gomera\"     \"El Hierro\"    \n\ntable(island)\n\nisland\n Gran Canaria      Tenerife     Lanzarote Fuerteventura      La Palma \n            2             1             1             0             0 \n    La Gomera     El Hierro \n            0             0 \n\n\nFactors matter when the order of categories is meaningful (e.g. low, medium, high) or when all levels should appear in a table even if some have zero observations."
+  },
+  {
+    "objectID": "01-introduction-to-r/01-data-in-r.html#date-and-time",
+    "href": "01-introduction-to-r/01-data-in-r.html#date-and-time",
+    "title": "Data in R",
+    "section": "Date and time",
+    "text": "Date and time\n\ntoday &lt;- Sys.Date()\ntoday\n\n[1] \"2026-04-22\"\n\nclass(today)\n\n[1] \"Date\"\n\n# arithmetic on dates\ntoday + 30\n\n[1] \"2026-05-22\"\n\nas.Date(\"2026-06-08\") - today     # days to the first exam\n\nTime difference of 47 days\n\nformat(today, \"%A, %d %B %Y\")     # pretty-print\n\n[1] \"Wednesday, 22 April 2026\"\n\n\nUse the lubridate package (inside the tidyverse) for anything more serious — we’ll cover it in Data wrangling."
+  },
+  {
+    "objectID": "01-introduction-to-r/01-data-in-r.html#coercion-gotchas",
+    "href": "01-introduction-to-r/01-data-in-r.html#coercion-gotchas",
+    "title": "Data in R",
+    "section": "Coercion gotchas",
+    "text": "Coercion gotchas\n\nc(1, 2, \"three\")      # everything becomes character\n\n[1] \"1\"     \"2\"     \"three\"\n\nc(1, 2, TRUE)         # TRUE becomes 1 — all numeric\n\n[1] 1 2 1\n\nc(1L, 2L, 3.14)       # integer → double\n\n[1] 1.00 2.00 3.14\n\n\nR’s rule: when mixing types in one vector, coerce up to the most flexible type (character &gt; double &gt; integer &gt; logical)."
+  },
+  {
+    "objectID": "01-introduction-to-r/01-data-in-r.html#one-type-per-vector",
+    "href": "01-introduction-to-r/01-data-in-r.html#one-type-per-vector",
+    "title": "Data in R",
+    "section": "One type per vector",
+    "text": "One type per vector\nAn atomic vector is homogeneous: every element must be of the same type — all double, or all integer, or all character, or all logical, etc.\n\ntypeof(c(1.5, 2.7, 3.0))          # \"double\"\n\n[1] \"double\"\n\ntypeof(c(1L, 2L, 3L))             # \"integer\"\n\n[1] \"integer\"\n\ntypeof(c(\"GC\", \"TF\", \"LZ\"))       # \"character\"\n\n[1] \"character\"\n\ntypeof(c(TRUE, FALSE, TRUE))      # \"logical\"\n\n[1] \"logical\"\n\n\n\n\n\n\n\n\nImportant\n\n\nMixing types is not forbidden — R silently coerces everything to one common type (see Coercion gotchas below), which is almost never what you want. If you need several types in one object, use a data frame: one column per type."
+  },
+  {
+    "objectID": "01-introduction-to-r/01-data-in-r.html#creating-vectors",
+    "href": "01-introduction-to-r/01-data-in-r.html#creating-vectors",
+    "title": "Data in R",
+    "section": "Creating vectors",
+    "text": "Creating vectors\n\n# combine — the main way to build a vector\nnights  &lt;- c(2, 5, 7, 10, 14)\nislands &lt;- c(\"Gran Canaria\", \"Tenerife\", \"Lanzarote\",\n             \"Fuerteventura\", \"La Palma\")\n\n# sequences\n1:5\n\n[1] 1 2 3 4 5\n\nseq(from = 0, to = 1, by = 0.25)\n\n[1] 0.00 0.25 0.50 0.75 1.00\n\nrep(\"GC\", times = 3)\n\n[1] \"GC\" \"GC\" \"GC\"\n\nlength(nights)\n\n[1] 5"
+  },
+  {
+    "objectID": "01-introduction-to-r/01-data-in-r.html#vectorised-arithmetic",
+    "href": "01-introduction-to-r/01-data-in-r.html#vectorised-arithmetic",
+    "title": "Data in R",
+    "section": "Vectorised arithmetic",
+    "text": "Vectorised arithmetic\n\nprice   &lt;- c(82, 95, 110, 100, 78)\nrevenue &lt;- nights * price                 # element-wise — no loops\nrevenue\n\n[1]  164  475  770 1000 1092\n\nmean(revenue)\n\n[1] 700.2\n\nsum(revenue)\n\n[1] 3501\n\nrange(revenue)       # min and max\n\n[1]  164 1092\n\n\nThis is the point of R. Whenever you are tempted to write a for loop, ask yourself whether vectorisation solves it."
+  },
+  {
+    "objectID": "01-introduction-to-r/01-data-in-r.html#subsetting-vectors",
+    "href": "01-introduction-to-r/01-data-in-r.html#subsetting-vectors",
+    "title": "Data in R",
+    "section": "Subsetting vectors",
+    "text": "Subsetting vectors\n\nnights\n\n[1]  2  5  7 10 14\n\nnights[1]             # first element — R is 1-indexed\n\n[1] 2\n\nnights[c(1, 3, 5)]    # several positions\n\n[1]  2  7 14\n\nnights[-1]            # everything EXCEPT the first\n\n[1]  5  7 10 14\n\nnights[nights &gt; 5]    # logical subsetting — most useful\n\n[1]  7 10 14\n\n\nThe logical form (x[condition]) is the one you will use 95 % of the time."
+  },
+  {
+    "objectID": "01-introduction-to-r/01-data-in-r.html#named-vectors",
+    "href": "01-introduction-to-r/01-data-in-r.html#named-vectors",
+    "title": "Data in R",
+    "section": "Named vectors",
+    "text": "Named vectors\n\nprice &lt;- c(\n  \"Gran Canaria\"  = 82,\n  \"Tenerife\"      = 95,\n  \"Lanzarote\"     = 110,\n  \"Fuerteventura\" = 100,\n  \"La Palma\"      = 78\n)\n\nprice[\"Tenerife\"]\n\nTenerife \n      95 \n\nprice[price &gt; 90]\n\n     Tenerife     Lanzarote Fuerteventura \n           95           110           100 \n\n\nNamed vectors are a stepping stone to data frames."
+  },
+  {
+    "objectID": "01-introduction-to-r/01-data-in-r.html#the-rectangular-data-model",
+    "href": "01-introduction-to-r/01-data-in-r.html#the-rectangular-data-model",
+    "title": "Data in R",
+    "section": "The rectangular data model",
+    "text": "The rectangular data model\n\nlibrary(tibble)\n\nhotels &lt;- tibble(\n  island = c(\"Gran Canaria\", \"Tenerife\", \"Lanzarote\",\n             \"Fuerteventura\", \"La Palma\"),\n  stars  = c(4L, 5L, 4L, 3L, 3L),\n  price  = c(82, 95, 110, 100, 78),\n  nights = c(12.5, 18.3, 9.8, 11.2, 6.4)\n)\n\nhotels\n\n# A tibble: 5 × 4\n  island        stars price nights\n  &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt;\n1 Gran Canaria      4    82   12.5\n2 Tenerife          5    95   18.3\n3 Lanzarote         4   110    9.8\n4 Fuerteventura     3   100   11.2\n5 La Palma          3    78    6.4\n\n\n\nRows = observations (one hotel per row).\nColumns = variables (each has one type).\nEvery column has the same length."
+  },
+  {
+    "objectID": "01-introduction-to-r/01-data-in-r.html#inspecting-a-data-frame",
+    "href": "01-introduction-to-r/01-data-in-r.html#inspecting-a-data-frame",
+    "title": "Data in R",
+    "section": "Inspecting a data frame",
+    "text": "Inspecting a data frame\n\ndim(hotels)      # rows, columns\n\n[1] 5 4\n\nnrow(hotels)\n\n[1] 5\n\nncol(hotels)\n\n[1] 4\n\nnames(hotels)\n\n[1] \"island\" \"stars\"  \"price\"  \"nights\"\n\n\n\nhead(hotels)     # first 6 rows\ntail(hotels)     # last 6 rows\nglimpse(hotels)  # tidyverse — compact overview\nsummary(hotels)  # base R — stats per column\nView(hotels)     # spreadsheet view (RStudio)"
+  },
+  {
+    "objectID": "01-introduction-to-r/01-data-in-r.html#selecting-columns",
+    "href": "01-introduction-to-r/01-data-in-r.html#selecting-columns",
+    "title": "Data in R",
+    "section": "Selecting columns",
+    "text": "Selecting columns\n\nhotels$price           # dollar notation — a single column as a vector\n\n[1]  82  95 110 100  78\n\nhotels[[\"price\"]]      # equivalent, bracket form\n\n[1]  82  95 110 100  78\n\nhotels[, \"price\"]      # still a one-column tibble\n\n# A tibble: 5 × 1\n  price\n  &lt;dbl&gt;\n1    82\n2    95\n3   110\n4   100\n5    78\n\nmean(hotels$price)\n\n[1] 93"
+  },
+  {
+    "objectID": "01-introduction-to-r/01-data-in-r.html#adding-and-modifying-columns",
+    "href": "01-introduction-to-r/01-data-in-r.html#adding-and-modifying-columns",
+    "title": "Data in R",
+    "section": "Adding and modifying columns",
+    "text": "Adding and modifying columns\n\nhotels$revenue &lt;- hotels$price * hotels$nights\nhotels\n\n# A tibble: 5 × 5\n  island        stars price nights revenue\n  &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;\n1 Gran Canaria      4    82   12.5   1025 \n2 Tenerife          5    95   18.3   1738.\n3 Lanzarote         4   110    9.8   1078 \n4 Fuerteventura     3   100   11.2   1120 \n5 La Palma          3    78    6.4    499.\n\n\nLater, with dplyr, we’ll write this as:\n\nlibrary(dplyr)\nhotels &lt;- hotels |&gt; mutate(revenue = price * nights)"
+  },
+  {
+    "objectID": "01-introduction-to-r/01-data-in-r.html#filtering-rows",
+    "href": "01-introduction-to-r/01-data-in-r.html#filtering-rows",
+    "title": "Data in R",
+    "section": "Filtering rows",
+    "text": "Filtering rows\n\n# base R\nhotels[hotels$stars &gt;= 4, ]\n\n# A tibble: 3 × 5\n  island       stars price nights revenue\n  &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;\n1 Gran Canaria     4    82   12.5   1025 \n2 Tenerife         5    95   18.3   1738.\n3 Lanzarote        4   110    9.8   1078 \n\n# dplyr preview\nlibrary(dplyr)\nhotels |&gt; filter(stars &gt;= 4)\n\n# A tibble: 3 × 5\n  island       stars price nights revenue\n  &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;\n1 Gran Canaria     4    82   12.5   1025 \n2 Tenerife         5    95   18.3   1738.\n3 Lanzarote        4   110    9.8   1078 \n\n\nPick one style and stick to it. We’ll standardise on dplyr from Data wrangling onwards."
+  },
+  {
+    "objectID": "01-introduction-to-r/01-data-in-r.html#the-usual-suspects",
+    "href": "01-introduction-to-r/01-data-in-r.html#the-usual-suspects",
+    "title": "Data in R",
+    "section": "The usual suspects",
+    "text": "The usual suspects\n\n\n\nFormat\nPackage\nFunction\n\n\n\n\nCSV\nreadr\nread_csv()\n\n\nExcel (.xlsx, .xls)\nreadxl\nread_excel()\n\n\nSPSS (.sav)\nhaven\nread_sav()\n\n\nStata (.dta)\nhaven\nread_dta()\n\n\nJSON\njsonlite\nread_json()\n\n\nEurostat\neurostat\nget_eurostat()\n\n\n\nAll of these are part of — or play nicely with — the tidyverse."
+  },
+  {
+    "objectID": "01-introduction-to-r/01-data-in-r.html#csv-with-readrread_csv",
+    "href": "01-introduction-to-r/01-data-in-r.html#csv-with-readrread_csv",
+    "title": "Data in R",
+    "section": "CSV with readr::read_csv",
+    "text": "CSV with readr::read_csv\n\nlibrary(readr)\nlibrary(here)\n\noccupancy &lt;- read_csv(\n  here(\"datasets\", \"raw\", \"istac-nights-by-island.csv\"),\n  locale = locale(decimal_mark = \",\", grouping_mark = \".\")\n)\n\nglimpse(occupancy)\n\n\n\n\n\n\n\nTip\n\n\nAlways go through here::here(). Your script will work on the lab machines, on your laptop, and on my laptop with zero changes."
+  },
+  {
+    "objectID": "01-introduction-to-r/01-data-in-r.html#excel-with-readxl",
+    "href": "01-introduction-to-r/01-data-in-r.html#excel-with-readxl",
+    "title": "Data in R",
+    "section": "Excel with readxl",
+    "text": "Excel with readxl\n\nlibrary(readxl)\n\ncapacity &lt;- read_excel(\n  here(\"datasets\", \"raw\", \"istac-hotel-capacity.xlsx\"),\n  sheet = \"2024\",\n  skip  = 3           # skip the first three header rows\n)\n\nglimpse(capacity)\n\nExcel files often have merged cells, titles and footers. Use skip and range = \"B5:K120\" to carve out the actual data table."
+  },
+  {
+    "objectID": "01-introduction-to-r/01-data-in-r.html#spss-and-stata-with-haven",
+    "href": "01-introduction-to-r/01-data-in-r.html#spss-and-stata-with-haven",
+    "title": "Data in R",
+    "section": "SPSS and Stata with haven",
+    "text": "SPSS and Stata with haven\n\nlibrary(haven)\n\nsurvey &lt;- read_sav(\n  here(\"datasets\", \"raw\", \"tourism-survey.sav\")\n)\n\n# haven preserves SPSS variable and value labels\nattributes(survey$origin_country)\n\nUse as_factor(survey) to convert labelled numeric variables into R factors in one go."
+  },
+  {
+    "objectID": "01-introduction-to-r/01-data-in-r.html#eurostat-live-from-the-api",
+    "href": "01-introduction-to-r/01-data-in-r.html#eurostat-live-from-the-api",
+    "title": "Data in R",
+    "section": "Eurostat · live from the API",
+    "text": "Eurostat · live from the API\n\nlibrary(eurostat)\nlibrary(dplyr)\n\nnights &lt;- get_eurostat(\"tour_occ_nim\", time_format = \"date\") |&gt;\n  filter(unit    == \"NR\",     # number of nights\n         c_resid == \"TOTAL\",  # all residency statuses\n         nace_r2 == \"I551\")   # hotels only\n\nnights\n\nThe eurostat package caches downloads locally, so the slow step only happens the first time."
+  },
+  {
+    "objectID": "01-introduction-to-r/01-data-in-r.html#reproducible-paths-with-herehere",
+    "href": "01-introduction-to-r/01-data-in-r.html#reproducible-paths-with-herehere",
+    "title": "Data in R",
+    "section": "Reproducible paths with here::here()",
+    "text": "Reproducible paths with here::here()\n\nlibrary(here)\n\nhere()\n# [1] \"C:/Users/you/.../quantitative-methods-master-tides\"\n\nhere(\"datasets\", \"raw\", \"eurostat-nights.csv\")\n# [1] \"C:/Users/you/.../datasets/raw/eurostat-nights.csv\"\n\nhere() always resolves relative to the project root (the folder with the .Rproj), regardless of which subfolder your .R or .qmd file lives in."
+  },
+  {
+    "objectID": "01-introduction-to-r/01-data-in-r.html#a-first-tourism-pipeline",
+    "href": "01-introduction-to-r/01-data-in-r.html#a-first-tourism-pipeline",
+    "title": "Data in R",
+    "section": "A first tourism pipeline",
+    "text": "A first tourism pipeline\n\nlibrary(dplyr)\nlibrary(tibble)\n\nhotels &lt;- tribble(\n  ~island,          ~month,  ~nights,  ~beds,\n  \"Gran Canaria\",   \"2024-06\",  142500, 165000,\n  \"Gran Canaria\",   \"2024-07\",  168300, 165000,\n  \"Tenerife\",       \"2024-06\",  198200, 220000,\n  \"Tenerife\",       \"2024-07\",  231100, 220000,\n  \"Lanzarote\",      \"2024-06\",   88100, 105000,\n  \"Lanzarote\",      \"2024-07\",   98400, 105000\n)\n\nhotels |&gt;\n  mutate(occupancy = nights / beds) |&gt;\n  group_by(island) |&gt;\n  summarise(mean_occupancy = mean(occupancy), .groups = \"drop\") |&gt;\n  arrange(desc(mean_occupancy))\n\n# A tibble: 3 × 2\n  island       mean_occupancy\n  &lt;chr&gt;                 &lt;dbl&gt;\n1 Tenerife              0.976\n2 Gran Canaria          0.942\n3 Lanzarote             0.888\n\n\nThis is essentially every report in tourism statistics: load · clean · group · summarise. Tomorrow we unpack each verb."
+  },
+  {
+    "objectID": "01-introduction-to-r/01-data-in-r.html#recap",
+    "href": "01-introduction-to-r/01-data-in-r.html#recap",
+    "title": "Data in R",
+    "section": "Recap",
+    "text": "Recap\n\nR objects climb a ladder: atomic vectors → named vectors → data frames.\nLearn the five types (numeric, character, logical, factor, Date) and you understand 90 % of what R prints.\nArithmetic on vectors is element-wise — avoid loops.\ntibble / data.frame is the 99 %-of-the-time workhorse.\nImport with the package that matches the file: readr, readxl, haven, eurostat.\nAlways use here::here() for paths."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Quantitative Methods in Tourism",
+    "section": "",
+    "text": "Slides, code and exercises for the core course Quantitative Methods in Tourism (6 ECTS) of the Master in Tourism and Sustainable Development at the TIDES Institute, Universidad de Las Palmas de Gran Canaria."
+  },
+  {
+    "objectID": "index.html#instructors",
+    "href": "index.html#instructors",
+    "title": "Quantitative Methods in Tourism",
+    "section": "Instructors",
+    "text": "Instructors\n\n\n\n\n\n\n\nTopics 1 & 2 · Introduction to R, Visual exploratory analysis\nChristian González\n\n\nTopics 3 & 4 · Machine learning, NLP\nJuan Hernández Guerra\n\n\n\nBoth at the Department of Quantitative Methods in Economics and Management, ULPGC."
+  },
+  {
+    "objectID": "index.html#module-i-introduction-to-r",
+    "href": "index.html#module-i-introduction-to-r",
+    "title": "Quantitative Methods in Tourism",
+    "section": "Module I · Introduction to R",
+    "text": "Module I · Introduction to R\n\nData in R\nGit & GitHub essentials\nData wrangling\nBasic statistics with R"
+  },
+  {
+    "objectID": "index.html#module-ii-visual-exploratory-analysis",
+    "href": "index.html#module-ii-visual-exploratory-analysis",
+    "title": "Quantitative Methods in Tourism",
+    "section": "Module II · Visual exploratory analysis",
+    "text": "Module II · Visual exploratory analysis\n\nOne-variable visualisation\nMulti-variable visualisation\nEditing reproducible documents"
+  },
+  {
+    "objectID": "index.html#resources",
+    "href": "index.html#resources",
+    "title": "Quantitative Methods in Tourism",
+    "section": "Resources",
+    "text": "Resources\n\nExercises — per-day templates, submitted via fork.\nDatasets — ISTAC and Eurostat tourism data."
+  },
+  {
+    "objectID": "index.html#license",
+    "href": "index.html#license",
+    "title": "Quantitative Methods in Tourism",
+    "section": "License",
+    "text": "License\nContent released under CC BY-SA 4.0. Source code on GitHub."
+  },
+  {
+    "objectID": "00-welcome/welcome.html#instructors",
+    "href": "00-welcome/welcome.html#instructors",
+    "title": "Quantitative Methods in Tourism",
+    "section": "Instructors",
+    "text": "Instructors\n\n\nChristian González Martel\nModules I & II · Introduction to R · Visual exploratory analysis\n\nchristian.gonzalez@ulpgc.es\nOffice D-4-07\nTutorials · Monday 8:30–12:30 · Thursday 9:30–11:30\n\n\nJuan M. Hernández Guerra\nModule III · Introduction to machine learning\n\njuan.hernandez@ulpgc.es\nOffice D-4-20\nTutorials · Tuesday 9:00–13:00 · Wednesday 9:00–11:00\n\n\n\n\n\nPlease email us to make an appointment before coming to tutorials."
+  },
+  {
+    "objectID": "00-welcome/welcome.html#contents",
+    "href": "00-welcome/welcome.html#contents",
+    "title": "Quantitative Methods in Tourism",
+    "section": "Contents",
+    "text": "Contents\n\n\nModule I\nIntroduction to R\n\nData in R\nData wrangling\nBasic statistics with R\n\n\nModule II\nVisual exploratory analysis\n\nOne-variable visualisation\nMultiple-variables visualisation\nEditing reproducible documents\n\n\nModule III\nIntroduction to machine learning\n\nRegression models\nClassification models\nText classification (NLP)"
+  },
+  {
+    "objectID": "00-welcome/welcome.html#practical-information",
+    "href": "00-welcome/welcome.html#practical-information",
+    "title": "Quantitative Methods in Tourism",
+    "section": "Practical information",
+    "text": "Practical information\n\n\n\nStarts\n23 April 2026\n\n\nClassroom\nEA 0.1\n\n\nOfficial exam dates\nJune 8 · June 29, 2026\n\n\nCampus Virtual\naep26.ulpgc.es · course 2942 — announcements and final grade\n\n\nCourse repo\nhttps://github.com/chrglez/quantitative-methods-master-tides\n\n\nLicence\nCC BY-SA 4.0"
+  },
+  {
+    "objectID": "00-welcome/welcome.html#schedule-modules-i-ii",
+    "href": "00-welcome/welcome.html#schedule-modules-i-ii",
+    "title": "Quantitative Methods in Tourism",
+    "section": "Schedule · Modules I & II",
+    "text": "Schedule · Modules I & II\n30 h over 6 days of 5 h · 16:00–21:00 at classroom EA 0.1 · short break around 18:00.\n\n\n\nDay\nFirst half · lecture\nSecond half · hands-on\n\n\n\n\n1\nData in R · Git & GitHub\nGuided exercise\n\n\n2\nData wrangling (tidyverse)\nGuided exercise\n\n\n3\nBasic statistics with R\nGraded exercise\n\n\n4\nOne-variable visualisation\nGraded exercise\n\n\n5\nMulti-variable visualisation\nGraded exercise\n\n\n6\nEditing reproducible documents\nFinal submission"
+  },
+  {
+    "objectID": "00-welcome/welcome.html#weights",
+    "href": "00-welcome/welcome.html#weights",
+    "title": "Quantitative Methods in Tourism",
+    "section": "Weights",
+    "text": "Weights\n\nIn-class exercises · 50 %\n\nGuided exercises · 25 %\nProposed exercises · 25 %\n\nFinal exercise · 50 %\nPass threshold · 50 % overall"
+  },
+  {
+    "objectID": "00-welcome/welcome.html#weighting-across-modules",
+    "href": "00-welcome/welcome.html#weighting-across-modules",
+    "title": "Quantitative Methods in Tourism",
+    "section": "Weighting across modules",
+    "text": "Weighting across modules\n\n\n\n\n\n\nImportant\n\n\nModules I and II combined count as 50 % of the subject mark. Module III accounts for the other 50 %.\n\n\n\nSo within the first half of the subject, each module weighs the same: Module I contributes 25 % and Module II contributes 25 % of the final subject mark."
+  },
+  {
+    "objectID": "00-welcome/welcome.html#how-you-submit",
+    "href": "00-welcome/welcome.html#how-you-submit",
+    "title": "Quantitative Methods in Tourism",
+    "section": "How you submit",
+    "text": "How you submit\nEvery in-class and final exercise is handed in via a Pull Request from your personal fork of the course repository on GitHub:\n\nFork https://github.com/chrglez/quantitative-methods-master-tides.\nClone your fork and branch off main at the start of every day.\nSolve the template (.R for Days 1–5, .qmd for Day 6), commit and push the branch to your fork.\nOpen a Pull Request targeting chrglez:main with title Day N — Your Full Name.\nI review with inline comments. PRs are never merged — they are the audit trail of your submission.\n\nCampus Virtual is used only for announcements and the final grade. The full Git workflow is covered in the first hour of Day 1."
+  },
+  {
+    "objectID": "00-welcome/welcome.html#resources",
+    "href": "00-welcome/welcome.html#resources",
+    "title": "Quantitative Methods in Tourism",
+    "section": "Resources",
+    "text": "Resources\n\nSlides · https://chrglez.github.io/quantitative-methods-master-tides/\nCampus Virtual · all announcements, exercise briefs and grades.\nOffice hours · see top slide — email first."
+  },
+  {
+    "objectID": "01-introduction-to-r/02-git-github.html#why-version-control",
+    "href": "01-introduction-to-r/02-git-github.html#why-version-control",
+    "title": "Git & GitHub essentials",
+    "section": "Why version control?",
+    "text": "Why version control?\n\nKeep a full history of every change — who, what, when, why.\nCollaborate without emailing analysis_final_v3_reallyfinal.R.\nRevert safely when an experiment breaks your code.\nMake your work reproducible and publicly auditable.\n\n\n\n\n\n\n\nImportant\n\n\nIn this course every exercise you submit lives on GitHub. The workflow has to be working for you by the end of this hour."
+  },
+  {
+    "objectID": "01-introduction-to-r/02-git-github.html#git-vs-github",
+    "href": "01-introduction-to-r/02-git-github.html#git-vs-github",
+    "title": "Git & GitHub essentials",
+    "section": "Git vs GitHub",
+    "text": "Git vs GitHub\n\n\n\n\n\n\n\n\n\nGit\nGitHub\n\n\n\n\nWhat it is\nA tool that tracks changes\nA web service that hosts Git projects\n\n\nRuns\nLocally, on your laptop\nOn github.com\n\n\nNeeded for\nAny version control at all\nSharing, collaboration, PRs\n\n\nCost\nFree, open source\nFree for public repos and education\n\n\n\nYou need both: Git installed locally, a GitHub account online."
+  },
+  {
+    "objectID": "01-introduction-to-r/02-git-github.html#the-three-git-areas",
+    "href": "01-introduction-to-r/02-git-github.html#the-three-git-areas",
+    "title": "Git & GitHub essentials",
+    "section": "The three Git areas",
+    "text": "The three Git areas\n┌─────────────┐   git add   ┌─────────────┐  git commit  ┌────────────────┐\n│   Working   │ ──────────▶ │   Staging   │ ───────────▶ │  Local repo    │\n│  directory  │             │   (index)   │              │  (your laptop) │\n└─────────────┘             └─────────────┘              └────────────────┘\n                                                                  │\n                                                         git push │\n                                                                  ▼\n                                                         ┌────────────────┐\n                                                         │  GitHub remote │\n                                                         └────────────────┘\nIn this course you drive every arrow from RStudio’s Git pane, not from a terminal."
+  },
+  {
+    "objectID": "01-introduction-to-r/02-git-github.html#step-1-install-git",
+    "href": "01-introduction-to-r/02-git-github.html#step-1-install-git",
+    "title": "Git & GitHub essentials",
+    "section": "Step 1 · Install Git",
+    "text": "Step 1 · Install Git\n\nmacOS · brew install git, or install the Xcode Command Line Tools.\nWindows · download Git for Windows and accept the defaults.\nLinux · sudo apt install git (Debian/Ubuntu) or sudo dnf install git (Fedora).\n\nAfter install, restart RStudio. It detects Git automatically."
+  },
+  {
+    "objectID": "01-introduction-to-r/02-git-github.html#step-2-set-your-identity-no-terminal",
+    "href": "01-introduction-to-r/02-git-github.html#step-2-set-your-identity-no-terminal",
+    "title": "Git & GitHub essentials",
+    "section": "Step 2 · Set your identity — no terminal",
+    "text": "Step 2 · Set your identity — no terminal\nFrom the R console:\n\nusethis::use_git_config(\n  user.name  = \"Your Name\",\n  user.email = \"you@ulpgc.es\"\n)\n\nEvery commit you ever make will be signed with this name and email. Use the same email you will register with on GitHub (next step)."
+  },
+  {
+    "objectID": "01-introduction-to-r/02-git-github.html#step-3-github-account-pat",
+    "href": "01-introduction-to-r/02-git-github.html#step-3-github-account-pat",
+    "title": "Git & GitHub essentials",
+    "section": "Step 3 · GitHub account + PAT",
+    "text": "Step 3 · GitHub account + PAT\nCreate a GitHub account at https://github.com/signup with your ULPGC email. Apply for the free Student Developer Pack — private repos, Copilot and more.\nCreate a Personal Access Token (PAT) from R:\n\nusethis::create_github_token(\n  scopes      = c(\"repo\", \"user\", \"workflow\"),\n  description = \"R on my laptop · TIDES course\",\n  expiration  = 90                 # 90 days covers the whole course\n)\n\nThe browser opens on GitHub. Leave the fields as prefilled, confirm 90 days, click Generate token. Copy the token immediately — GitHub never shows it again."
+  },
+  {
+    "objectID": "01-introduction-to-r/02-git-github.html#step-3-save-the-token",
+    "href": "01-introduction-to-r/02-git-github.html#step-3-save-the-token",
+    "title": "Git & GitHub essentials",
+    "section": "Step 3 · Save the token",
+    "text": "Step 3 · Save the token\nBack in R, paste the token into the credential store:\n\ngitcreds::gitcreds_set()"
+  },
+  {
+    "objectID": "01-introduction-to-r/02-git-github.html#verify-everything-works",
+    "href": "01-introduction-to-r/02-git-github.html#verify-everything-works",
+    "title": "Git & GitHub essentials",
+    "section": "Verify everything works",
+    "text": "Verify everything works\n\nusethis::git_sitrep()\n\nAll rows should show ✅ green. If anything is red, re-run the step the report points to."
+  },
+  {
+    "objectID": "01-introduction-to-r/02-git-github.html#core-vocabulary",
+    "href": "01-introduction-to-r/02-git-github.html#core-vocabulary",
+    "title": "Git & GitHub essentials",
+    "section": "Core vocabulary",
+    "text": "Core vocabulary\n\nRepository (repo) · a project folder tracked by Git.\nCommit · a saved snapshot with a message.\nBranch · an independent line of development.\nRemote · a copy of the repo hosted elsewhere.\nFork · your personal copy of someone else’s repo on GitHub.\nPull Request (PR) · a proposal to merge changes, with review.\nClone · local download of a remote repo.\nPush / Pull · send / receive commits to / from a remote.\nSync fork · one-click update of your fork from the original repo."
+  },
+  {
+    "objectID": "01-introduction-to-r/02-git-github.html#how-everything-flows",
+    "href": "01-introduction-to-r/02-git-github.html#how-everything-flows",
+    "title": "Git & GitHub essentials",
+    "section": "How everything flows",
+    "text": "How everything flows\n\nflowchart LR\n  A[chrglez/&lt;br/&gt;course repo] --&gt;|fork| B[yourname/&lt;br/&gt;course fork]\n  B --&gt;|clone| C[RStudio on&lt;br/&gt;your laptop]\n  C --&gt;|commit + push| B\n  B --&gt;|Pull Request| A\n  A --&gt;|review comments| B\n  A -.-&gt;|Sync fork&lt;br/&gt;web button| B\n\n\n\n\nflowchart LR\n  A[chrglez/&lt;br/&gt;course repo] --&gt;|fork| B[yourname/&lt;br/&gt;course fork]\n  B --&gt;|clone| C[RStudio on&lt;br/&gt;your laptop]\n  C --&gt;|commit + push| B\n  B --&gt;|Pull Request| A\n  A --&gt;|review comments| B\n  A -.-&gt;|Sync fork&lt;br/&gt;web button| B\n\n\n\n\n\n\nThe dashed arrow is the Sync fork button on GitHub — that’s how you pull course updates into your fork without a terminal."
+  },
+  {
+    "objectID": "01-introduction-to-r/02-git-github.html#the-same-story-in-words",
+    "href": "01-introduction-to-r/02-git-github.html#the-same-story-in-words",
+    "title": "Git & GitHub essentials",
+    "section": "The same story, in words",
+    "text": "The same story, in words\n\nFork the course repo on GitHub — one click, one time only.\nClone your fork from RStudio.\nEach day: branch → solve → commit → push.\nOpen a Pull Request against chrglez:main.\nChristian reviews with inline comments. PRs are never merged.\nIf the course repo changed while you worked, click Sync fork on your fork’s page."
+  },
+  {
+    "objectID": "01-introduction-to-r/02-git-github.html#step-1-fork-the-course-repo",
+    "href": "01-introduction-to-r/02-git-github.html#step-1-fork-the-course-repo",
+    "title": "Git & GitHub essentials",
+    "section": "Step 1 · Fork the course repo",
+    "text": "Step 1 · Fork the course repo\nGo to https://github.com/chrglez/quantitative-methods-master-tides.\nClick Fork (top-right). GitHub asks for a name — leave the default. Keep “Copy the main branch only” ticked.\nYou land on your own copy: github.com/&lt;your-user&gt;/quantitative-methods-master-tides."
+  },
+  {
+    "objectID": "01-introduction-to-r/02-git-github.html#step-2-clone-your-fork-from-rstudio",
+    "href": "01-introduction-to-r/02-git-github.html#step-2-clone-your-fork-from-rstudio",
+    "title": "Git & GitHub essentials",
+    "section": "Step 2 · Clone your fork from RStudio",
+    "text": "Step 2 · Clone your fork from RStudio\nOn your fork’s page, click Code → HTTPS and copy the URL.\nIn RStudio:\n\nFile → New Project → Version Control → Git.\nPaste the URL into Repository URL.\nChoose a stable parent folder (~/Documents or equivalent — not Desktop or OneDrive).\nClick Create Project.\n\nRStudio clones, opens the project, and the Git pane appears in the top-right."
+  },
+  {
+    "objectID": "01-introduction-to-r/02-git-github.html#step-3-add-the-upstream-remote",
+    "href": "01-introduction-to-r/02-git-github.html#step-3-add-the-upstream-remote",
+    "title": "Git & GitHub essentials",
+    "section": "Step 3 · Add the upstream remote",
+    "text": "Step 3 · Add the upstream remote\n\n\n\n\n\n\nNote\n\n\nThis is the only terminal command in the whole course.\n\n\n\nInside RStudio, open Tools → Terminal → New Terminal and paste:\ngit remote add upstream https://github.com/chrglez/quantitative-methods-master-tides.git\ngit remote -v\nThe second line should print two remotes: origin (your fork) and upstream (the course repo). After this, close the terminal — you won’t need it again."
+  },
+  {
+    "objectID": "01-introduction-to-r/02-git-github.html#never-commit-on-main",
+    "href": "01-introduction-to-r/02-git-github.html#never-commit-on-main",
+    "title": "Git & GitHub essentials",
+    "section": "⚠️ Never commit on main",
+    "text": "⚠️ Never commit on main\nThe main branch of your fork is a read-only mirror of the course repo. If you accidentally commit to it, syncing with upstream becomes painful.\nEvery day you work on a new branch, named after the day: day-1, day-2, … day-6.\nIf in doubt, look at the branch selector at the top-right of the Git pane. It always tells you where you are."
+  },
+  {
+    "objectID": "01-introduction-to-r/02-git-github.html#sync-your-fork-in-the-browser",
+    "href": "01-introduction-to-r/02-git-github.html#sync-your-fork-in-the-browser",
+    "title": "Git & GitHub essentials",
+    "section": "① Sync your fork · in the browser",
+    "text": "① Sync your fork · in the browser\nGo to github.com/&lt;your-user&gt;/quantitative-methods-master-tides.\nIf Christian updated the course repo while you were away, a banner appears:\n\nThis branch is N commits behind chrglez:main · Sync fork ▼\n\nClick it → Update branch. Done, one click.\nThen in RStudio’s Git pane click Pull (blue down arrow) to bring those commits to your laptop."
+  },
+  {
+    "objectID": "01-introduction-to-r/02-git-github.html#start-a-branch-for-the-day-git-pane",
+    "href": "01-introduction-to-r/02-git-github.html#start-a-branch-for-the-day-git-pane",
+    "title": "Git & GitHub essentials",
+    "section": "② Start a branch for the day · Git pane",
+    "text": "② Start a branch for the day · Git pane\nIn the Git pane (top-right of RStudio):\n\nClick the branch dropdown → New Branch…\nName it day-1 (or day-N).\nLeave Remote: origin and tick Sync branch with remote.\nClick Create.\n\nYou are now on day-1, main is safe."
+  },
+  {
+    "objectID": "01-introduction-to-r/02-git-github.html#solve-the-exercise",
+    "href": "01-introduction-to-r/02-git-github.html#solve-the-exercise",
+    "title": "Git & GitHub essentials",
+    "section": "③ Solve the exercise",
+    "text": "③ Solve the exercise\nOpen exercises/day1/exercise-template.R. Fill in your solutions using what we covered in Data in R. Save (Ctrl + S).\nRun the script top-to-bottom (Ctrl + Shift + Enter) to confirm it runs without errors."
+  },
+  {
+    "objectID": "01-introduction-to-r/02-git-github.html#commit-git-pane",
+    "href": "01-introduction-to-r/02-git-github.html#commit-git-pane",
+    "title": "Git & GitHub essentials",
+    "section": "④ Commit · Git pane",
+    "text": "④ Commit · Git pane\nIn the Git pane:\n\nTick the checkbox next to exercises/day1/exercise-template.R.\nClick Commit.\nA dialog opens. Write a message: “Day 1 solution”.\nClick Commit.\n\nRStudio shows the green confirmation. Your commit exists locally."
+  },
+  {
+    "objectID": "01-introduction-to-r/02-git-github.html#push-git-pane",
+    "href": "01-introduction-to-r/02-git-github.html#push-git-pane",
+    "title": "Git & GitHub essentials",
+    "section": "⑤ Push · Git pane",
+    "text": "⑤ Push · Git pane\nClick the green up arrow (Push) in the Git pane.\nRStudio sends your branch to GitHub. The first time per branch it sets the upstream tracking automatically (because you ticked Sync branch with remote in step ②)."
+  },
+  {
+    "objectID": "01-introduction-to-r/02-git-github.html#open-the-pull-request-in-the-browser",
+    "href": "01-introduction-to-r/02-git-github.html#open-the-pull-request-in-the-browser",
+    "title": "Git & GitHub essentials",
+    "section": "⑥ Open the Pull Request · in the browser",
+    "text": "⑥ Open the Pull Request · in the browser\nGo back to your fork on GitHub. A yellow banner appears:\n\nday-1 had recent pushes · [ Compare & pull request ]\n\nClick it. The PR form opens with the right defaults:\n\nbase · chrglez/quantitative-methods-master-tides, branch main\ncompare · &lt;your-user&gt;/quantitative-methods-master-tides, branch day-1\n\nTitle: Day 1 — Your Full Name. Click Create pull request."
+  },
+  {
+    "objectID": "01-introduction-to-r/02-git-github.html#thats-the-whole-loop",
+    "href": "01-introduction-to-r/02-git-github.html#thats-the-whole-loop",
+    "title": "Git & GitHub essentials",
+    "section": "That’s the whole loop",
+    "text": "That’s the whole loop\nYou have submitted. Christian receives a notification, reads the PR, leaves inline comments, and eventually closes it.\nFor the next day, start again from ① Sync your fork."
+  },
+  {
+    "objectID": "01-introduction-to-r/02-git-github.html#commit-messages-that-dont-suck",
+    "href": "01-introduction-to-r/02-git-github.html#commit-messages-that-dont-suck",
+    "title": "Git & GitHub essentials",
+    "section": "Commit messages that don’t suck",
+    "text": "Commit messages that don’t suck\n\n\nBad\nasdf\nupdate\nfix\nfinal version\nok\n\nGood\nDay 1 solution\nAdd summary table by island\nFix NA handling in occupancy_rate\nRename variable for clarity\nImperative mood, starts with a verb, ≤ 50 chars."
+  },
+  {
+    "objectID": "01-introduction-to-r/02-git-github.html#common-pitfalls",
+    "href": "01-introduction-to-r/02-git-github.html#common-pitfalls",
+    "title": "Git & GitHub essentials",
+    "section": "Common pitfalls",
+    "text": "Common pitfalls\n\nNever commit secrets — .Rdata, tokens, credentials. The .gitignore already excludes most traps.\nNever commit on main — branches exist for this.\nFirst Push — RStudio handles the upstream tracking automatically if you ticked Sync branch with remote when creating the branch.\nAuthentication failed? Your PAT may have expired. Run usethis::create_github_token(expiration = 90) and gitcreds::gitcreds_set() again.\nLarge files (&gt;50 MB) don’t belong in Git. Put them under datasets/raw/ (gitignored) and commit the download script."
+  },
+  {
+    "objectID": "01-introduction-to-r/02-git-github.html#where-to-ask-for-help",
+    "href": "01-introduction-to-r/02-git-github.html#where-to-ask-for-help",
+    "title": "Git & GitHub essentials",
+    "section": "Where to ask for help",
+    "text": "Where to ask for help\n\nHappy Git with R · Jenny Bryan’s canonical guide.\nGitHub Skills · short interactive tracks.\nInside this repo · exercises/README.md, tutorial hours on the welcome deck."
+  },
+  {
+    "objectID": "01-introduction-to-r/04-basic-statistics.html#outline",
+    "href": "01-introduction-to-r/04-basic-statistics.html#outline",
+    "title": "Basic statistics with R",
+    "section": "Outline",
+    "text": "Outline\n\nUnivariate descriptives: mean, median, variance, quantiles.\nFrequency tables and cross-tabulations.\nCorrelation and covariance.\nInference 101: t-test, chi-squared, proportion test.\nCommunicating results: broom::tidy() and nicely formatted tables."
+  },
+  {
+    "objectID": "01-introduction-to-r/04-basic-statistics.html#descriptives-in-one-line",
+    "href": "01-introduction-to-r/04-basic-statistics.html#descriptives-in-one-line",
+    "title": "Basic statistics with R",
+    "section": "Descriptives in one line",
+    "text": "Descriptives in one line\n\nlibrary(dplyr)\n\nhotels |&gt;\n  summarise(\n    n        = n(),\n    mean     = mean(price, na.rm = TRUE),\n    sd       = sd(price,   na.rm = TRUE),\n    median   = median(price, na.rm = TRUE),\n    q25      = quantile(price, 0.25, na.rm = TRUE),\n    q75      = quantile(price, 0.75, na.rm = TRUE)\n  )"
+  },
+  {
+    "objectID": "01-introduction-to-r/04-basic-statistics.html#frequency-tables",
+    "href": "01-introduction-to-r/04-basic-statistics.html#frequency-tables",
+    "title": "Basic statistics with R",
+    "section": "Frequency tables",
+    "text": "Frequency tables\n\nlibrary(janitor)\n\ntourists |&gt;\n  tabyl(origin_country) |&gt;\n  adorn_totals(\"row\") |&gt;\n  adorn_pct_formatting()"
+  },
+  {
+    "objectID": "01-introduction-to-r/04-basic-statistics.html#cross-tabs",
+    "href": "01-introduction-to-r/04-basic-statistics.html#cross-tabs",
+    "title": "Basic statistics with R",
+    "section": "Cross-tabs",
+    "text": "Cross-tabs\n\ntourists |&gt;\n  tabyl(island, main_purpose) |&gt;\n  adorn_percentages(\"row\") |&gt;\n  adorn_pct_formatting()"
+  },
+  {
+    "objectID": "01-introduction-to-r/04-basic-statistics.html#correlation",
+    "href": "01-introduction-to-r/04-basic-statistics.html#correlation",
+    "title": "Basic statistics with R",
+    "section": "Correlation",
+    "text": "Correlation\n\nhotels |&gt;\n  select(price, rating, nights) |&gt;\n  cor(use = \"pairwise.complete.obs\")"
+  },
+  {
+    "objectID": "01-introduction-to-r/04-basic-statistics.html#a-simple-t-test-does-price-differ-between-two-islands",
+    "href": "01-introduction-to-r/04-basic-statistics.html#a-simple-t-test-does-price-differ-between-two-islands",
+    "title": "Basic statistics with R",
+    "section": "A simple t-test · does price differ between two islands?",
+    "text": "A simple t-test · does price differ between two islands?\n\nt.test(price ~ island,\n       data   = filter(hotels, island %in% c(\"Gran Canaria\", \"Tenerife\")))"
+  },
+  {
+    "objectID": "01-introduction-to-r/04-basic-statistics.html#tidy-inference-with-broom",
+    "href": "01-introduction-to-r/04-basic-statistics.html#tidy-inference-with-broom",
+    "title": "Basic statistics with R",
+    "section": "Tidy inference with broom",
+    "text": "Tidy inference with broom\n\nlibrary(broom)\n\nt.test(price ~ island,\n       data = filter(hotels, island %in% c(\"Gran Canaria\", \"Tenerife\"))) |&gt;\n  tidy()"
+  },
+  {
+    "objectID": "01-introduction-to-r/04-basic-statistics.html#recap",
+    "href": "01-introduction-to-r/04-basic-statistics.html#recap",
+    "title": "Basic statistics with R",
+    "section": "Recap",
+    "text": "Recap\n\nsummarise() + a handful of functions covers most univariate reporting.\njanitor::tabyl() beats base table() for presentable frequency tables.\nbroom::tidy() converts any test into a one-row data frame."
+  },
+  {
+    "objectID": "02-visual-exploratory-analysis/02-multiple-variables.html#outline",
+    "href": "02-visual-exploratory-analysis/02-multiple-variables.html#outline",
+    "title": "Multi-variable visualisation",
+    "section": "Outline",
+    "text": "Outline\n\nMapping aesthetics: x, y, colour, size, shape, alpha.\nTwo continuous variables: scatter, with smoothers.\nOne continuous + one categorical: side-by-side distributions.\nFacets: small multiples.\nCorrelation matrices and heatmaps.\nMapping tourism data to Canary Islands geography."
+  },
+  {
+    "objectID": "02-visual-exploratory-analysis/02-multiple-variables.html#scatter-price-vs-rating",
+    "href": "02-visual-exploratory-analysis/02-multiple-variables.html#scatter-price-vs-rating",
+    "title": "Multi-variable visualisation",
+    "section": "Scatter · price vs rating",
+    "text": "Scatter · price vs rating\n\nlibrary(ggplot2)\n\nggplot(hotels, aes(x = rating, y = price, colour = island)) +\n  geom_point(alpha = 0.7) +\n  geom_smooth(method = \"lm\", se = FALSE) +\n  labs(x = \"Rating (1–10)\", y = \"Nightly price (€)\") +\n  theme_minimal()"
+  },
+  {
+    "objectID": "02-visual-exploratory-analysis/02-multiple-variables.html#facets-one-panel-per-island",
+    "href": "02-visual-exploratory-analysis/02-multiple-variables.html#facets-one-panel-per-island",
+    "title": "Multi-variable visualisation",
+    "section": "Facets · one panel per island",
+    "text": "Facets · one panel per island\n\nggplot(hotels, aes(x = nights, y = price)) +\n  geom_point(alpha = 0.5) +\n  facet_wrap(~ island, ncol = 4) +\n  theme_minimal()"
+  },
+  {
+    "objectID": "02-visual-exploratory-analysis/02-multiple-variables.html#categorical-continuous-violin-boxplot",
+    "href": "02-visual-exploratory-analysis/02-multiple-variables.html#categorical-continuous-violin-boxplot",
+    "title": "Multi-variable visualisation",
+    "section": "Categorical × continuous · violin + boxplot",
+    "text": "Categorical × continuous · violin + boxplot\n\nggplot(hotels, aes(x = island, y = price)) +\n  geom_violin(fill = \"#f4f3ee\", linewidth = 0.3) +\n  geom_boxplot(width = 0.2, fill = \"#0067a2\", colour = \"white\") +\n  coord_flip() +\n  theme_minimal()"
+  },
+  {
+    "objectID": "02-visual-exploratory-analysis/02-multiple-variables.html#correlation-heatmap",
+    "href": "02-visual-exploratory-analysis/02-multiple-variables.html#correlation-heatmap",
+    "title": "Multi-variable visualisation",
+    "section": "Correlation heatmap",
+    "text": "Correlation heatmap\n\nlibrary(dplyr)\nlibrary(ggplot2)\nlibrary(tidyr)\n\nhotels |&gt;\n  select(where(is.numeric)) |&gt;\n  cor(use = \"pairwise.complete.obs\") |&gt;\n  as.data.frame() |&gt;\n  tibble::rownames_to_column(\"var1\") |&gt;\n  pivot_longer(-var1, names_to = \"var2\", values_to = \"r\") |&gt;\n  ggplot(aes(var1, var2, fill = r)) +\n  geom_tile() +\n  scale_fill_gradient2(midpoint = 0, limits = c(-1, 1)) +\n  theme_minimal()"
+  },
+  {
+    "objectID": "02-visual-exploratory-analysis/02-multiple-variables.html#maps-istac-data-on-canary-islands",
+    "href": "02-visual-exploratory-analysis/02-multiple-variables.html#maps-istac-data-on-canary-islands",
+    "title": "Multi-variable visualisation",
+    "section": "Maps · ISTAC data on Canary Islands",
+    "text": "Maps · ISTAC data on Canary Islands\n\nlibrary(sf)\nlibrary(ggplot2)\n\n# Shape file for Canary Islands municipalities (download separately).\nmuni &lt;- read_sf(\"datasets/raw/canarias-municipios.geojson\")\n\nmuni |&gt;\n  left_join(occupancy_by_muni, by = \"muni_code\") |&gt;\n  ggplot() +\n  geom_sf(aes(fill = nights_per_capita), colour = \"white\", linewidth = 0.2) +\n  scale_fill_viridis_c() +\n  theme_void()"
+  },
+  {
+    "objectID": "02-visual-exploratory-analysis/02-multiple-variables.html#principles",
+    "href": "02-visual-exploratory-analysis/02-multiple-variables.html#principles",
+    "title": "Multi-variable visualisation",
+    "section": "Principles",
+    "text": "Principles\n\nOne story per plot. If it takes a paragraph to read, split it.\nColour should encode one variable at a time.\nPrefer facets over a forest of overlaid lines.\nCheck for overplotting — use alpha, jitter, or 2D binning."
+  }
+]
