@@ -14,7 +14,7 @@ Modules I & II · *Introduction to R* · *Visual exploratory analysis*
 
 - <christian.gonzalez@ulpgc.es>
 - Office **D-4-07**
-- Tutorials · Monday 11:00–13:00 · Tuesday 11:00–12:30 · Friday 9:30–12:00
+- Tutorials · Monday 8:30–12:30 · Thursday 9:30–11:30
 :::
 
 ::: {.column width="50%"}
@@ -53,7 +53,7 @@ Please email us to make an appointment before coming to tutorials.
 |---|---|
 | **Classroom** | EA 0.1 |
 | **Official exam dates** | June 8 · June 29, 2026 |
-| **Campus Virtual** | News, slides, exercises and final exam material |
+| **Campus Virtual** | [aep26.ulpgc.es · course 2942](https://aep26.ulpgc.es/course/view.php?id=2942) — announcements and final grade |
 | **Course repo** | <https://github.com/chrglez/quantitative-methods-master-tides> |
 | **Licence** | CC BY-SA 4.0 |
 
@@ -108,8 +108,9 @@ from your personal fork of the course repository on GitHub:
 5. I review with inline comments. PRs are never merged — they are the
    audit trail of your submission.
 
-Campus Virtual is used only for announcements and the final grade.
-The full Git workflow is covered in the first hour of Day 1.
+[Campus Virtual](https://aep26.ulpgc.es/course/view.php?id=2942) is
+used only for announcements and the final grade. The full Git
+workflow is covered in the first hour of Day 1.
 
 ## Resources
 

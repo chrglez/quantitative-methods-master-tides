@@ -10,6 +10,9 @@ Las Palmas de Gran Canaria](https://www.ulpgc.es/).
 
 Rendered site: <https://chrglez.github.io/quantitative-methods-master-tides/>
 
+Campus Virtual: <https://aep26.ulpgc.es/course/view.php?id=2942>
+(announcements and final grade only).
+
 ## Instructors
 
 - **Christian González Martel** — <christian.gonzalez@ulpgc.es> · Office D-4-07 · Modules I & II

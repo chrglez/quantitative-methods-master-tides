@@ -52,7 +52,7 @@ website:
 format:
   clean-revealjs:
     theme: [default, _extensions/grantmcdermott/clean/clean.scss, custom.scss]
-    logo: assets/tides_rev_hacron_1.svg
+    logo: assets/tides_rev_hmr_acron_1.svg
     footer: "Quantitative Methods in Tourism · Master in Tourism and Sustainable Development · TIDES · ULPGC"
     slide-number: c/t
     chalkboard: true
