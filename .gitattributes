@@ -1,0 +1,18 @@
+# Normalise line endings to LF inside the repository. Git checks out
+# with CRLF on Windows and LF on macOS/Linux — this removes the
+# "LF will be replaced by CRLF" warnings on every commit.
+* text=auto eol=lf
+
+# Explicit binary formats (no EOL normalisation, no text diff).
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.pdf   binary
+*.xlsx  binary
+*.xls   binary
+*.sav   binary
+*.dta   binary
+*.rds   binary
+*.pptx  binary
+*.docx  binary

@@ -45,13 +45,14 @@ library(here)
 
 
 # ---- 5. Commit, push and open a PR -----------------------------------
-# From a terminal in the project root:
+# In RStudio (all from the Git pane on the top-right):
 #
-#   git checkout -b day-1
-#   git add exercises/day1/exercise-template.R
-#   git commit -m "Day 1 solution"
-#   git push -u origin day-1
+#   1. Branch dropdown → New Branch → name "day-1", tick "Sync branch
+#      with remote" → Create.
+#   2. Save this file, tick its checkbox in the Git pane.
+#   3. Click Commit, write "Day 1 solution", click Commit.
+#   4. Click Push (green up arrow).
 #
-# Then on GitHub, open a Pull Request from your fork's day-1 branch to
-# chrglez:main with the title "Day 1 — Your Full Name".
+# Then on github.com/<you>/quantitative-methods-master-tides, click
+# "Compare & pull request" and set the title "Day 1 — Your Full Name".
 # Full instructions in exercises/README.md.

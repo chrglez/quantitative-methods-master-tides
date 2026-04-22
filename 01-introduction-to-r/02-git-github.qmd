@@ -15,7 +15,7 @@ date: "2026-04-23"
 
 ::: {.callout-important}
 In this course **every exercise you submit lives on GitHub**. The
-workflow has to work for you by the end of this hour.
+workflow has to be working for you by the end of this hour.
 :::
 
 ## Git vs GitHub
@@ -44,58 +44,74 @@ You need **both**: Git installed locally, a GitHub account online.
                                                          └────────────────┘
 ```
 
-Each arrow is a Git command. Mastering the three areas makes the rest fall into place.
+In this course you drive every arrow from **RStudio's Git pane**, not
+from a terminal.
 
-## One-off setup · step 1 of 3 {.smaller}
+# Setup (one-off) {background-color="#0067a2"}
 
-**Install Git**
+## Step 1 · Install Git
 
-- macOS · `brew install git`, or install the Xcode Command Line Tools.
-- Windows · download [Git for Windows](https://git-scm.com/download/win).
-- Linux · `sudo apt install git` / `sudo dnf install git`.
+- **macOS** · `brew install git`, or install the Xcode Command Line Tools.
+- **Windows** · download [Git for Windows](https://git-scm.com/download/win) and accept the defaults.
+- **Linux** · `sudo apt install git` (Debian/Ubuntu) or `sudo dnf install git` (Fedora).
 
-**Configure your identity** (name and email that will sign every commit):
+After install, restart RStudio. It detects Git automatically.
 
-```bash
-git config --global user.name  "Your Name"
-git config --global user.email "you@ulpgc.es"
-git config --global init.defaultBranch main
-git config --global pull.rebase false
-```
+## Step 2 · Set your identity — no terminal
 
-## One-off setup · step 2 of 3 {.smaller}
-
-**Create a GitHub account** at <https://github.com/signup> using your
-ULPGC email. Apply for the [Student Pack](https://education.github.com/pack)
-— private repos, Copilot and more, free for students.
-
-**Authenticate from R** with a Personal Access Token (PAT):
+From the R console:
 
 ```{r}
-#| echo: true
 #| eval: false
-install.packages(c("usethis", "gitcreds"))
-
-usethis::create_github_token()   # opens the browser
-gitcreds::gitcreds_set()         # paste the token when prompted
+usethis::use_git_config(
+  user.name  = "Your Name",
+  user.email = "you@ulpgc.es"
+)
 ```
 
-## One-off setup · step 3 of 3 {.smaller}
+Every commit you ever make will be signed with this name and email.
+Use the same email you will register with on GitHub (next step).
 
-**Check everything works** from RStudio:
+## Step 3 · GitHub account + PAT {.smaller}
 
-1. `Tools → Global Options → Git/SVN` — confirm the Git executable is detected.
-2. Open this course's `.Rproj` — the *Git* pane should appear in the top-right.
-3. From the R console:
+**Create a GitHub account** at <https://github.com/signup> with your
+ULPGC email. Apply for the free
+[Student Developer Pack](https://education.github.com/pack) — private
+repos, Copilot and more.
+
+**Create a Personal Access Token (PAT)** from R:
 
 ```{r}
-#| echo: true
 #| eval: false
-usethis::gh_token_help()   # reports on your PAT status
-usethis::git_sitrep()      # full "situation report" on your Git setup
+usethis::create_github_token(
+  scopes      = c("repo", "user", "workflow"),
+  description = "R on my laptop · TIDES course",
+  expiration  = 90                 # 90 days covers the whole course
+)
 ```
 
-If both commands end with green check marks, you are ready.
+The browser opens on GitHub. Leave the fields as prefilled, confirm
+**90 days**, click **Generate token**. **Copy the token immediately** —
+GitHub never shows it again.
+
+## Step 3 · Save the token
+
+Back in R, paste the token into the credential store:
+
+```{r}
+#| eval: false
+gitcreds::gitcreds_set()
+```
+
+## Verify everything works
+
+```{r}
+#| eval: false
+usethis::git_sitrep()
+```
+
+All rows should show ✅ green. If anything is red, re-run the step
+the report points to.
 
 ## Core vocabulary {.smaller}
 
@@ -103,12 +119,12 @@ If both commands end with green check marks, you are ready.
 - **Repository (repo)** · a project folder tracked by Git.
 - **Commit** · a saved snapshot with a message.
 - **Branch** · an independent line of development.
-- **HEAD** · the branch (and commit) you are currently on.
-- **Remote** · a copy of the repo hosted elsewhere (e.g. GitHub).
+- **Remote** · a copy of the repo hosted elsewhere.
 - **Fork** · your personal copy of someone else's repo on GitHub.
-- **Pull Request (PR)** · a proposal to merge changes from one branch to another, with review.
+- **Pull Request (PR)** · a proposal to merge changes, with review.
 - **Clone** · local download of a remote repo.
-- **Push / Pull** · send commits to / receive commits from a remote.
+- **Push / Pull** · send / receive commits to / from a remote.
+- **Sync fork** · one-click update of your fork from the original repo.
 :::
 
 # The course workflow {background-color="#0067a2"}
@@ -117,76 +133,153 @@ If both commands end with green check marks, you are ready.
 
 ```{mermaid}
 flowchart LR
-  A[chrglez/<br/>course repo] -->|fork| B[yourname/<br/>course repo fork]
-  B -->|clone| C[your<br/>laptop]
-  C -->|commit and<br/>push branch| B
+  A[chrglez/<br/>course repo] -->|fork| B[yourname/<br/>course fork]
+  B -->|clone| C[RStudio on<br/>your laptop]
+  C -->|commit + push| B
   B -->|Pull Request| A
-  A -->|review<br/>comments| B
+  A -->|review comments| B
+  A -.->|Sync fork<br/>web button| B
 ```
+
+The dashed arrow is the **Sync fork** button on GitHub — that's how
+you pull course updates into your fork without a terminal.
 
 ## The same story, in words
 
 1. **Fork** the course repo on GitHub — one click, one time only.
-2. **Clone** your fork to your laptop.
-3. Solve the day's exercise, commit and push the branch to your fork.
+2. **Clone** your fork from RStudio.
+3. Each day: branch → solve → commit → push.
 4. Open a **Pull Request** against `chrglez:main`.
-5. Christian reviews with inline comments. The PR is the audit trail.
+5. Christian reviews with inline comments. PRs are never merged.
+6. If the course repo changed while you worked, click **Sync fork** on your fork's page.
 
-## Branching convention
+## Step 1 · Fork the course repo
 
-Each day you work on its own branch, **never on `main`**:
+Go to <https://github.com/chrglez/quantitative-methods-master-tides>.
+
+Click **Fork** (top-right). GitHub asks for a name — leave the
+default. Keep **"Copy the main branch only"** ticked.
+
+You land on your own copy:
+`github.com/<your-user>/quantitative-methods-master-tides`.
+
+## Step 2 · Clone your fork from RStudio
+
+On your fork's page, click **Code → HTTPS** and copy the URL.
+
+In RStudio:
+
+1. **File → New Project → Version Control → Git**.
+2. Paste the URL into *Repository URL*.
+3. Choose a stable parent folder (`~/Documents` or equivalent — **not**
+   Desktop or OneDrive).
+4. Click **Create Project**.
+
+RStudio clones, opens the project, and the **Git pane** appears in the
+top-right.
+
+## Step 3 · Add the `upstream` remote
+
+::: {.callout-note}
+This is the **only** terminal command in the whole course.
+:::
+
+Inside RStudio, open **Tools → Terminal → New Terminal** and paste:
 
 ```bash
-git checkout main
-git pull upstream main       # sync with the course repo
-git checkout -b day-1        # start a fresh branch for today
-# ...edit files, solve exercise...
-git add exercises/day1/exercise-template.R
-git commit -m "Day 1 solution"
-git push -u origin day-1     # push the new branch to your fork
+git remote add upstream https://github.com/chrglez/quantitative-methods-master-tides.git
+git remote -v
 ```
 
-The `-u origin day-1` only needs to be typed the first time you push a
-new branch. After that, `git push` is enough.
+The second line should print **two** remotes: `origin` (your fork)
+and `upstream` (the course repo). After this, close the terminal —
+you won't need it again.
 
-## Opening the Pull Request
+## ⚠️ Never commit on `main` {background-color="#fff7ed"}
 
-Once you push, GitHub shows a yellow banner on your fork's main page:
+The `main` branch of your fork is a **read-only mirror** of the
+course repo. If you accidentally commit to it, syncing with upstream
+becomes painful.
+
+Every day you work on a **new branch**, named after the day:
+`day-1`, `day-2`, … `day-6`.
+
+If in doubt, look at the branch selector at the top-right of the Git
+pane. It always tells you where you are.
+
+# Day-to-day workflow {background-color="#0067a2"}
+
+## ① Sync your fork · in the browser
+
+Go to `github.com/<your-user>/quantitative-methods-master-tides`.
+
+If Christian updated the course repo while you were away, a banner
+appears:
+
+> This branch is N commits behind `chrglez:main` · **Sync fork ▼**
+
+Click it → **Update branch**. Done, one click.
+
+Then in RStudio's Git pane click **Pull** (blue down arrow) to bring
+those commits to your laptop.
+
+## ② Start a branch for the day · Git pane
+
+In the Git pane (top-right of RStudio):
+
+1. Click the branch dropdown → **New Branch…**
+2. Name it `day-1` (or `day-N`).
+3. Leave *Remote: origin* and **tick** *Sync branch with remote*.
+4. Click **Create**.
+
+You are now on `day-1`, `main` is safe.
+
+## ③ Solve the exercise
+
+Open `exercises/day1/exercise-template.R`. Fill in your solutions
+using what we covered in *Data in R*. **Save** (`Ctrl + S`).
+
+Run the script top-to-bottom (`Ctrl + Shift + Enter`) to confirm it
+runs without errors.
+
+## ④ Commit · Git pane
+
+In the Git pane:
+
+1. Tick the checkbox next to `exercises/day1/exercise-template.R`.
+2. Click **Commit**.
+3. A dialog opens. Write a message: *"Day 1 solution"*.
+4. Click **Commit**.
+
+RStudio shows the green confirmation. Your commit exists locally.
+
+## ⑤ Push · Git pane
+
+Click the **green up arrow** (Push) in the Git pane.
+
+RStudio sends your branch to GitHub. The first time per branch it
+sets the upstream tracking automatically (because you ticked *Sync
+branch with remote* in step ②).
+
+## ⑥ Open the Pull Request · in the browser
+
+Go back to your fork on GitHub. A yellow banner appears:
 
 > **day-1 had recent pushes** · `[ Compare & pull request ]`
 
-Clicking it opens the PR form:
+Click it. The PR form opens with the right defaults:
 
-- **base repository** · `chrglez/quantitative-methods-master-tides` · **base** `main`
-- **head repository** · `you/quantitative-methods-master-tides` · **compare** `day-1`
-- **Title** · `Day N — Your Full Name`
-- **Description** · anything you want Christian to know.
+- **base** · `chrglez/quantitative-methods-master-tides`, branch `main`
+- **compare** · `<your-user>/quantitative-methods-master-tides`, branch `day-1`
 
-Click **Create pull request** and you are done submitting.
+Title: `Day 1 — Your Full Name`. Click **Create pull request**.
 
-## Live demo · the commands of the day {.smaller}
+## That's the whole loop
 
-```bash
-# status — what changed?
-git status
+You have submitted. Christian receives a notification, reads the PR,
+leaves inline comments, and eventually closes it.
 
-# diff — what EXACTLY did I change?
-git diff
-
-# add — stage specific files (never use -A by default)
-git add exercises/day1/exercise-template.R
-
-# commit — snapshot with a descriptive message
-git commit -m "Day 1 solution"
-
-# push — upload the branch to your fork
-git push
-
-# log — see the history
-git log --oneline --graph --decorate
-```
-
-Learn these seven and you cover 90 % of what you will ever do.
+For the next day, start again from **① Sync your fork**.
 
 ## Commit messages that don't suck
 
@@ -201,23 +294,20 @@ update
 fix
 final version
 ok
-stuff
 ```
-
-Nobody — not even *you* next week — can tell what those changed.
 :::
 
 ::: {.column width="50%"}
 **Good**
 
 ```text
+Day 1 solution
 Add summary table by island
 Fix NA handling in occupancy_rate
-Day 2 solution
 Rename variable for clarity
 ```
 
-Imperative mood, starts with a verb, ≤ 50 chars in the subject line.
+Imperative mood, starts with a verb, ≤ 50 chars.
 :::
 
 :::
@@ -225,26 +315,28 @@ Imperative mood, starts with a verb, ≤ 50 chars in the subject line.
 ## Common pitfalls {.smaller}
 
 ::: {.incremental}
-- **Never commit secrets** · `.Rdata`, tokens, credentials. The course `.gitignore` already excludes the usual suspects.
-- **Never force-push** (`git push --force`) to a shared branch. It rewrites history everyone else pulled.
-- If `git push` says *Authentication failed*, regenerate your PAT with `usethis::create_github_token()` and `gitcreds::gitcreds_set()`.
-- **Large files** (> 50 MB) do not belong in Git. Put them under `datasets/raw/` (already gitignored) and commit only the download script.
-- **Conflicts** during a `pull` are normal, not a disaster. Open the file, look for `<<<<<<<` markers, decide which version wins, `git add` + `git commit`.
+- **Never commit secrets** — `.Rdata`, tokens, credentials. The `.gitignore` already excludes most traps.
+- **Never commit on `main`** — branches exist for this.
+- **First Push** — RStudio handles the upstream tracking automatically if you ticked *Sync branch with remote* when creating the branch.
+- **Authentication failed?** Your PAT may have expired. Run `usethis::create_github_token(expiration = 90)` and `gitcreds::gitcreds_set()` again.
+- **Large files (>50 MB)** don't belong in Git. Put them under `datasets/raw/` (gitignored) and commit the download script.
 :::
 
 ## Where to ask for help
 
-- [Happy Git with R](https://happygitwithr.com/) · Jenny Bryan's canonical guide, covers every step of this workflow in depth.
-- [Pro Git book](https://git-scm.com/book/en/v2) · free, exhaustive.
+- [Happy Git with R](https://happygitwithr.com/) · Jenny Bryan's canonical guide.
 - [GitHub Skills](https://skills.github.com/) · short interactive tracks.
-- Inside this repo · `exercises/README.md` for the workflow, tutorial hours on the welcome deck.
+- Inside this repo · `exercises/README.md`, tutorial hours on the welcome deck.
 
 # Your turn {background-color="#0067a2"}
 
-1. Fork the course repo.
-2. Clone your fork.
-3. On a `day-1` branch, open `exercises/day1/exercise-template.R` and add your name in the header.
-4. `git add` → `git commit -m "Day 1 · hello"` → `git push -u origin day-1`.
-5. Open the Pull Request on GitHub.
+In the next 20 minutes, do **all** of these:
 
-Show me the PR URL in class.
+1. Fork the course repo and clone it from RStudio.
+2. Add `upstream` from the Terminal · one time.
+3. Create a `day-1` branch.
+4. Write your name at the top of `exercises/day1/exercise-template.R`.
+5. Commit and Push from the Git pane.
+6. Open the PR on GitHub with the right title.
+
+I'll come around the room to catch anyone stuck.

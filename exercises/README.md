@@ -1,53 +1,64 @@
 # Exercises · submission workflow
 
-This folder holds the **templates** for every exercise in the course.
-Solutions are **never** committed to this repository — they live only
-on each student's fork, reviewed via Pull Requests.
+All submissions happen through **Pull Requests** from your personal
+fork to `chrglez:main`. Christian reviews in the PR; PRs are never
+merged — your fork is the audit trail of your work.
 
-## One-off setup (Day 1)
+## One-off setup (Day 1, Git & GitHub session)
 
-1. **Fork** the course repo on GitHub:
-   <https://github.com/chrglez/quantitative-methods-master-tides>
-2. **Clone** your fork locally:
-   ```bash
-   git clone git@github.com:<your-user>/quantitative-methods-master-tides.git
-   cd quantitative-methods-master-tides
-   ```
-3. Add the course repo as an `upstream` remote so you can pull updates:
-   ```bash
-   git remote add upstream git@github.com:chrglez/quantitative-methods-master-tides.git
+1. Install **R**, **RStudio** and **Git**.
+2. Set your Git identity from R (no terminal):
+
+   ```r
+   usethis::use_git_config(
+     user.name  = "Your Name",
+     user.email = "you@ulpgc.es"
+   )
    ```
 
-## For every exercise (Days 1–6)
+3. Create a **GitHub account** and a Personal Access Token with 90-day
+   expiration:
 
-1. Start from an up-to-date `main`:
-   ```bash
-   git checkout main
-   git pull upstream main
+   ```r
+   usethis::create_github_token(
+     scopes      = c("repo", "user", "workflow"),
+     description = "R on my laptop · TIDES course",
+     expiration  = 90
+   )
+   gitcreds::gitcreds_set()   # paste the token
    ```
-2. Create a branch for the day:
-   ```bash
-   git checkout -b day-N
-   ```
-3. Open the template (`exercises/dayN/exercise-template.R` for Days
-   1–5, `exercises/day6/exercise-template.qmd` for Day 6), solve it,
-   save it.
-4. Commit and push the branch **to your fork**:
-   ```bash
-   git add exercises/dayN/
-   git commit -m "Day N solution"
-   git push -u origin day-N
-   ```
-5. On GitHub, open a **Pull Request** from
-   `your-user:day-N` to `chrglez:main`. The PR title must be
-   `Day N — <your full name>`.
-6. Christian reviews the PR and leaves feedback in inline comments.
 
-::: callout-important
-PRs are **never merged**. The course `main` keeps the templates
-unchanged; your solutions live on your fork's branch. Christian closes
-the PR once the exercise is graded.
-:::
+4. **Fork** the course repo and **clone** your fork from RStudio
+   (*File → New Project → Version Control → Git*, HTTPS URL).
+5. Add the `upstream` remote. **This is the only terminal command in
+   the whole course.** Open *Tools → Terminal → New Terminal* inside
+   RStudio and run:
+
+   ```bash
+   git remote add upstream https://github.com/chrglez/quantitative-methods-master-tides.git
+   ```
+
+## Daily workflow (Days 1–6)
+
+Everything below happens inside **RStudio's Git pane**, except step 1
+which happens in the browser.
+
+1. **Sync your fork** — on your fork's GitHub page, click
+   **Sync fork → Update branch** if the banner says "behind". Then in
+   RStudio click **Pull** (blue arrow) to bring the updates locally.
+2. **Create the day's branch** — Git pane → branch dropdown →
+   *New Branch…* → name `day-N`, tick *Sync branch with remote*.
+3. **Solve** the exercise (`.R` for Days 1–5, `.qmd` for Day 6).
+   Save. Run top-to-bottom to confirm no errors.
+4. **Commit** — Git pane → tick the file → *Commit* → descriptive
+   message → *Commit*.
+5. **Push** — Git pane → green up arrow.
+6. **Open the Pull Request** on GitHub, title `Day N — Your Full Name`.
+
+> [!IMPORTANT]
+> Never commit on `main`. Every day has its own branch. If you are
+> unsure where you are, look at the branch selector at the top of the
+> Git pane.
 
 ## File format
 
@@ -56,7 +67,8 @@ the PR once the exercise is graded.
 - **Day 6** · Quarto **`.qmd`**. Must render end-to-end with
   `quarto render` on a fresh clone.
 
-Rendered outputs (`.html`, `.pdf`) are gitignored — do not commit them.
+Rendered outputs (`.html`, `.pdf`) are gitignored — do not commit
+them.
 
 ## Schedule and weights
 
