@@ -249,7 +249,7 @@
     "href": "01-introduction-to-r/01-data-in-r.html#date-and-time",
     "title": "Data in R",
     "section": "Date and time",
-    "text": "Date and time\n\ntoday &lt;- Sys.Date()\ntoday\n\n[1] \"2026-04-22\"\n\nclass(today)\n\n[1] \"Date\"\n\n# arithmetic on dates\ntoday + 30\n\n[1] \"2026-05-22\"\n\nas.Date(\"2026-06-08\") - today     # days to the first exam\n\nTime difference of 47 days\n\nformat(today, \"%A, %d %B %Y\")     # pretty-print\n\n[1] \"Wednesday, 22 April 2026\"\n\n\nUse the lubridate package (inside the tidyverse) for anything more serious — we’ll cover it in Data wrangling."
+    "text": "Date and time\n\ntoday &lt;- Sys.Date()\ntoday\n\n[1] \"2026-04-23\"\n\nclass(today)\n\n[1] \"Date\"\n\n# arithmetic on dates\ntoday + 30\n\n[1] \"2026-05-23\"\n\nas.Date(\"2026-06-08\") - today     # days to the first exam\n\nTime difference of 46 days\n\nformat(today, \"%A, %d %B %Y\")     # pretty-print\n\n[1] \"Thursday, 23 April 2026\"\n\n\nUse the lubridate package (inside the tidyverse) for anything more serious — we’ll cover it in Data wrangling."
   },
   {
     "objectID": "01-introduction-to-r/01-data-in-r.html#coercion-gotchas",
