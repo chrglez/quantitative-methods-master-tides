@@ -13,6 +13,11 @@ Development](https://tides.ulpgc.es/) at the
 [TIDES Institute](https://tides.ulpgc.es/), Universidad de Las Palmas de
 Gran Canaria.
 
+::: {.callout-tip appearance="simple"}
+**Start here** · [Welcome deck](00-welcome/welcome.qmd) — instructors,
+schedule, evaluation system and how to submit exercises.
+:::
+
 ## Instructors
 
 | | |

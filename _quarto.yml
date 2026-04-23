@@ -22,6 +22,8 @@ website:
     left:
       - text: "Home"
         href: index.qmd
+      - text: "Welcome"
+        href: 00-welcome/welcome.qmd
       - text: "Module I · Introduction to R"
         menu:
           - text: "Data in R"
