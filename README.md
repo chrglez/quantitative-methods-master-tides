@@ -83,14 +83,20 @@ around 18:00.
 ## How students submit exercises
 
 The course repository hosts **only templates** — no solutions. Students
-submit by pushing to their **own fork** of this repository. The full
-workflow is covered in the Day 1 session *Git & GitHub essentials*; a
-summary lives in [`exercises/README.md`](exercises/README.md).
+submit by pushing to their **own fork** of this repository.
 
-## Local setup
+- **First-time setup** · [`SETUP.md`](SETUP.md) — install, fork, clone,
+  PAT, packages, data download.
+- **Daily loop** · [`exercises/README.md`](exercises/README.md) — branch,
+  solve, commit, push, open PR.
+
+The same flow is also covered live in the Day 1 session
+*Git & GitHub essentials*.
+
+## Building the site (instructors only)
 
 ```r
-# 1) Install R packages
+# 1) Install R packages used by the slide examples
 install.packages(c("tidyverse", "rmarkdown", "knitr", "here",
                    "readxl", "haven", "janitor", "eurostat"))
 

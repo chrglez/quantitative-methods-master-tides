@@ -413,6 +413,39 @@ Pick one style and stick to it. We'll standardise on **dplyr** from
 
 # 6 · Importing tourism data {background-color="#0067a2"}
 
+## Get the data first
+
+The repo does **not** ship CSV/XLSX files — they are gitignored and
+fetched on demand from the source APIs. After cloning, run this once
+from the R console at the project root:
+
+```{r}
+#| eval: false
+install.packages(c("eurostat", "here", "fs", "readr", "dplyr"))
+source("datasets/download.R")
+```
+
+The script writes Eurostat and ISTAC files into `datasets/raw/` and a
+`MANIFEST.md` recording filenames, source URLs and download date.
+
+::: {.callout-warning}
+**If `install.packages("eurostat")` fails** (CRAN occasionally archives
+it when a transitive dependency drops), use the R-universe binary
+build:
+
+```{r}
+#| eval: false
+options(repos = c(
+  ropengov = "https://ropengov.r-universe.dev",
+  CRAN     = "https://cloud.r-project.org"
+))
+install.packages("eurostat")
+```
+
+Fallback if R-universe is unreachable:
+`remotes::install_github("rOpenGov/eurostat")` (slower, compiles).
+:::
+
 ## The usual suspects
 
 | Format | Package | Function |
@@ -434,7 +467,7 @@ library(readr)
 library(here)
 
 occupancy <- read_csv(
-  here("datasets", "raw", "istac-nights-by-island.csv"),
+  here("datasets", "raw", "istac-nights_by_island.csv"),
   locale = locale(decimal_mark = ",", grouping_mark = ".")
 )
 

@@ -207,6 +207,33 @@ Every day you work on a **new branch**, named after the day:
 If in doubt, look at the branch selector at the top-right of the Git
 pane. It always tells you where you are.
 
+## One branch per day
+
+```{mermaid}
+%%| echo: false
+gitGraph
+  commit id: "course v0"
+  commit id: "sync from upstream"
+  branch day-1
+  checkout day-1
+  commit id: "Day 1 solution"
+  checkout main
+  commit id: "sync from upstream"
+  branch day-2
+  checkout day-2
+  commit id: "Day 2 solution"
+  checkout main
+  commit id: "sync from upstream"
+  branch day-3
+  checkout day-3
+  commit id: "Day 3 solution"
+```
+
+- `main` is a **mirror** of the course repo — it only moves forward
+  via *Sync fork*, never by your commits.
+- Each `day-N` branch carries **one day's work** and becomes **one PR**.
+- Branches are **never merged back** — your fork is the audit trail.
+
 # Day-to-day workflow {background-color="#0067a2"}
 
 ## ① Sync your fork · in the browser
