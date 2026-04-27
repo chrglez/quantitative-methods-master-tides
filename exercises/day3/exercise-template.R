@@ -18,6 +18,16 @@ library(here)
 
 # your code here
 
+hotels <- tibble(
+  island = c("Gran Canaria", "Tenerife", "Lanzarote",
+             "Fuerteventura", "La Palma"),
+  stars  = c(4L, 5L, 4L, 3L, 3L),
+  price  = c(82, 95, 110, 100, 78),
+  nights = c(12.5, 18.3, 9.8, 11.2, 6.4)
+)
+
+hotels
+
 
 # ---- 2. Cross-tabulation -----------------------------------------------
 # Build one cross-tabulation with row percentages. Briefly comment on
