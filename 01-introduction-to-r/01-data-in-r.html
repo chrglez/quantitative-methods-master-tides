@@ -584,7 +584,7 @@ Juan M. Hernández Guerra
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a></a>today <span class="ot">&lt;-</span> <span class="fu">Sys.Date</span>()</span>
 <span id="cb62-2"><a></a>today</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "2026-04-23"</code></pre>
+<pre><code>[1] "2026-04-27"</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a></a><span class="fu">class</span>(today)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -593,15 +593,15 @@ Juan M. Hernández Guerra
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a></a><span class="co"># arithmetic on dates</span></span>
 <span id="cb66-2"><a></a>today <span class="sc">+</span> <span class="dv">30</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "2026-05-23"</code></pre>
+<pre><code>[1] "2026-05-27"</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a></a><span class="fu">as.Date</span>(<span class="st">"2026-06-08"</span>) <span class="sc">-</span> today     <span class="co"># days to the first exam</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Time difference of 46 days</code></pre>
+<pre><code>Time difference of 42 days</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a></a><span class="fu">format</span>(today, <span class="st">"%A, %d %B %Y"</span>)     <span class="co"># pretty-print</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Thursday, 23 April 2026"</code></pre>
+<pre><code>[1] "Monday, 27 April 2026"</code></pre>
 </div>
 </div>
 <p>Use the <code>lubridate</code> package (inside the tidyverse) for anything more serious — we’ll cover it in <em>Data wrangling</em>.</p>
@@ -911,6 +911,36 @@ Juan M. Hernández Guerra
 <h1>6 · Importing tourism data</h1>
 
 </section>
+<section id="get-the-data-first" class="slide level2">
+<h2>Get the data first</h2>
+<p>The repo does <strong>not</strong> ship CSV/XLSX files — they are gitignored and fetched on demand from the source APIs. After cloning, run this once from the R console at the project root:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb142"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb142-1"><a></a><span class="fu">install.packages</span>(<span class="fu">c</span>(<span class="st">"eurostat"</span>, <span class="st">"here"</span>, <span class="st">"fs"</span>, <span class="st">"readr"</span>, <span class="st">"dplyr"</span>))</span>
+<span id="cb142-2"><a></a><span class="fu">source</span>(<span class="st">"datasets/download.R"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The script writes Eurostat and ISTAC files into <code>datasets/raw/</code> and a <code>MANIFEST.md</code> recording filenames, source URLs and download date.</p>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Warning</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>If <code>install.packages("eurostat")</code> fails</strong> (CRAN occasionally archives it when a transitive dependency drops), use the R-universe binary build:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb143"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb143-1"><a></a><span class="fu">options</span>(<span class="at">repos =</span> <span class="fu">c</span>(</span>
+<span id="cb143-2"><a></a>  <span class="at">ropengov =</span> <span class="st">"https://ropengov.r-universe.dev"</span>,</span>
+<span id="cb143-3"><a></a>  <span class="at">CRAN     =</span> <span class="st">"https://cloud.r-project.org"</span></span>
+<span id="cb143-4"><a></a>))</span>
+<span id="cb143-5"><a></a><span class="fu">install.packages</span>(<span class="st">"eurostat"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Fallback if R-universe is unreachable: <code>remotes::install_github("rOpenGov/eurostat")</code> (slower, compiles).</p>
+</div>
+</div>
+</div>
+</section>
 <section id="the-usual-suspects" class="slide level2">
 <h2>The usual suspects</h2>
 <table class="caption-top">
@@ -959,15 +989,15 @@ Juan M. Hernández Guerra
 <section id="csv-with-readrread_csv" class="slide level2">
 <h2>CSV with <code>readr::read_csv</code></h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb142"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb142-1"><a></a><span class="fu">library</span>(readr)</span>
-<span id="cb142-2"><a></a><span class="fu">library</span>(here)</span>
-<span id="cb142-3"><a></a></span>
-<span id="cb142-4"><a></a>occupancy <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
-<span id="cb142-5"><a></a>  <span class="fu">here</span>(<span class="st">"datasets"</span>, <span class="st">"raw"</span>, <span class="st">"istac-nights-by-island.csv"</span>),</span>
-<span id="cb142-6"><a></a>  <span class="at">locale =</span> <span class="fu">locale</span>(<span class="at">decimal_mark =</span> <span class="st">","</span>, <span class="at">grouping_mark =</span> <span class="st">"."</span>)</span>
-<span id="cb142-7"><a></a>)</span>
-<span id="cb142-8"><a></a></span>
-<span id="cb142-9"><a></a><span class="fu">glimpse</span>(occupancy)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb144"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb144-1"><a></a><span class="fu">library</span>(readr)</span>
+<span id="cb144-2"><a></a><span class="fu">library</span>(here)</span>
+<span id="cb144-3"><a></a></span>
+<span id="cb144-4"><a></a>occupancy <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(</span>
+<span id="cb144-5"><a></a>  <span class="fu">here</span>(<span class="st">"datasets"</span>, <span class="st">"raw"</span>, <span class="st">"istac-nights_by_island.csv"</span>),</span>
+<span id="cb144-6"><a></a>  <span class="at">locale =</span> <span class="fu">locale</span>(<span class="at">decimal_mark =</span> <span class="st">","</span>, <span class="at">grouping_mark =</span> <span class="st">"."</span>)</span>
+<span id="cb144-7"><a></a>)</span>
+<span id="cb144-8"><a></a></span>
+<span id="cb144-9"><a></a><span class="fu">glimpse</span>(occupancy)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-tip callout-titled callout-style-default">
 <div class="callout-body">
@@ -986,81 +1016,81 @@ Juan M. Hernández Guerra
 <section id="excel-with-readxl" class="slide level2">
 <h2>Excel with <code>readxl</code></h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb143"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb143-1"><a></a><span class="fu">library</span>(readxl)</span>
-<span id="cb143-2"><a></a></span>
-<span id="cb143-3"><a></a>capacity <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(</span>
-<span id="cb143-4"><a></a>  <span class="fu">here</span>(<span class="st">"datasets"</span>, <span class="st">"raw"</span>, <span class="st">"istac-hotel-capacity.xlsx"</span>),</span>
-<span id="cb143-5"><a></a>  <span class="at">sheet =</span> <span class="st">"2024"</span>,</span>
-<span id="cb143-6"><a></a>  <span class="at">skip  =</span> <span class="dv">3</span>           <span class="co"># skip the first three header rows</span></span>
-<span id="cb143-7"><a></a>)</span>
-<span id="cb143-8"><a></a></span>
-<span id="cb143-9"><a></a><span class="fu">glimpse</span>(capacity)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb145"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb145-1"><a></a><span class="fu">library</span>(readxl)</span>
+<span id="cb145-2"><a></a></span>
+<span id="cb145-3"><a></a>capacity <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(</span>
+<span id="cb145-4"><a></a>  <span class="fu">here</span>(<span class="st">"datasets"</span>, <span class="st">"raw"</span>, <span class="st">"istac-hotel-capacity.xlsx"</span>),</span>
+<span id="cb145-5"><a></a>  <span class="at">sheet =</span> <span class="st">"2024"</span>,</span>
+<span id="cb145-6"><a></a>  <span class="at">skip  =</span> <span class="dv">3</span>           <span class="co"># skip the first three header rows</span></span>
+<span id="cb145-7"><a></a>)</span>
+<span id="cb145-8"><a></a></span>
+<span id="cb145-9"><a></a><span class="fu">glimpse</span>(capacity)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Excel files often have merged cells, titles and footers. Use <code>skip</code> and <code>range = "B5:K120"</code> to carve out the actual data table.</p>
 </section>
 <section id="spss-and-stata-with-haven" class="slide level2">
 <h2>SPSS and Stata with <code>haven</code></h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb144"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb144-1"><a></a><span class="fu">library</span>(haven)</span>
-<span id="cb144-2"><a></a></span>
-<span id="cb144-3"><a></a>survey <span class="ot">&lt;-</span> <span class="fu">read_sav</span>(</span>
-<span id="cb144-4"><a></a>  <span class="fu">here</span>(<span class="st">"datasets"</span>, <span class="st">"raw"</span>, <span class="st">"tourism-survey.sav"</span>)</span>
-<span id="cb144-5"><a></a>)</span>
-<span id="cb144-6"><a></a></span>
-<span id="cb144-7"><a></a><span class="co"># haven preserves SPSS variable and value labels</span></span>
-<span id="cb144-8"><a></a><span class="fu">attributes</span>(survey<span class="sc">$</span>origin_country)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb146"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb146-1"><a></a><span class="fu">library</span>(haven)</span>
+<span id="cb146-2"><a></a></span>
+<span id="cb146-3"><a></a>survey <span class="ot">&lt;-</span> <span class="fu">read_sav</span>(</span>
+<span id="cb146-4"><a></a>  <span class="fu">here</span>(<span class="st">"datasets"</span>, <span class="st">"raw"</span>, <span class="st">"tourism-survey.sav"</span>)</span>
+<span id="cb146-5"><a></a>)</span>
+<span id="cb146-6"><a></a></span>
+<span id="cb146-7"><a></a><span class="co"># haven preserves SPSS variable and value labels</span></span>
+<span id="cb146-8"><a></a><span class="fu">attributes</span>(survey<span class="sc">$</span>origin_country)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Use <code>as_factor(survey)</code> to convert labelled numeric variables into R factors in one go.</p>
 </section>
 <section id="eurostat-live-from-the-api" class="slide level2">
 <h2>Eurostat · live from the API</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb145"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb145-1"><a></a><span class="fu">library</span>(eurostat)</span>
-<span id="cb145-2"><a></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb145-3"><a></a></span>
-<span id="cb145-4"><a></a>nights <span class="ot">&lt;-</span> <span class="fu">get_eurostat</span>(<span class="st">"tour_occ_nim"</span>, <span class="at">time_format =</span> <span class="st">"date"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb145-5"><a></a>  <span class="fu">filter</span>(unit    <span class="sc">==</span> <span class="st">"NR"</span>,     <span class="co"># number of nights</span></span>
-<span id="cb145-6"><a></a>         c_resid <span class="sc">==</span> <span class="st">"TOTAL"</span>,  <span class="co"># all residency statuses</span></span>
-<span id="cb145-7"><a></a>         nace_r2 <span class="sc">==</span> <span class="st">"I551"</span>)   <span class="co"># hotels only</span></span>
-<span id="cb145-8"><a></a></span>
-<span id="cb145-9"><a></a>nights</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb147"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb147-1"><a></a><span class="fu">library</span>(eurostat)</span>
+<span id="cb147-2"><a></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb147-3"><a></a></span>
+<span id="cb147-4"><a></a>nights <span class="ot">&lt;-</span> <span class="fu">get_eurostat</span>(<span class="st">"tour_occ_nim"</span>, <span class="at">time_format =</span> <span class="st">"date"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb147-5"><a></a>  <span class="fu">filter</span>(unit    <span class="sc">==</span> <span class="st">"NR"</span>,     <span class="co"># number of nights</span></span>
+<span id="cb147-6"><a></a>         c_resid <span class="sc">==</span> <span class="st">"TOTAL"</span>,  <span class="co"># all residency statuses</span></span>
+<span id="cb147-7"><a></a>         nace_r2 <span class="sc">==</span> <span class="st">"I551"</span>)   <span class="co"># hotels only</span></span>
+<span id="cb147-8"><a></a></span>
+<span id="cb147-9"><a></a>nights</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The <code>eurostat</code> package caches downloads locally, so the slow step only happens the first time.</p>
 </section>
 <section id="reproducible-paths-with-herehere" class="slide level2">
 <h2>Reproducible paths with <code>here::here()</code></h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb146"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb146-1"><a></a><span class="fu">library</span>(here)</span>
-<span id="cb146-2"><a></a></span>
-<span id="cb146-3"><a></a><span class="fu">here</span>()</span>
-<span id="cb146-4"><a></a><span class="co"># [1] "C:/Users/you/.../quantitative-methods-master-tides"</span></span>
-<span id="cb146-5"><a></a></span>
-<span id="cb146-6"><a></a><span class="fu">here</span>(<span class="st">"datasets"</span>, <span class="st">"raw"</span>, <span class="st">"eurostat-nights.csv"</span>)</span>
-<span id="cb146-7"><a></a><span class="co"># [1] "C:/Users/you/.../datasets/raw/eurostat-nights.csv"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb148"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb148-1"><a></a><span class="fu">library</span>(here)</span>
+<span id="cb148-2"><a></a></span>
+<span id="cb148-3"><a></a><span class="fu">here</span>()</span>
+<span id="cb148-4"><a></a><span class="co"># [1] "C:/Users/you/.../quantitative-methods-master-tides"</span></span>
+<span id="cb148-5"><a></a></span>
+<span id="cb148-6"><a></a><span class="fu">here</span>(<span class="st">"datasets"</span>, <span class="st">"raw"</span>, <span class="st">"eurostat-nights.csv"</span>)</span>
+<span id="cb148-7"><a></a><span class="co"># [1] "C:/Users/you/.../datasets/raw/eurostat-nights.csv"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><code>here()</code> always resolves relative to the project root (the folder with the <code>.Rproj</code>), regardless of which subfolder your <code>.R</code> or <code>.qmd</code> file lives in.</p>
 </section>
 <section id="a-first-tourism-pipeline" class="slide level2 smaller">
 <h2>A first tourism pipeline</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb147"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb147-1"><a></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb147-2"><a></a><span class="fu">library</span>(tibble)</span>
-<span id="cb147-3"><a></a></span>
-<span id="cb147-4"><a></a>hotels <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
-<span id="cb147-5"><a></a>  <span class="sc">~</span>island,          <span class="sc">~</span>month,  <span class="sc">~</span>nights,  <span class="sc">~</span>beds,</span>
-<span id="cb147-6"><a></a>  <span class="st">"Gran Canaria"</span>,   <span class="st">"2024-06"</span>,  <span class="dv">142500</span>, <span class="dv">165000</span>,</span>
-<span id="cb147-7"><a></a>  <span class="st">"Gran Canaria"</span>,   <span class="st">"2024-07"</span>,  <span class="dv">168300</span>, <span class="dv">165000</span>,</span>
-<span id="cb147-8"><a></a>  <span class="st">"Tenerife"</span>,       <span class="st">"2024-06"</span>,  <span class="dv">198200</span>, <span class="dv">220000</span>,</span>
-<span id="cb147-9"><a></a>  <span class="st">"Tenerife"</span>,       <span class="st">"2024-07"</span>,  <span class="dv">231100</span>, <span class="dv">220000</span>,</span>
-<span id="cb147-10"><a></a>  <span class="st">"Lanzarote"</span>,      <span class="st">"2024-06"</span>,   <span class="dv">88100</span>, <span class="dv">105000</span>,</span>
-<span id="cb147-11"><a></a>  <span class="st">"Lanzarote"</span>,      <span class="st">"2024-07"</span>,   <span class="dv">98400</span>, <span class="dv">105000</span></span>
-<span id="cb147-12"><a></a>)</span>
-<span id="cb147-13"><a></a></span>
-<span id="cb147-14"><a></a>hotels <span class="sc">|&gt;</span></span>
-<span id="cb147-15"><a></a>  <span class="fu">mutate</span>(<span class="at">occupancy =</span> nights <span class="sc">/</span> beds) <span class="sc">|&gt;</span></span>
-<span id="cb147-16"><a></a>  <span class="fu">group_by</span>(island) <span class="sc">|&gt;</span></span>
-<span id="cb147-17"><a></a>  <span class="fu">summarise</span>(<span class="at">mean_occupancy =</span> <span class="fu">mean</span>(occupancy), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb147-18"><a></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(mean_occupancy))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb149"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb149-1"><a></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb149-2"><a></a><span class="fu">library</span>(tibble)</span>
+<span id="cb149-3"><a></a></span>
+<span id="cb149-4"><a></a>hotels <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb149-5"><a></a>  <span class="sc">~</span>island,          <span class="sc">~</span>month,  <span class="sc">~</span>nights,  <span class="sc">~</span>beds,</span>
+<span id="cb149-6"><a></a>  <span class="st">"Gran Canaria"</span>,   <span class="st">"2024-06"</span>,  <span class="dv">142500</span>, <span class="dv">165000</span>,</span>
+<span id="cb149-7"><a></a>  <span class="st">"Gran Canaria"</span>,   <span class="st">"2024-07"</span>,  <span class="dv">168300</span>, <span class="dv">165000</span>,</span>
+<span id="cb149-8"><a></a>  <span class="st">"Tenerife"</span>,       <span class="st">"2024-06"</span>,  <span class="dv">198200</span>, <span class="dv">220000</span>,</span>
+<span id="cb149-9"><a></a>  <span class="st">"Tenerife"</span>,       <span class="st">"2024-07"</span>,  <span class="dv">231100</span>, <span class="dv">220000</span>,</span>
+<span id="cb149-10"><a></a>  <span class="st">"Lanzarote"</span>,      <span class="st">"2024-06"</span>,   <span class="dv">88100</span>, <span class="dv">105000</span>,</span>
+<span id="cb149-11"><a></a>  <span class="st">"Lanzarote"</span>,      <span class="st">"2024-07"</span>,   <span class="dv">98400</span>, <span class="dv">105000</span></span>
+<span id="cb149-12"><a></a>)</span>
+<span id="cb149-13"><a></a></span>
+<span id="cb149-14"><a></a>hotels <span class="sc">|&gt;</span></span>
+<span id="cb149-15"><a></a>  <span class="fu">mutate</span>(<span class="at">occupancy =</span> nights <span class="sc">/</span> beds) <span class="sc">|&gt;</span></span>
+<span id="cb149-16"><a></a>  <span class="fu">group_by</span>(island) <span class="sc">|&gt;</span></span>
+<span id="cb149-17"><a></a>  <span class="fu">summarise</span>(<span class="at">mean_occupancy =</span> <span class="fu">mean</span>(occupancy), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb149-18"><a></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(mean_occupancy))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 3 × 2
   island       mean_occupancy

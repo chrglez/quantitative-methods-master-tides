@@ -464,6 +464,41 @@ Juan M. Hernández Guerra
 <p>The <code>main</code> branch of your fork is a <strong>read-only mirror</strong> of the course repo. If you accidentally commit to it, syncing with upstream becomes painful.</p>
 <p>Every day you work on a <strong>new branch</strong>, named after the day: <code>day-1</code>, <code>day-2</code>, … <code>day-6</code>.</p>
 <p>If in doubt, look at the branch selector at the top-right of the Git pane. It always tells you where you are.</p>
+</section>
+<section id="one-branch-per-day" class="slide level2">
+<h2>One branch per day</h2>
+<div class="cell" data-reveal="true" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">gitGraph
+  commit id: "course v0"
+  commit id: "sync from upstream"
+  branch day-1
+  checkout day-1
+  commit id: "Day 1 solution"
+  checkout main
+  commit id: "sync from upstream"
+  branch day-2
+  checkout day-2
+  commit id: "Day 2 solution"
+  checkout main
+  commit id: "sync from upstream"
+  branch day-3
+  checkout day-3
+  commit id: "Day 3 solution"
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<ul>
+<li><code>main</code> is a <strong>mirror</strong> of the course repo — it only moves forward via <em>Sync fork</em>, never by your commits.</li>
+<li>Each <code>day-N</code> branch carries <strong>one day’s work</strong> and becomes <strong>one PR</strong>.</li>
+<li>Branches are <strong>never merged back</strong> — your fork is the audit trail.</li>
+</ul>
 </section></section>
 <section>
 <section id="day-to-day-workflow" class="title-slide slide level1 center" data-background-color="#0067a2">

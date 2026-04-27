@@ -249,7 +249,7 @@
     "href": "01-introduction-to-r/01-data-in-r.html#date-and-time",
     "title": "Data in R",
     "section": "Date and time",
-    "text": "Date and time\n\ntoday &lt;- Sys.Date()\ntoday\n\n[1] \"2026-04-23\"\n\nclass(today)\n\n[1] \"Date\"\n\n# arithmetic on dates\ntoday + 30\n\n[1] \"2026-05-23\"\n\nas.Date(\"2026-06-08\") - today     # days to the first exam\n\nTime difference of 46 days\n\nformat(today, \"%A, %d %B %Y\")     # pretty-print\n\n[1] \"Thursday, 23 April 2026\"\n\n\nUse the lubridate package (inside the tidyverse) for anything more serious — we’ll cover it in Data wrangling."
+    "text": "Date and time\n\ntoday &lt;- Sys.Date()\ntoday\n\n[1] \"2026-04-27\"\n\nclass(today)\n\n[1] \"Date\"\n\n# arithmetic on dates\ntoday + 30\n\n[1] \"2026-05-27\"\n\nas.Date(\"2026-06-08\") - today     # days to the first exam\n\nTime difference of 42 days\n\nformat(today, \"%A, %d %B %Y\")     # pretty-print\n\n[1] \"Monday, 27 April 2026\"\n\n\nUse the lubridate package (inside the tidyverse) for anything more serious — we’ll cover it in Data wrangling."
   },
   {
     "objectID": "01-introduction-to-r/01-data-in-r.html#coercion-gotchas",
@@ -329,6 +329,13 @@
     "text": "Filtering rows\n\n# base R\nhotels[hotels$stars &gt;= 4, ]\n\n# A tibble: 3 × 5\n  island       stars price nights revenue\n  &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;\n1 Gran Canaria     4    82   12.5   1025 \n2 Tenerife         5    95   18.3   1738.\n3 Lanzarote        4   110    9.8   1078 \n\n# dplyr preview\nlibrary(dplyr)\nhotels |&gt; filter(stars &gt;= 4)\n\n# A tibble: 3 × 5\n  island       stars price nights revenue\n  &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;\n1 Gran Canaria     4    82   12.5   1025 \n2 Tenerife         5    95   18.3   1738.\n3 Lanzarote        4   110    9.8   1078 \n\n\nPick one style and stick to it. We’ll standardise on dplyr from Data wrangling onwards."
   },
   {
+    "objectID": "01-introduction-to-r/01-data-in-r.html#get-the-data-first",
+    "href": "01-introduction-to-r/01-data-in-r.html#get-the-data-first",
+    "title": "Data in R",
+    "section": "Get the data first",
+    "text": "Get the data first\nThe repo does not ship CSV/XLSX files — they are gitignored and fetched on demand from the source APIs. After cloning, run this once from the R console at the project root:\n\ninstall.packages(c(\"eurostat\", \"here\", \"fs\", \"readr\", \"dplyr\"))\nsource(\"datasets/download.R\")\n\nThe script writes Eurostat and ISTAC files into datasets/raw/ and a MANIFEST.md recording filenames, source URLs and download date.\n\n\n\n\n\n\nWarning\n\n\nIf install.packages(\"eurostat\") fails (CRAN occasionally archives it when a transitive dependency drops), use the R-universe binary build:\n\noptions(repos = c(\n  ropengov = \"https://ropengov.r-universe.dev\",\n  CRAN     = \"https://cloud.r-project.org\"\n))\ninstall.packages(\"eurostat\")\n\nFallback if R-universe is unreachable: remotes::install_github(\"rOpenGov/eurostat\") (slower, compiles)."
+  },
+  {
     "objectID": "01-introduction-to-r/01-data-in-r.html#the-usual-suspects",
     "href": "01-introduction-to-r/01-data-in-r.html#the-usual-suspects",
     "title": "Data in R",
@@ -340,7 +347,7 @@
     "href": "01-introduction-to-r/01-data-in-r.html#csv-with-readrread_csv",
     "title": "Data in R",
     "section": "CSV with readr::read_csv",
-    "text": "CSV with readr::read_csv\n\nlibrary(readr)\nlibrary(here)\n\noccupancy &lt;- read_csv(\n  here(\"datasets\", \"raw\", \"istac-nights-by-island.csv\"),\n  locale = locale(decimal_mark = \",\", grouping_mark = \".\")\n)\n\nglimpse(occupancy)\n\n\n\n\n\n\n\nTip\n\n\nAlways go through here::here(). Your script will work on the lab machines, on your laptop, and on my laptop with zero changes."
+    "text": "CSV with readr::read_csv\n\nlibrary(readr)\nlibrary(here)\n\noccupancy &lt;- read_csv(\n  here(\"datasets\", \"raw\", \"istac-nights_by_island.csv\"),\n  locale = locale(decimal_mark = \",\", grouping_mark = \".\")\n)\n\nglimpse(occupancy)\n\n\n\n\n\n\n\nTip\n\n\nAlways go through here::here(). Your script will work on the lab machines, on your laptop, and on my laptop with zero changes."
   },
   {
     "objectID": "01-introduction-to-r/01-data-in-r.html#excel-with-readxl",
@@ -586,6 +593,13 @@
     "title": "Git & GitHub essentials",
     "section": "⚠️ Never commit on main",
     "text": "⚠️ Never commit on main\nThe main branch of your fork is a read-only mirror of the course repo. If you accidentally commit to it, syncing with upstream becomes painful.\nEvery day you work on a new branch, named after the day: day-1, day-2, … day-6.\nIf in doubt, look at the branch selector at the top-right of the Git pane. It always tells you where you are."
+  },
+  {
+    "objectID": "01-introduction-to-r/02-git-github.html#one-branch-per-day",
+    "href": "01-introduction-to-r/02-git-github.html#one-branch-per-day",
+    "title": "Git & GitHub essentials",
+    "section": "One branch per day",
+    "text": "One branch per day\n\n\n\n\n\ngitGraph\n  commit id: \"course v0\"\n  commit id: \"sync from upstream\"\n  branch day-1\n  checkout day-1\n  commit id: \"Day 1 solution\"\n  checkout main\n  commit id: \"sync from upstream\"\n  branch day-2\n  checkout day-2\n  commit id: \"Day 2 solution\"\n  checkout main\n  commit id: \"sync from upstream\"\n  branch day-3\n  checkout day-3\n  commit id: \"Day 3 solution\"\n\n\n\n\n\n\n\nmain is a mirror of the course repo — it only moves forward via Sync fork, never by your commits.\nEach day-N branch carries one day’s work and becomes one PR.\nBranches are never merged back — your fork is the audit trail."
   },
   {
     "objectID": "01-introduction-to-r/02-git-github.html#sync-your-fork-in-the-browser",
