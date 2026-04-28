@@ -30,23 +30,27 @@ if (!requireNamespace("eurostat", quietly = TRUE)) {
 }
 
 eurostat_tables <- c(
-  nights_monthly   = "tour_occ_nim",
-  capacity_annual  = "tour_cap_nat",
-  demand_quarterly = "tour_dem_tqm"
+  nights_monthly  = "tour_occ_nim",
+  capacity_annual = "tour_cap_nat"
 )
 
 for (nm in names(eurostat_tables)) {
   code <- eurostat_tables[[nm]]
   message("Fetching Eurostat ", code, " ...")
-  dat <- eurostat::get_eurostat(code, time_format = "date")
-  file <- path(raw_dir, paste0("eurostat-", nm, ".csv"))
-  write_csv(dat, file)
-  manifest <- add_row(manifest,
-    file   = path_file(file),
-    source = "Eurostat",
-    url    = paste0("https://ec.europa.eu/eurostat/databrowser/view/", code),
-    date   = Sys.Date()
-  )
+  tryCatch({
+    dat <- eurostat::get_eurostat(code, time_format = "date")
+    file <- path(raw_dir, paste0("eurostat-", nm, ".csv"))
+    write_csv(dat, file)
+    manifest <- add_row(manifest,
+      file   = path_file(file),
+      source = "Eurostat",
+      url    = paste0("https://ec.europa.eu/eurostat/databrowser/view/", code),
+      date   = Sys.Date()
+    )
+  }, error = function(e) {
+    warning("Eurostat ", code, " failed: ", conditionMessage(e),
+            "\nSkipping; other tables and ISTAC will still be downloaded.")
+  })
 }
 
 # --- ISTAC -----------------------------------------------------------------
