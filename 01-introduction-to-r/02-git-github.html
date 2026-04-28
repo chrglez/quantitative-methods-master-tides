@@ -439,8 +439,8 @@ Juan M. Hernández Guerra
 </ol>
 <p>RStudio clones, opens the project, and the <strong>Git pane</strong> appears in the top-right.</p>
 </section>
-<section id="step-3-add-the-upstream-remote" class="slide level2">
-<h2>Step 3 · Add the <code>upstream</code> remote</h2>
+<section id="step-3-add-the-upstream-remote-safety-net" class="slide level2">
+<h2>Step 3 · Add the <code>upstream</code> remote (safety net)</h2>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -450,14 +450,15 @@ Juan M. Hernández Guerra
 <p><strong>Note</strong></p>
 </div>
 <div class="callout-content">
-<p>This is the <strong>only</strong> terminal command in the whole course.</p>
+<p><strong>Main way to sync · the <em>Sync fork</em> button on GitHub.</strong> This step adds an <code>upstream</code> reference locally as a backup, in case you ever need to sync from RStudio instead of the web.</p>
 </div>
 </div>
 </div>
 <p>Inside RStudio, open <strong>Tools → Terminal → New Terminal</strong> and paste:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a></a><span class="fu">git</span> remote add upstream https://github.com/chrglez/quantitative-methods-master-tides.git</span>
 <span id="cb7-2"><a></a><span class="fu">git</span> remote <span class="at">-v</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The second line should print <strong>two</strong> remotes: <code>origin</code> (your fork) and <code>upstream</code> (the course repo). After this, close the terminal — you won’t need it again.</p>
+<p>The second line should print <strong>two</strong> remotes: <code>origin</code> (your fork) and <code>upstream</code> (the course repo). Close the terminal — in the daily flow you sync from the GitHub web button.</p>
+<p>For the alternative ways to sync a fork, see GitHub’s docs: <a href="https://docs.github.com/es/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork" class="uri">https://docs.github.com/es/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork</a>.</p>
 </section>
 <section id="never-commit-on-main" class="slide level2" data-background-color="#fff7ed">
 <h2>⚠️ Never commit on <code>main</code></h2>
@@ -607,7 +608,7 @@ Juan M. Hernández Guerra
 <p>In the next 20 minutes, do <strong>all</strong> of these:</p>
 <ol type="1">
 <li>Fork the course repo and clone it from RStudio.</li>
-<li>Add <code>upstream</code> from the Terminal · one time.</li>
+<li>Add <code>upstream</code> from the Terminal · one time, as a safety net.</li>
 <li>Create a <code>day-1</code> branch.</li>
 <li>Write your name at the top of <code>exercises/day1/exercise-template.R</code>.</li>
 <li>Commit and Push from the Git pane.</li>

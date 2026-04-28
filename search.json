@@ -588,11 +588,11 @@
     "text": "Step 2 · Clone your fork from RStudio\nOn your fork’s page, click Code → HTTPS and copy the URL.\nIn RStudio:\n\nFile → New Project → Version Control → Git.\nPaste the URL into Repository URL.\nChoose a stable parent folder (~/Documents or equivalent — not Desktop or OneDrive).\nClick Create Project.\n\nRStudio clones, opens the project, and the Git pane appears in the top-right."
   },
   {
-    "objectID": "01-introduction-to-r/02-git-github.html#step-3-add-the-upstream-remote",
-    "href": "01-introduction-to-r/02-git-github.html#step-3-add-the-upstream-remote",
+    "objectID": "01-introduction-to-r/02-git-github.html#step-3-add-the-upstream-remote-safety-net",
+    "href": "01-introduction-to-r/02-git-github.html#step-3-add-the-upstream-remote-safety-net",
     "title": "Git & GitHub essentials",
-    "section": "Step 3 · Add the upstream remote",
-    "text": "Step 3 · Add the upstream remote\n\n\n\n\n\n\nNote\n\n\nThis is the only terminal command in the whole course.\n\n\n\nInside RStudio, open Tools → Terminal → New Terminal and paste:\ngit remote add upstream https://github.com/chrglez/quantitative-methods-master-tides.git\ngit remote -v\nThe second line should print two remotes: origin (your fork) and upstream (the course repo). After this, close the terminal — you won’t need it again."
+    "section": "Step 3 · Add the upstream remote (safety net)",
+    "text": "Step 3 · Add the upstream remote (safety net)\n\n\n\n\n\n\nNote\n\n\nMain way to sync · the Sync fork button on GitHub. This step adds an upstream reference locally as a backup, in case you ever need to sync from RStudio instead of the web.\n\n\n\nInside RStudio, open Tools → Terminal → New Terminal and paste:\ngit remote add upstream https://github.com/chrglez/quantitative-methods-master-tides.git\ngit remote -v\nThe second line should print two remotes: origin (your fork) and upstream (the course repo). Close the terminal — in the daily flow you sync from the GitHub web button.\nFor the alternative ways to sync a fork, see GitHub’s docs: https://docs.github.com/es/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork."
   },
   {
     "objectID": "01-introduction-to-r/02-git-github.html#never-commit-on-main",
