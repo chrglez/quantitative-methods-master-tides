@@ -41,6 +41,15 @@ joined <- nights |>
 
 # your code here
 
+hotels <- library(tibble)
+
+hotels <- tibble(
+  island = c("Gran Canaria", "Tenerife", "Lanzarote",
+             "Fuerteventura", "La Palma"),
+  stars  = c(4L, 5L, 4L, 3L, 3L),
+  price  = c(82, 95, 110, 100, 78),
+  nights = c(12.5, 18.3, 9.8, 11.2, 6.4)
+)
 
 # ---- 2. Cross-tabulation ----------------------------------------------
 # Eurostat data comes pre-aggregated, so a true cross-tab needs to be
@@ -78,3 +87,112 @@ joined <- nights |>
 # covers how to test causal claims formally.
 
 # your comments here
+
+hotels <- library(tibble)
+
+hotels <- tibble(
+  island = c("Gran Canaria", "Tenerife", "Lanzarote",
+             "Fuerteventura", "La Palma"),
+  stars  = c(4L, 5L, 4L, 3L, 3L),
+  price  = c(82, 95, 110, 100, 78),
+  nights = c(12.5, 18.3, 9.8, 11.2, 6.4)
+)
+
+library(dplyr)
+
+hotels |>
+  summarise(
+    n        = n(),
+    mean     = mean(price, na.rm = TRUE),
+    sd       = sd(price,   na.rm = TRUE),
+    median   = median(price, na.rm = TRUE),
+    q25      = quantile(price, 0.25, na.rm = TRUE),
+    q75      = quantile(price, 0.75, na.rm = TRUE)
+  )
+
+
+library(janitor)
+
+hotels |>
+  tabyl(stars) |>
+  adorn_totals("row") |>
+  adorn_pct_formatting()
+
+hotels |>
+  tabyl(island, stars) |>
+  adorn_totals("row") |>
+  adorn_pct_formatting()
+
+hotels_ex <- tibble(
+  island = c("GC", "T", "L", "F", "LP", "GC", "T", "F", "GC", "F"),
+  stars = c(4,5,4,3,3,3,4,4,5,4)
+)
+
+
+hotels_ex |>
+  tabyl(island, stars) |>
+  adorn_totals("row") |>
+  adorn_percentages("row") |>
+  adorn_pct_formatting()
+
+hotels |>
+  select(price, nights) |>
+  cor(use = "pairwise.complete.obs")
+
+hotels_ex |>
+  tabyl(island, stars) |>
+  adorn_totals("row") |>
+
+table(hotels_ex$island, hotels_ex$stars)
+
+hist(hotels$price)
+
+hist(hotels$price,
+     col    = "orange",
+     main   = "Distribution of nightly price",
+     xlab   = "Price (€)")
+
+view(mtcars)
+view(iris)
+hist(mtcars$mpg,
+     breaks = 3,
+     main = "Cars by mpg",
+     xlab = "",
+     col = "green")
+
+library(ggplot2)
+
+library(ggplot2)
+
+ggplot(mtcars, aes(x = mpg)) +
+  geom_histogram(bins = 10, fill = "#0067a2", alpha = 0.95, color = "white") +
+  labs(title = "cars by mpg",
+       x = "mpg", y = "mtcars") +
+  theme_minimal(base_size = 12)
+
+boxplot(mtcars$mpg)
+
+mtcars |>
+summarise(
+  n        = n(),
+  mean     = mean(mpg, na.rm = TRUE),
+  sd       = sd(mpg,   na.rm = TRUE),
+  median   = median(mpg, na.rm = TRUE),
+  q25      = quantile(mpg, 0.25, na.rm = TRUE),
+  q75      = quantile(mpg, 0.75, na.rm = TRUE)
+)
+
+mtcars |>
+  ggplot(aes(x=cars)) +
+  geom_bar(fill = "darkgreen") +
+  labs(x = "cars", y = "") +
+  theme_minimal()
+
+library(forcats)
+
+hotels_ex |>
+  mutate(ord_island = fct_infreq(island)) |>
+  ggplot(aes (x=ord_island)) +
+  geom_col(fill = "#0067a2") +
+  labs(x = "hotels", y = island, titel = "Hotels by Island", subtitel = "Period 2006") +
+  theme_minimal(base_size = 14)
