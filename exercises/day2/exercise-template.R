@@ -16,18 +16,47 @@ library(here)
 #
 # Filter both tables to Spanish hotels in 2024:
 #
-#   nights:    c_resid == "TOTAL"
-#              unit    == "NR"
-#              nace_r2 == "I551"
-#              geo     == "ES"
+#   nights:    c_resid   == "TOTAL"
+#              unit      == "NR"
+#              nace_r2   == "I551"
+#              geo       == "ES"
 #
-#   capacity:  unit    == "BEDPL"
-#              nace_r2 == "I551"
-#              geo     == "ES"
+#   capacity:  accomunit == "BEDPL"
+#              unit      == "NR"
+#              nace_r2   == "I551"
+#              geo       == "ES"
 #
-# Extract the year from `time` with lubridate::year(), keep only 2024,
-# rename the `values` column on each side (e.g. `nights`, `bed_places`)
-# and join on (geo, year). Use a left_join.
+# Eurostat code reference (what each filter means):
+#   c_resid   = "TOTAL"  -> residents + non-residents combined; other
+#                           values are DOM (residents only) and FOR
+#                           (non-residents only).
+#   unit      = "NR"     -> number, i.e. the raw count; other values
+#                           are percentage changes vs prior periods
+#                           (PCH_SM, PCH_PRE, PCH_SM_19, ...).
+#   nace_r2   = "I551"   -> NACE Rev. 2 code for hotels and similar
+#                           accommodation. Other values: I552 holiday
+#                           and other short-stay accommodation,
+#                           I553 camping grounds, I551-I553 total
+#                           tourist accommodation.
+#   geo       = "ES"     -> ISO country code for Spain.
+#   accomunit = "BEDPL"  -> bed places (capacity in beds); BEDRM is
+#                           bedrooms, ESTBL is establishments.
+#
+# Where to look up other Eurostat codes:
+#   - In R, dimension by dimension:
+#       eurostat::get_eurostat_dic("nace_r2")
+#       eurostat::get_eurostat_dic("accomunit")
+#     (returns a tibble with code_name and full_name).
+#   - In a whole loaded dataset, replace codes with full labels:
+#       eurostat::label_eurostat(nights)
+#   - In the browser, with a dropdown next to each code:
+#       https://ec.europa.eu/eurostat/databrowser/view/tour_occ_nim
+#       https://ec.europa.eu/eurostat/databrowser/view/tour_cap_nat
+#
+# The time column is named `TIME_PERIOD` in both files. Extract the
+# year with lubridate::year(TIME_PERIOD), keep only 2024, rename the
+# `values` column on each side (e.g. `nights`, `bed_places`) and join
+# on (geo, year). Use a left_join.
 
 # your code here
 
