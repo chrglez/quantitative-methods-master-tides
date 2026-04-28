@@ -23,7 +23,7 @@ hotels <- tibble(
   nights = c(12.5, 18.3, 9.8, 11.2, 6.4)
 )
 
-hotel
+# your code here
 
 
 # ---- 2. Cross-tabulation -----------------------------------------------
