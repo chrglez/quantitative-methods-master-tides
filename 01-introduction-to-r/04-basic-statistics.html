@@ -11,7 +11,7 @@
 
   <meta name="author" content="Christian González Martel">
   <meta name="author" content="Juan M. Hernández Guerra">
-  <meta name="dcterms.date" content="2026-04-27">
+  <meta name="dcterms.date" content="2026-04-28">
   <title>Quantitative Methods in Tourism – Basic statistics with R</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -229,7 +229,7 @@ Juan M. Hernández Guerra
     </div>
 </div>
 
-  <p class="date">April 27, 2026</p>
+  <p class="date">April 28, 2026</p>
 </section>
 <section id="outline" class="slide level2">
 <h2>Outline</h2>
@@ -237,9 +237,18 @@ Juan M. Hernández Guerra
 <li class="fragment">Univariate descriptives: mean, median, variance, quantiles.</li>
 <li class="fragment">Frequency tables and cross-tabulations.</li>
 <li class="fragment">Correlation and covariance.</li>
-<li class="fragment">Inference 101: t-test, chi-squared, proportion test.</li>
-<li class="fragment">Communicating results: <code>broom::tidy()</code> and nicely formatted tables.</li>
+<li class="fragment">Communicating results with nicely formatted summaries.</li>
 </ul>
+<div class="callout callout-note callout-style-simple">
+<div class="callout-body">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-content">
+<p><strong>Hypothesis testing</strong> (t-test, chi-squared, regression inference) is covered in <strong>Module III</strong> with Juan — not here.</p>
+</div>
+</div>
+</div>
 </section>
 <section id="descriptives-in-one-line" class="slide level2">
 <h2>Descriptives in one line</h2>
@@ -285,34 +294,22 @@ Juan M. Hernández Guerra
 <span id="cb4-3"><a></a>  <span class="fu">cor</span>(<span class="at">use =</span> <span class="st">"pairwise.complete.obs"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="a-simple-t-test-does-price-differ-between-two-islands" class="slide level2">
-<h2>A simple t-test · does price differ between two islands?</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a><span class="fu">t.test</span>(price <span class="sc">~</span> island,</span>
-<span id="cb5-2"><a></a>       <span class="at">data   =</span> <span class="fu">filter</span>(hotels, island <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Gran Canaria"</span>, <span class="st">"Tenerife"</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="tidy-inference-with-broom" class="slide level2">
-<h2>Tidy inference with <code>broom</code></h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a><span class="fu">library</span>(broom)</span>
-<span id="cb6-2"><a></a></span>
-<span id="cb6-3"><a></a><span class="fu">t.test</span>(price <span class="sc">~</span> island,</span>
-<span id="cb6-4"><a></a>       <span class="at">data =</span> <span class="fu">filter</span>(hotels, island <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Gran Canaria"</span>, <span class="st">"Tenerife"</span>))) <span class="sc">|&gt;</span></span>
-<span id="cb6-5"><a></a>  <span class="fu">tidy</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
 <section id="recap" class="slide level2">
 <h2>Recap</h2>
 <ul>
 <li><code>summarise()</code> + a handful of functions covers most univariate reporting.</li>
 <li><code>janitor::tabyl()</code> beats base <code>table()</code> for presentable frequency tables.</li>
-<li><code>broom::tidy()</code> converts any test into a one-row data frame.</li>
+<li><code>cor()</code> with <code>use = "pairwise.complete.obs"</code> handles missing values sensibly when summarising relationships among numeric variables.</li>
 </ul>
 </section>
 <section id="hands-on" class="title-slide slide level1 center" data-background-color="#0067a2">
 <h1>Hands-on</h1>
-<p>Produce a summary table of average nightly price and average stay length by island, and test whether nights spent in 2024 differ between two Canary islands of your choice.</p>
+<p>Using ISTAC or Eurostat data:</p>
+<ol type="1">
+<li>Produce a summary table of average nightly price and average stay length by island.</li>
+<li>Build one cross-tabulation with row percentages.</li>
+<li>Compute the correlation matrix of three numeric variables of your choice and comment on the strongest pair in one or two sentences.</li>
+</ol>
 
 
 </section>

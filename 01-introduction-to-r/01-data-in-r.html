@@ -584,7 +584,7 @@ Juan M. Hernández Guerra
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a></a>today <span class="ot">&lt;-</span> <span class="fu">Sys.Date</span>()</span>
 <span id="cb62-2"><a></a>today</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "2026-04-27"</code></pre>
+<pre><code>[1] "2026-04-28"</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a></a><span class="fu">class</span>(today)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -593,15 +593,15 @@ Juan M. Hernández Guerra
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a></a><span class="co"># arithmetic on dates</span></span>
 <span id="cb66-2"><a></a>today <span class="sc">+</span> <span class="dv">30</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "2026-05-27"</code></pre>
+<pre><code>[1] "2026-05-28"</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a></a><span class="fu">as.Date</span>(<span class="st">"2026-06-08"</span>) <span class="sc">-</span> today     <span class="co"># days to the first exam</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Time difference of 42 days</code></pre>
+<pre><code>Time difference of 41 days</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a></a><span class="fu">format</span>(today, <span class="st">"%A, %d %B %Y"</span>)     <span class="co"># pretty-print</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "Monday, 27 April 2026"</code></pre>
+<pre><code>[1] "Tuesday, 28 April 2026"</code></pre>
 </div>
 </div>
 <p>Use the <code>lubridate</code> package (inside the tidyverse) for anything more serious — we’ll cover it in <em>Data wrangling</em>.</p>

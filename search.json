@@ -91,6 +91,13 @@
     "text": "Rules of thumb\n\nOne variable → one plot type: continuous → histogram/density; categorical → bar chart.\nOrder matters for categories — reorder by frequency or by value.\nMinimise ink; use theme_minimal() (or theme_void() for maps).\nTitles, units, source line — always."
   },
   {
+    "objectID": "01-introduction-to-r/03-data-wrangling.html#branch-before-you-edit",
+    "href": "01-introduction-to-r/03-data-wrangling.html#branch-before-you-edit",
+    "title": "Data wrangling with the tidyverse",
+    "section": "Branch before you edit",
+    "text": "Branch before you edit\nYesterday a few of you committed straight to main. Easy to fix, but let’s get the muscle memory right today.\nThe two clicks, every day, before opening the exercise template:\n\nPull · Git pane → blue down arrow (after Sync fork on GitHub).\nNew Branch · Git pane → branch dropdown → New Branch… → name day-2 → tick Sync branch with remote → Create.\n\nLook at the branch selector at the top of the Git pane. If it does not say day-2, stop and fix it before you type anything in the template.\n\n\n\n\n\n\nTip\n\n\nMantra: Sync · Pull · Branch · then edit."
+  },
+  {
     "objectID": "01-introduction-to-r/03-data-wrangling.html#outline",
     "href": "01-introduction-to-r/03-data-wrangling.html#outline",
     "title": "Data wrangling with the tidyverse",
@@ -249,7 +256,7 @@
     "href": "01-introduction-to-r/01-data-in-r.html#date-and-time",
     "title": "Data in R",
     "section": "Date and time",
-    "text": "Date and time\n\ntoday &lt;- Sys.Date()\ntoday\n\n[1] \"2026-04-27\"\n\nclass(today)\n\n[1] \"Date\"\n\n# arithmetic on dates\ntoday + 30\n\n[1] \"2026-05-27\"\n\nas.Date(\"2026-06-08\") - today     # days to the first exam\n\nTime difference of 42 days\n\nformat(today, \"%A, %d %B %Y\")     # pretty-print\n\n[1] \"Monday, 27 April 2026\"\n\n\nUse the lubridate package (inside the tidyverse) for anything more serious — we’ll cover it in Data wrangling."
+    "text": "Date and time\n\ntoday &lt;- Sys.Date()\ntoday\n\n[1] \"2026-04-28\"\n\nclass(today)\n\n[1] \"Date\"\n\n# arithmetic on dates\ntoday + 30\n\n[1] \"2026-05-28\"\n\nas.Date(\"2026-06-08\") - today     # days to the first exam\n\nTime difference of 41 days\n\nformat(today, \"%A, %d %B %Y\")     # pretty-print\n\n[1] \"Tuesday, 28 April 2026\"\n\n\nUse the lubridate package (inside the tidyverse) for anything more serious — we’ll cover it in Data wrangling."
   },
   {
     "objectID": "01-introduction-to-r/01-data-in-r.html#coercion-gotchas",
@@ -676,7 +683,7 @@
     "href": "01-introduction-to-r/04-basic-statistics.html#outline",
     "title": "Basic statistics with R",
     "section": "Outline",
-    "text": "Outline\n\nUnivariate descriptives: mean, median, variance, quantiles.\nFrequency tables and cross-tabulations.\nCorrelation and covariance.\nInference 101: t-test, chi-squared, proportion test.\nCommunicating results: broom::tidy() and nicely formatted tables."
+    "text": "Outline\n\nUnivariate descriptives: mean, median, variance, quantiles.\nFrequency tables and cross-tabulations.\nCorrelation and covariance.\nCommunicating results with nicely formatted summaries.\n\n\n\n\n\n\n\nHypothesis testing (t-test, chi-squared, regression inference) is covered in Module III with Juan — not here."
   },
   {
     "objectID": "01-introduction-to-r/04-basic-statistics.html#descriptives-in-one-line",
@@ -707,25 +714,11 @@
     "text": "Correlation\n\nhotels |&gt;\n  select(price, rating, nights) |&gt;\n  cor(use = \"pairwise.complete.obs\")"
   },
   {
-    "objectID": "01-introduction-to-r/04-basic-statistics.html#a-simple-t-test-does-price-differ-between-two-islands",
-    "href": "01-introduction-to-r/04-basic-statistics.html#a-simple-t-test-does-price-differ-between-two-islands",
-    "title": "Basic statistics with R",
-    "section": "A simple t-test · does price differ between two islands?",
-    "text": "A simple t-test · does price differ between two islands?\n\nt.test(price ~ island,\n       data   = filter(hotels, island %in% c(\"Gran Canaria\", \"Tenerife\")))"
-  },
-  {
-    "objectID": "01-introduction-to-r/04-basic-statistics.html#tidy-inference-with-broom",
-    "href": "01-introduction-to-r/04-basic-statistics.html#tidy-inference-with-broom",
-    "title": "Basic statistics with R",
-    "section": "Tidy inference with broom",
-    "text": "Tidy inference with broom\n\nlibrary(broom)\n\nt.test(price ~ island,\n       data = filter(hotels, island %in% c(\"Gran Canaria\", \"Tenerife\"))) |&gt;\n  tidy()"
-  },
-  {
     "objectID": "01-introduction-to-r/04-basic-statistics.html#recap",
     "href": "01-introduction-to-r/04-basic-statistics.html#recap",
     "title": "Basic statistics with R",
     "section": "Recap",
-    "text": "Recap\n\nsummarise() + a handful of functions covers most univariate reporting.\njanitor::tabyl() beats base table() for presentable frequency tables.\nbroom::tidy() converts any test into a one-row data frame."
+    "text": "Recap\n\nsummarise() + a handful of functions covers most univariate reporting.\njanitor::tabyl() beats base table() for presentable frequency tables.\ncor() with use = \"pairwise.complete.obs\" handles missing values sensibly when summarising relationships among numeric variables."
   },
   {
     "objectID": "02-visual-exploratory-analysis/02-multiple-variables.html#outline",
