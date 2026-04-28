@@ -30,13 +30,17 @@ merged — your fork is the audit trail of your work.
 
 4. **Fork** the course repo and **clone** your fork from RStudio
    (*File → New Project → Version Control → Git*, HTTPS URL).
-5. Add the `upstream` remote. **This is the only terminal command in
-   the whole course.** Open *Tools → Terminal → New Terminal* inside
-   RStudio and run:
+5. Add the `upstream` remote as a **safety net**. The daily syncing
+   happens via the **Sync fork** button on GitHub; this command is
+   only there in case you ever need to sync from RStudio instead.
+   Open *Tools → Terminal → New Terminal* inside RStudio and run:
 
    ```bash
    git remote add upstream https://github.com/chrglez/quantitative-methods-master-tides.git
    ```
+
+   For the alternative ways to sync a fork, see GitHub's docs:
+   <https://docs.github.com/es/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork>.
 
 ## Daily workflow (Days 1–6)
 
