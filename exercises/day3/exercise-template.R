@@ -6,7 +6,6 @@
 
 library(tidyverse)
 library(janitor)
-library(broom)
 library(here)
 
 
@@ -36,19 +35,19 @@ hotel
 # your comment here
 
 
-# ---- 3. A comparison test ----------------------------------------------
-# State a hypothesis of the form "mean of Y in group A equals mean of
-# Y in group B" and test it with a two-sample t-test. Report the point
-# estimates, confidence interval and p-value using broom::tidy().
-
-# your hypothesis:
+# ---- 3. Correlation ----------------------------------------------------
+# Pick three numeric tourism variables (e.g. price, nights, occupancy
+# rate). Compute their correlation matrix with
+# cor(use = "pairwise.complete.obs") and identify the strongest and
+# weakest pairs.
 
 # your code here
 
 
 # ---- 4. Interpretation -------------------------------------------------
-# Interpret the test in plain English for a non-statistical tourism
-# reader (4–6 sentences). Say what "statistically significant" means
-# and what it does NOT mean.
+# In 4–6 sentences, describe the strongest correlation you found:
+# direction, magnitude, and a plausible substantive reason. Note
+# explicitly that correlation is NOT causation — Module III with Juan
+# covers how to test causal claims formally.
 
 # your comments here

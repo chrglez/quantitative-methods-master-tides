@@ -10,8 +10,12 @@ date: last-modified
 - Univariate descriptives: mean, median, variance, quantiles.
 - Frequency tables and cross-tabulations.
 - Correlation and covariance.
-- Inference 101: t-test, chi-squared, proportion test.
-- Communicating results: `broom::tidy()` and nicely formatted tables.
+- Communicating results with nicely formatted summaries.
+:::
+
+::: {.callout-note appearance="simple"}
+**Hypothesis testing** (t-test, chi-squared, regression inference)
+is covered in **Module III** with Juan — not here.
 :::
 
 ## Descriptives in one line
@@ -66,35 +70,19 @@ hotels |>
   cor(use = "pairwise.complete.obs")
 ```
 
-## A simple t-test · does price differ between two islands?
-
-```{r}
-#| echo: true
-#| eval: false
-t.test(price ~ island,
-       data   = filter(hotels, island %in% c("Gran Canaria", "Tenerife")))
-```
-
-## Tidy inference with `broom`
-
-```{r}
-#| echo: true
-#| eval: false
-library(broom)
-
-t.test(price ~ island,
-       data = filter(hotels, island %in% c("Gran Canaria", "Tenerife"))) |>
-  tidy()
-```
-
 ## Recap
 
 - `summarise()` + a handful of functions covers most univariate reporting.
 - `janitor::tabyl()` beats base `table()` for presentable frequency tables.
-- `broom::tidy()` converts any test into a one-row data frame.
+- `cor()` with `use = "pairwise.complete.obs"` handles missing values
+  sensibly when summarising relationships among numeric variables.
 
 # Hands-on {background-color="#0067a2"}
 
-Produce a summary table of average nightly price and average stay
-length by island, and test whether nights spent in 2024 differ between
-two Canary islands of your choice.
+Using ISTAC or Eurostat data:
+
+1. Produce a summary table of average nightly price and average stay
+   length by island.
+2. Build one cross-tabulation with row percentages.
+3. Compute the correlation matrix of three numeric variables of your
+   choice and comment on the strongest pair in one or two sentences.
