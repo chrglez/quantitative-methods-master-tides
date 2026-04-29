@@ -18,6 +18,38 @@ date: last-modified
 is covered in **Module III** with Juan — not here.
 :::
 
+## Setup · sample data
+
+Run this once at the start of the session — every example below uses
+either `hotels` or `tourists`.
+
+```{r}
+#| echo: true
+#| eval: false
+library(tibble)
+
+hotels <- tibble(
+  island = c("Gran Canaria", "Tenerife", "Lanzarote",
+             "Fuerteventura", "La Palma"),
+  stars  = c(4L, 5L, 4L, 3L, 3L),
+  price  = c(82, 95, 110, 100, 78),
+  rating = c(8.2, 9.1, 7.5, 6.9, 8.0),
+  nights = c(12.5, 18.3, 9.8, 11.2, 6.4)
+)
+
+tourists <- tibble(
+  origin_country = c("DE", "DE", "UK", "UK", "UK",
+                     "ES", "ES", "FR", "DE", "UK"),
+  island         = c("Gran Canaria", "Tenerife", "Lanzarote",
+                     "Tenerife", "Lanzarote", "Gran Canaria",
+                     "Gran Canaria", "Tenerife", "Gran Canaria",
+                     "Lanzarote"),
+  main_purpose   = c("leisure", "leisure", "leisure", "business",
+                     "leisure", "leisure", "business", "leisure",
+                     "leisure", "leisure")
+)
+```
+
 ## Descriptives in one line
 
 ```{r}
@@ -79,10 +111,14 @@ hotels |>
 
 # Hands-on {background-color="#0067a2"}
 
-Using ISTAC or Eurostat data:
+Using the `hotels` and `tourists` tibbles from the Setup slide:
 
-1. Produce a summary table of average nightly price and average stay
-   length by island.
-2. Build one cross-tabulation with row percentages.
-3. Compute the correlation matrix of three numeric variables of your
-   choice and comment on the strongest pair in one or two sentences.
+1. Summary table of mean price, mean rating and mean nights, grouped
+   by `stars`.
+2. Cross-tabulation of `origin_country` × `island` with row
+   percentages, and one sentence on a striking cell.
+3. Correlation matrix of `price`, `rating` and `nights` with one
+   sentence on the strongest pair.
+
+The graded version with real Eurostat data is in
+`exercises/day3/exercise-template.R`.
