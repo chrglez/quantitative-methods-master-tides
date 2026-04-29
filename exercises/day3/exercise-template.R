@@ -1,8 +1,10 @@
 # Day 3 · Exercise (graded)
 # Topic: Basic statistics with R
-# Author: Your Name
-# GitHub: @yourhandle
-# Date: YYYY-MM-DD
+# Author: Ilona Maier
+# GitHub: @ilonamaier
+# Date: 2026-04-28
+
+install.packages("janitor")
 
 library(tidyverse)
 library(janitor)
@@ -41,6 +43,44 @@ joined <- nights |>
 
 # your code here
 
+library(dplyr)
+
+hotels <- tibble(
+  island = c("Gran Canaria", "Tenerife", "Lanzarote",
+             "Fuerteventura", "La Palma"),
+  stars  = c(4L, 5L, 4L, 3L, 3L),
+  price  = c(82, 95, 110, 100, 78),
+  nights = c(12.5, 18.3, 9.8, 11.2, 6.4)
+)
+
+hotels
+
+hotels |>                                             # |> in this case means: take the variable hotels and do this next... same as %>% (in almost all of the cases)
+  summarise(                                          # instead of many rows you get one row with statistics.
+    n        = n(),                                   # count how many rows there are.
+    mean     = mean(price, na.rm = TRUE),             # We get the mean price of the hotels
+    sd       = sd(price,   na.rm = TRUE),
+    median   = median(price, na.rm = TRUE),
+    q25      = quantile(price, 0.25, na.rm = TRUE),
+    q75      = quantile(price, 0.75, na.rm = TRUE)
+  )
+
+summary(hotels)
+
+mean(hotels$price,na.rm=TRUE)
+
+library(janitor)
+
+hotels |>
+  tabyl(stars) |>
+  adorn_totals("row")|>
+  adorn_pct_formatting()
+
+hotels |>
+  tabyl(island) |>
+  adorn_totals("row")|>
+  adorn_pct_formatting()
+
 
 # ---- 2. Cross-tabulation ----------------------------------------------
 # Eurostat data comes pre-aggregated, so a true cross-tab needs to be
@@ -54,6 +94,27 @@ joined <- nights |>
 # domestic tourism, or one dominated by foreign visitors.
 
 # your code here
+
+hotels |>
+  tabyl(island,stars) |>
+  adorn_percentages("row") |>
+  adorn_totals("col")|>
+  adorn_pct_formatting()
+
+hotels |>
+  tabyl(island,stars) |>
+  adorn_percentages("row")
+
+hotels_example <- tibble(
+  island=c("GC","T","L","F","LP","GC","T","F","GC","F"),
+  stars=c(4,5,4,3,3,3,4,4,5,4)
+)
+
+hotels_example |>
+  tabyl(island,stars) |>
+  adorn_percentages("row")|>
+  adorn_totals("col") |>
+  adorn_pct_formatting()
 
 # your comment here
 
@@ -70,6 +131,9 @@ joined <- nights |>
 
 # your code here
 
+hotels |>
+  select(price, nights) |>
+  cor(use = "pairwise.complete.obs")
 
 # ---- 4. Interpretation -------------------------------------------------
 # In 4-6 sentences, describe the strongest correlation you found:
@@ -78,3 +142,64 @@ joined <- nights |>
 # covers how to test causal claims formally.
 
 # your comments here
+
+
+
+
+#---- One-variable visualisation ----------------------------------------
+
+hist(hotels$price,
+     col="aquamarine"
+     )
+
+hist(hotels$price)
+
+hist(hotels$price,
+     breaks=20,
+     col="aquamarine",
+     main="Distribution of nightly price",
+     xlab="Price in €"
+)
+
+view(mtcars)
+view(iris)
+
+hist(mtcars$mp)
+
+hist(mtcars$mpg,
+     breaks=10,
+     col="aquamarine",
+     main="example",
+     xlab="mpg"
+     )
+
+library(ggplot2)
+
+mtcars |>
+ggplot(aes(x=mpg))+
+  geom_histogram(bins=10,
+                 fill="#0067a2",
+                  alpha=0.85)+
+  labs(title = "Cars by mpg",
+       x = "mpg", y = "xxx") +
+  theme_minimal(base_size = 12)
+
+boxplot(mtcars$mpg,col="brown")
+
+ggplot(mtcars, aes(y = mpg)) +
+  geom_boxplot(fill = "#f4f3ee") +
+  coord_flip() +
+  theme_minimal()
+
+mtcars |>
+  ggplot(aes(x=cyl))+
+  geom_bar(fill="blue")+
+  labs(x="cars",y=NULL)+
+  theme_minimal()
+
+hotels_example |>
+  mutate(ord_island=fct_infreq(island))|>
+  ggplot(aes(x=ord_island))+
+  geom_bar(fill="blue")
+
+
