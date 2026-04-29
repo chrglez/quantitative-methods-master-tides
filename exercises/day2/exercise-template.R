@@ -60,12 +60,13 @@ library(here)
 
 # your code here
 
-capacity <- dat
-nights <- manifest
 
 library(readr)
 nights <- read_csv("datasets/raw/eurostat-nights_monthly.csv")
 capacity <- read_csv("datasets/raw/eurostat-capacity_annual.csv")
+
+capacity <- dat    #not sure if I need to keep this in the code. I used it the first time I downloaded the data to rename the variables, but now an error appears when running the script, as the name has already changed.
+nights <- manifest
 
 capacity <- capacity |>               # this is important so that the result is stored in the variable and not only shown in the console
   filter(accomunit == "BEDPL", unit      == "NR", nace_r2   == "I551", geo       == "ES")
@@ -102,9 +103,7 @@ final <- final |>
 # your code here
 
 final <- final|>
-  mutate(occupancy_index=nights/bed_places)|>
-  mutate(occupancy_index=round(occupancy_index,digits=0)) #I rounded to 0 digits for a cleaner dataframe.
-
+  mutate(occupancy_index=nights/bed_places)
 
 # ---- 3. Summarise ------------------------------------------------------
 # Build a tibble with one row per month showing the occupancy index
@@ -114,7 +113,10 @@ final <- final|>
 # your code here
 
 sorted_final <- final |>
-  arrange(occupancy_index)
+  arrange(desc(occupancy_index)) |>
+  select(year,occupancy_index) |>
+  rename(time=year)
+
 
 #need to check if the following code is correct.
 
@@ -133,3 +135,13 @@ Occupancy <- final |>
 # would expect for Spain, and one plausible tourism explanation.
 
 # your comments here
+
+# It makes sense that the occupancy in 2020 was the lowest. However, it doesn't
+# make sense, that it was almost as low in 2024, as tourism grew rapidly after
+# Covid 19. One possible explenation is, that the full data for 2024 didn't
+# exist yet when the data was downloaded. This makes sense, taking into account,
+# that the last data available in the
+# dataframe is from 2024.
+
+
+
