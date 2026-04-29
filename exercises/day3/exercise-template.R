@@ -1,8 +1,8 @@
 # Day 3 · Exercise (graded)
 # Topic: Basic statistics with R
-# Author: Your Name
-# GitHub: @yourhandle
-# Date: YYYY-MM-DD
+# Author: Aida Sadat Ghamiloui
+# GitHub: @aidaghamiloui
+# Date: 2000-04-17
 
 library(tidyverse)
 library(janitor)
@@ -78,3 +78,144 @@ joined <- nights |>
 # covers how to test causal claims formally.
 
 # your comments here
+library(tidyverse)
+
+# install once per laptop
+install.packages("tidyverse")
+install.packages(c("readxl", "haven", "here", "eurostat"))
+
+# load at the top of every script that uses them
+library(tidyverse)
+library(here)
+library(tibble)
+
+hotels <- tibble(
+  island = c("Gran Canaria", "Tenerife", "Lanzarote",
+             "Fuerteventura", "La Palma"),
+  stars  = c(4L, 5L, 4L, 3L, 3L),
+  price  = c(82, 95, 110, 100, 78),
+  nights = c(12.5, 18.3, 9.8, 11.2, 6.4)
+)
+library(dypler)
+library(dplyr)
+
+library(dplyr)
+
+hotels <- tibble(
+  island = c("Gran Canaria", "Tenerife", "Lanzarote",
+             "Fuerteventura", "La Palma"),
+  stars  = c(4L, 5L, 4L, 3L, 3L),
+  price  = c(82, 95, 110, 100, 78),
+  nights = c(12.5, 18.3, 9.8, 11.2, 6.4) )
+
+remove(nights)
+
+hotels |>
+  summarise(
+    n        = n(),
+    mean     = mean(price, na.rm = TRUE),
+    sd       = sd(price,   na.rm = TRUE),
+    median   = median(price, na.rm = TRUE),
+    q25      = quantile(price, 0.25, na.rm = TRUE),
+    q75      = quantile(price, 0.75, na.rm = TRUE)
+  )
+
+library(janitor)
+
+hotels |>
+  tabyl(stars) |>
+  adorn_totals("row")
+
+library(janitor)
+
+hotels |>
+  tabyl(island, stars) |>
+  adorn_totals("row") |>
+  adorn_pct_formatting()
+
+hotels_ex <- tibble(
+  island = c("GC","T","L","F","LP","GC","T","F","GC","F"),
+  stars = c(4,5,4,3,3,3,4,4,5,4)
+)
+
+hotels_ex |>
+  tabyl(island, stars) |>
+  adorn_totals("row") |>
+  adorn_pct_formatting()
+
+
+hotels_ex |>
+  tabyl(island, stars) |>
+  adorn_percentages("row") |>
+  adorn_totals("col") |>
+  adorn_pct_formatting()
+
+
+hotels_ex |>
+  tabyl(island, stars) |>
+  adorn_totals()
+
+table(hotels_ex$island, hotels_ex$stars)
+
+hotels |>
+  select(price, rating, nights) |>
+  cor(use = "pairwise.complete.obs")
+hist(hotels$price,
+     col = "aquamarine4",
+     main = "Distribution of Nightly Prices",
+     xlab = "price (£)"
+     )
+
+
+hist(hotels$price,
+     breaks = 20,
+     col    = "aquamarine4",
+     main   = "Distribution of nightly price",
+     xlab   = "Price (€)")
+
+view(iris)
+view(mtcars)
+hist(mtcars$mpg,
+     breaks = 5,
+     col = "yellow",
+     main = "Cars by MPG",
+     xlab = "")
+
+library(ggplot2)
+
+mtcars %>%
+ggplot(aes(x = mpg)) +
+  geom_histogram(bins = 5, fill = "purple", alpha = 0.95, col = "black") +
+  labs(title = "cars by mpg",
+       x = "mpg (€)", y = "cars") +
+  theme_minimal(base_size = 12) +
+  theme(plot.background = element_rect(fill = "white")
+        )
+boxplot(mtcars$mpg, col = "brown")
+
+ggplot(mtcars, aes(y = mpg)) +
+  geom_boxplot(fill = "#f64") +
+  coord_flip() +
+  theme_minimal()
+library(forcats)
+
+mtcars %>%
+  ggplot(aes(x=cyl)) +
+  geom_bar(fill = "pink", col = "black") +
+  labs( x="cars", y=NULL) +
+  theme_minimal()
+
+hotels_ex %>%
+  mutate(ord_island = fct_infreq(island)) %>%
+  ggplot(aes(x = ord_island)) +
+  geom_bar(fill = "pink", col = "black",) +
+  labs(x = "hotels", y = "island", title = "Hotels by Islands" , subtitle = "period 2026") +
+  theme_minimal(base_size = 14)
+
+mtcars %>%
+  ggplot(aes(x=cyl, fill = factor(cyl))) +
+  geom_bar() +
+  labs( x="cars", y=NULL) +
+  theme_minimal()
+
+
