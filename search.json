@@ -11,7 +11,7 @@
     "href": "02-visual-exploratory-analysis/03-editing-documents.html#anatomy-of-a-quarto-document",
     "title": "Editing reproducible documents",
     "section": "Anatomy of a Quarto document",
-    "text": "Anatomy of a Quarto document\n---\ntitle: \"Tourism in the Canary Islands, 2024\"\nauthor: \"Your Name\"\ndate: last-modified\nformat:\n  html:\n    toc: true\n  pdf: default\nexecute:\n  echo: false\n  warning: false\n---\n\n# Introduction\nRegular prose. Markdown **works** as expected.\n\n# Data\n```{r}\nlibrary(dplyr)\noccupancy |&gt; summarise(mean(nights))\n```"
+    "text": "Anatomy of a Quarto document\n---\ntitle: \"Tourism nights in Spain, 2024\"\nauthor: \"Your Name\"\ndate: last-modified\nformat:\n  html:\n    toc: true\n  pdf: default\nexecute:\n  echo: false\n  warning: false\n---\n\n# Introduction\nRegular prose. Markdown **works** as expected.\n\n# Data\n```{r}\nlibrary(tidyverse)\nlibrary(here)\n\nnights &lt;- read_csv(here(\"datasets\",\"raw\",\"eurostat-nights_monthly.csv\")) |&gt;\n  filter(c_resid == \"TOTAL\", unit == \"NR\",\n         nace_r2 == \"I551\", geo == \"ES\")\n\nnights |&gt; summarise(mean_nights = mean(values, na.rm = TRUE))\n```"
   },
   {
     "objectID": "02-visual-exploratory-analysis/03-editing-documents.html#chunk-options-youll-use-daily",
@@ -25,7 +25,7 @@
     "href": "02-visual-exploratory-analysis/03-editing-documents.html#publishable-tables-gt",
     "title": "Editing reproducible documents",
     "section": "Publishable tables · gt",
-    "text": "Publishable tables · gt\n\nlibrary(gt)\n\nsummary_by_island |&gt;\n  gt() |&gt;\n  fmt_number(columns = price, decimals = 0, use_seps = TRUE) |&gt;\n  fmt_percent(columns = occupancy_rate, decimals = 1) |&gt;\n  tab_header(title   = \"Canary Islands hotel summary\",\n             subtitle = \"2024 · ISTAC\") |&gt;\n  tab_source_note(\"Source: ISTAC, author's elaboration.\")"
+    "text": "Publishable tables · gt\n\nlibrary(tidyverse)\nlibrary(here)\nlibrary(gt)\n\nnights &lt;- read_csv(here(\"datasets\",\"raw\",\"eurostat-nights_monthly.csv\")) |&gt;\n  filter(c_resid == \"TOTAL\", unit == \"NR\", nace_r2 == \"I551\") |&gt;\n  mutate(year = lubridate::year(TIME_PERIOD)) |&gt;\n  filter(year == 2024)\n\nnights |&gt;\n  group_by(geo) |&gt;\n  summarise(total_nights = sum(values, na.rm = TRUE)) |&gt;\n  arrange(desc(total_nights)) |&gt;\n  head(10) |&gt;\n  gt() |&gt;\n  fmt_number(columns = total_nights, decimals = 0, use_seps = TRUE) |&gt;\n  tab_header(title    = \"Top 10 EU countries by hotel nights\",\n             subtitle = \"2024 · Eurostat tour_occ_nim\") |&gt;\n  tab_source_note(\"Source: Eurostat, author's elaboration.\")"
   },
   {
     "objectID": "02-visual-exploratory-analysis/03-editing-documents.html#rendering",

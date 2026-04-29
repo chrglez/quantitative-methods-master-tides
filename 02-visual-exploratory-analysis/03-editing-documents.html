@@ -245,7 +245,7 @@ Juan M. Hernández Guerra
 <section id="anatomy-of-a-quarto-document" class="slide level2">
 <h2>Anatomy of a Quarto document</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a></a><span class="co">---</span></span>
-<span id="cb1-2"><a></a><span class="an">title:</span><span class="co"> "Tourism in the Canary Islands, 2024"</span></span>
+<span id="cb1-2"><a></a><span class="an">title:</span><span class="co"> "Tourism nights in Spain, 2024"</span></span>
 <span id="cb1-3"><a></a><span class="an">author:</span><span class="co"> "Your Name"</span></span>
 <span id="cb1-4"><a></a><span class="an">date:</span><span class="co"> last-modified</span></span>
 <span id="cb1-5"><a></a><span class="an">format:</span></span>
@@ -262,9 +262,15 @@ Juan M. Hernández Guerra
 <span id="cb1-16"><a></a></span>
 <span id="cb1-17"><a></a><span class="fu"># Data</span></span>
 <span id="cb1-18"><a></a><span class="in">```{r}</span></span>
-<span id="cb1-19"><a></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-20"><a></a>occupancy <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="fu">mean</span>(nights))</span>
-<span id="cb1-21"><a></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-19"><a></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-20"><a></a><span class="fu">library</span>(here)</span>
+<span id="cb1-21"><a></a></span>
+<span id="cb1-22"><a></a>nights <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">"datasets"</span>,<span class="st">"raw"</span>,<span class="st">"eurostat-nights_monthly.csv"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb1-23"><a></a>  <span class="fu">filter</span>(c_resid <span class="sc">==</span> <span class="st">"TOTAL"</span>, unit <span class="sc">==</span> <span class="st">"NR"</span>,</span>
+<span id="cb1-24"><a></a>         nace_r2 <span class="sc">==</span> <span class="st">"I551"</span>, geo <span class="sc">==</span> <span class="st">"ES"</span>)</span>
+<span id="cb1-25"><a></a></span>
+<span id="cb1-26"><a></a>nights <span class="sc">|&gt;</span> <span class="fu">summarise</span>(<span class="at">mean_nights =</span> <span class="fu">mean</span>(values, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb1-27"><a></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="chunk-options-youll-use-daily" class="slide level2">
 <h2>Chunk options you’ll use daily</h2>
@@ -306,15 +312,25 @@ Juan M. Hernández Guerra
 <section id="publishable-tables-gt" class="slide level2">
 <h2>Publishable tables · <code>gt</code></h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a><span class="fu">library</span>(gt)</span>
-<span id="cb2-2"><a></a></span>
-<span id="cb2-3"><a></a>summary_by_island <span class="sc">|&gt;</span></span>
-<span id="cb2-4"><a></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
-<span id="cb2-5"><a></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span> price, <span class="at">decimals =</span> <span class="dv">0</span>, <span class="at">use_seps =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
-<span id="cb2-6"><a></a>  <span class="fu">fmt_percent</span>(<span class="at">columns =</span> occupancy_rate, <span class="at">decimals =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
-<span id="cb2-7"><a></a>  <span class="fu">tab_header</span>(<span class="at">title   =</span> <span class="st">"Canary Islands hotel summary"</span>,</span>
-<span id="cb2-8"><a></a>             <span class="at">subtitle =</span> <span class="st">"2024 · ISTAC"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb2-9"><a></a>  <span class="fu">tab_source_note</span>(<span class="st">"Source: ISTAC, author's elaboration."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-2"><a></a><span class="fu">library</span>(here)</span>
+<span id="cb2-3"><a></a><span class="fu">library</span>(gt)</span>
+<span id="cb2-4"><a></a></span>
+<span id="cb2-5"><a></a>nights <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">"datasets"</span>,<span class="st">"raw"</span>,<span class="st">"eurostat-nights_monthly.csv"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb2-6"><a></a>  <span class="fu">filter</span>(c_resid <span class="sc">==</span> <span class="st">"TOTAL"</span>, unit <span class="sc">==</span> <span class="st">"NR"</span>, nace_r2 <span class="sc">==</span> <span class="st">"I551"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-7"><a></a>  <span class="fu">mutate</span>(<span class="at">year =</span> lubridate<span class="sc">::</span><span class="fu">year</span>(TIME_PERIOD)) <span class="sc">|&gt;</span></span>
+<span id="cb2-8"><a></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2024</span>)</span>
+<span id="cb2-9"><a></a></span>
+<span id="cb2-10"><a></a>nights <span class="sc">|&gt;</span></span>
+<span id="cb2-11"><a></a>  <span class="fu">group_by</span>(geo) <span class="sc">|&gt;</span></span>
+<span id="cb2-12"><a></a>  <span class="fu">summarise</span>(<span class="at">total_nights =</span> <span class="fu">sum</span>(values, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb2-13"><a></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(total_nights)) <span class="sc">|&gt;</span></span>
+<span id="cb2-14"><a></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-15"><a></a>  <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb2-16"><a></a>  <span class="fu">fmt_number</span>(<span class="at">columns =</span> total_nights, <span class="at">decimals =</span> <span class="dv">0</span>, <span class="at">use_seps =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-17"><a></a>  <span class="fu">tab_header</span>(<span class="at">title    =</span> <span class="st">"Top 10 EU countries by hotel nights"</span>,</span>
+<span id="cb2-18"><a></a>             <span class="at">subtitle =</span> <span class="st">"2024 · Eurostat tour_occ_nim"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-19"><a></a>  <span class="fu">tab_source_note</span>(<span class="st">"Source: Eurostat, author's elaboration."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="rendering" class="slide level2">
@@ -334,7 +350,7 @@ Juan M. Hernández Guerra
 </section>
 <section id="final-submission" class="title-slide slide level1 center" data-background-color="#0067a2">
 <h1>Final submission</h1>
-<p>Write a 3-page reproducible report on one Canary Islands tourism question of your choice, using ISTAC or Eurostat data. Render to HTML and PDF. Push the <code>.qmd</code> (not the outputs) to your fork.</p>
+<p>Write a 3-page reproducible report on one tourism question of your choice, using the Eurostat (or ISTAC) data already in <code>datasets/raw/</code>. Render to HTML and PDF. Push the <code>.qmd</code> (not the outputs) to your fork.</p>
 
 
 </section>
