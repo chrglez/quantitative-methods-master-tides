@@ -4,6 +4,25 @@ subtitle: "Topic 1 · Day 2 · 4 hours"
 date: last-modified
 ---
 
+## Branch *before* you edit {background-color="#fff7ed"}
+
+Yesterday a few of you committed straight to `main`. Easy to fix, but
+let's get the muscle memory right today.
+
+**The two clicks, every day, before opening the exercise template:**
+
+1. **Pull** · Git pane → blue down arrow (after *Sync fork* on GitHub).
+2. **New Branch** · Git pane → branch dropdown → *New Branch…* → name
+   `day-2` → tick *Sync branch with remote* → *Create*.
+
+Look at the branch selector at the top of the Git pane. If it does
+**not** say `day-2`, stop and fix it before you type anything in the
+template.
+
+::: {.callout-tip}
+Mantra: *Sync · Pull · Branch · then* edit.
+:::
+
 ## Outline
 
 ::: {.incremental}

@@ -72,9 +72,12 @@ in RStudio:
 
 The Git pane appears in the top-right of RStudio.
 
-### 3.3 · Add the `upstream` remote
+### 3.3 · Add the `upstream` remote (safety net)
 
-This is the **only** terminal command in the whole course.
+> The main way to sync your fork is the **Sync fork** button on GitHub
+> (web). This step adds an `upstream` reference locally as a backup —
+> useful if you ever need to sync from RStudio instead of the browser.
+
 Inside RStudio open *Tools → Terminal → New Terminal* and run:
 
 ```bash
@@ -83,8 +86,11 @@ git remote -v
 ```
 
 The second line should print **two** remotes: `origin` (your fork) and
-`upstream` (the course repo). Close the terminal — you won't need it
-again.
+`upstream` (the course repo). Close the terminal — in the daily flow
+you sync from the GitHub web button.
+
+For the alternative ways to sync a fork, see GitHub's docs:
+<https://docs.github.com/es/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork>.
 
 ### 3.4 · Install R packages
 

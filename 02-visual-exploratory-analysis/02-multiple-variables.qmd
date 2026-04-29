@@ -12,8 +12,27 @@ date: last-modified
 - One continuous + one categorical: side-by-side distributions.
 - Facets: small multiples.
 - Correlation matrices and heatmaps.
-- Mapping tourism data to Canary Islands geography.
 :::
+
+## Setup · sample data
+
+Run this once at the start of the session — every example below uses
+`hotels`.
+
+```{r}
+#| echo: true
+#| eval: false
+library(tibble)
+
+hotels <- tibble(
+  island = c("Gran Canaria", "Tenerife", "Lanzarote",
+             "Fuerteventura", "La Palma"),
+  stars  = c(4L, 5L, 4L, 3L, 3L),
+  price  = c(82, 95, 110, 100, 78),
+  rating = c(8.2, 9.1, 7.5, 6.9, 8.0),
+  nights = c(12.5, 18.3, 9.8, 11.2, 6.4)
+)
+```
 
 ## Scatter · price vs rating
 
@@ -73,25 +92,6 @@ hotels |>
   theme_minimal()
 ```
 
-## Maps · ISTAC data on Canary Islands
-
-```{r}
-#| echo: true
-#| eval: false
-library(sf)
-library(ggplot2)
-
-# Shape file for Canary Islands municipalities (download separately).
-muni <- read_sf("datasets/raw/canarias-municipios.geojson")
-
-muni |>
-  left_join(occupancy_by_muni, by = "muni_code") |>
-  ggplot() +
-  geom_sf(aes(fill = nights_per_capita), colour = "white", linewidth = 0.2) +
-  scale_fill_viridis_c() +
-  theme_void()
-```
-
 ## Principles
 
 - **One story per plot.** If it takes a paragraph to read, split it.
@@ -101,5 +101,14 @@ muni |>
 
 # Hands-on {background-color="#0067a2"}
 
-Produce a faceted scatterplot of Eurostat *nights spent* vs *GDP per
-capita* by country, faceted by year, from 2019 to 2024.
+Using the Eurostat monthly nights file already downloaded
+(`datasets/raw/eurostat-nights_monthly.csv`), pick 4-6 EU countries
+and produce a faceted line plot:
+
+- one panel per country (`facet_wrap(~ geo)`),
+- x = month, y = monthly nights,
+- one line per year (`colour = factor(year)`),
+- 2019-2024.
+
+The plot should make seasonality and the COVID dip visible at a
+glance.

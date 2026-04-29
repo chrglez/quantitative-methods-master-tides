@@ -178,10 +178,12 @@ In RStudio:
 RStudio clones, opens the project, and the **Git pane** appears in the
 top-right.
 
-## Step 3 · Add the `upstream` remote
+## Step 3 · Add the `upstream` remote (safety net)
 
 ::: {.callout-note}
-This is the **only** terminal command in the whole course.
+**Main way to sync · the *Sync fork* button on GitHub.** This step
+adds an `upstream` reference locally as a backup, in case you ever
+need to sync from RStudio instead of the web.
 :::
 
 Inside RStudio, open **Tools → Terminal → New Terminal** and paste:
@@ -192,8 +194,11 @@ git remote -v
 ```
 
 The second line should print **two** remotes: `origin` (your fork)
-and `upstream` (the course repo). After this, close the terminal —
-you won't need it again.
+and `upstream` (the course repo). Close the terminal — in the daily
+flow you sync from the GitHub web button.
+
+For the alternative ways to sync a fork, see GitHub's docs:
+<https://docs.github.com/es/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork>.
 
 ## ⚠️ Never commit on `main` {background-color="#fff7ed"}
 
@@ -360,7 +365,7 @@ Imperative mood, starts with a verb, ≤ 50 chars.
 In the next 20 minutes, do **all** of these:
 
 1. Fork the course repo and clone it from RStudio.
-2. Add `upstream` from the Terminal · one time.
+2. Add `upstream` from the Terminal · one time, as a safety net.
 3. Create a `day-1` branch.
 4. Write your name at the top of `exercises/day1/exercise-template.R`.
 5. Commit and Push from the Git pane.
