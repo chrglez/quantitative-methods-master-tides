@@ -11,7 +11,7 @@
 
   <meta name="author" content="Christian González Martel">
   <meta name="author" content="Juan M. Hernández Guerra">
-  <meta name="dcterms.date" content="2026-04-28">
+  <meta name="dcterms.date" content="2026-04-29">
   <title>Quantitative Methods in Tourism – Basic statistics with R</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -229,7 +229,7 @@ Juan M. Hernández Guerra
     </div>
 </div>
 
-  <p class="date">April 28, 2026</p>
+  <p class="date">April 29, 2026</p>
 </section>
 <section id="outline" class="slide level2">
 <h2>Outline</h2>
@@ -250,48 +250,76 @@ Juan M. Hernández Guerra
 </div>
 </div>
 </section>
+<section id="setup-sample-data" class="slide level2">
+<h2>Setup · sample data</h2>
+<p>Run this once at the start of the session — every example below uses either <code>hotels</code> or <code>tourists</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="fu">library</span>(tibble)</span>
+<span id="cb1-2"><a></a></span>
+<span id="cb1-3"><a></a>hotels <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb1-4"><a></a>  <span class="at">island =</span> <span class="fu">c</span>(<span class="st">"Gran Canaria"</span>, <span class="st">"Tenerife"</span>, <span class="st">"Lanzarote"</span>,</span>
+<span id="cb1-5"><a></a>             <span class="st">"Fuerteventura"</span>, <span class="st">"La Palma"</span>),</span>
+<span id="cb1-6"><a></a>  <span class="at">stars  =</span> <span class="fu">c</span>(<span class="dv">4</span>L, <span class="dv">5</span>L, <span class="dv">4</span>L, <span class="dv">3</span>L, <span class="dv">3</span>L),</span>
+<span id="cb1-7"><a></a>  <span class="at">price  =</span> <span class="fu">c</span>(<span class="dv">82</span>, <span class="dv">95</span>, <span class="dv">110</span>, <span class="dv">100</span>, <span class="dv">78</span>),</span>
+<span id="cb1-8"><a></a>  <span class="at">rating =</span> <span class="fu">c</span>(<span class="fl">8.2</span>, <span class="fl">9.1</span>, <span class="fl">7.5</span>, <span class="fl">6.9</span>, <span class="fl">8.0</span>),</span>
+<span id="cb1-9"><a></a>  <span class="at">nights =</span> <span class="fu">c</span>(<span class="fl">12.5</span>, <span class="fl">18.3</span>, <span class="fl">9.8</span>, <span class="fl">11.2</span>, <span class="fl">6.4</span>)</span>
+<span id="cb1-10"><a></a>)</span>
+<span id="cb1-11"><a></a></span>
+<span id="cb1-12"><a></a>tourists <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb1-13"><a></a>  <span class="at">origin_country =</span> <span class="fu">c</span>(<span class="st">"DE"</span>, <span class="st">"DE"</span>, <span class="st">"UK"</span>, <span class="st">"UK"</span>, <span class="st">"UK"</span>,</span>
+<span id="cb1-14"><a></a>                     <span class="st">"ES"</span>, <span class="st">"ES"</span>, <span class="st">"FR"</span>, <span class="st">"DE"</span>, <span class="st">"UK"</span>),</span>
+<span id="cb1-15"><a></a>  <span class="at">island         =</span> <span class="fu">c</span>(<span class="st">"Gran Canaria"</span>, <span class="st">"Tenerife"</span>, <span class="st">"Lanzarote"</span>,</span>
+<span id="cb1-16"><a></a>                     <span class="st">"Tenerife"</span>, <span class="st">"Lanzarote"</span>, <span class="st">"Gran Canaria"</span>,</span>
+<span id="cb1-17"><a></a>                     <span class="st">"Gran Canaria"</span>, <span class="st">"Tenerife"</span>, <span class="st">"Gran Canaria"</span>,</span>
+<span id="cb1-18"><a></a>                     <span class="st">"Lanzarote"</span>),</span>
+<span id="cb1-19"><a></a>  <span class="at">main_purpose   =</span> <span class="fu">c</span>(<span class="st">"leisure"</span>, <span class="st">"leisure"</span>, <span class="st">"leisure"</span>, <span class="st">"business"</span>,</span>
+<span id="cb1-20"><a></a>                     <span class="st">"leisure"</span>, <span class="st">"leisure"</span>, <span class="st">"business"</span>, <span class="st">"leisure"</span>,</span>
+<span id="cb1-21"><a></a>                     <span class="st">"leisure"</span>, <span class="st">"leisure"</span>)</span>
+<span id="cb1-22"><a></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
 <section id="descriptives-in-one-line" class="slide level2">
 <h2>Descriptives in one line</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-2"><a></a></span>
-<span id="cb1-3"><a></a>hotels <span class="sc">|&gt;</span></span>
-<span id="cb1-4"><a></a>  <span class="fu">summarise</span>(</span>
-<span id="cb1-5"><a></a>    <span class="at">n        =</span> <span class="fu">n</span>(),</span>
-<span id="cb1-6"><a></a>    <span class="at">mean     =</span> <span class="fu">mean</span>(price, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb1-7"><a></a>    <span class="at">sd       =</span> <span class="fu">sd</span>(price,   <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb1-8"><a></a>    <span class="at">median   =</span> <span class="fu">median</span>(price, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb1-9"><a></a>    <span class="at">q25      =</span> <span class="fu">quantile</span>(price, <span class="fl">0.25</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb1-10"><a></a>    <span class="at">q75      =</span> <span class="fu">quantile</span>(price, <span class="fl">0.75</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-11"><a></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb2-2"><a></a></span>
+<span id="cb2-3"><a></a>hotels <span class="sc">|&gt;</span></span>
+<span id="cb2-4"><a></a>  <span class="fu">summarise</span>(</span>
+<span id="cb2-5"><a></a>    <span class="at">n        =</span> <span class="fu">n</span>(),</span>
+<span id="cb2-6"><a></a>    <span class="at">mean     =</span> <span class="fu">mean</span>(price, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb2-7"><a></a>    <span class="at">sd       =</span> <span class="fu">sd</span>(price,   <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb2-8"><a></a>    <span class="at">median   =</span> <span class="fu">median</span>(price, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb2-9"><a></a>    <span class="at">q25      =</span> <span class="fu">quantile</span>(price, <span class="fl">0.25</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb2-10"><a></a>    <span class="at">q75      =</span> <span class="fu">quantile</span>(price, <span class="fl">0.75</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-11"><a></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="frequency-tables" class="slide level2">
 <h2>Frequency tables</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a><span class="fu">library</span>(janitor)</span>
-<span id="cb2-2"><a></a></span>
-<span id="cb2-3"><a></a>tourists <span class="sc">|&gt;</span></span>
-<span id="cb2-4"><a></a>  <span class="fu">tabyl</span>(origin_country) <span class="sc">|&gt;</span></span>
-<span id="cb2-5"><a></a>  <span class="fu">adorn_totals</span>(<span class="st">"row"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb2-6"><a></a>  <span class="fu">adorn_pct_formatting</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a><span class="fu">library</span>(janitor)</span>
+<span id="cb3-2"><a></a></span>
+<span id="cb3-3"><a></a>tourists <span class="sc">|&gt;</span></span>
+<span id="cb3-4"><a></a>  <span class="fu">tabyl</span>(origin_country) <span class="sc">|&gt;</span></span>
+<span id="cb3-5"><a></a>  <span class="fu">adorn_totals</span>(<span class="st">"row"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb3-6"><a></a>  <span class="fu">adorn_pct_formatting</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="cross-tabs" class="slide level2">
 <h2>Cross-tabs</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a>tourists <span class="sc">|&gt;</span></span>
-<span id="cb3-2"><a></a>  <span class="fu">tabyl</span>(island, main_purpose) <span class="sc">|&gt;</span></span>
-<span id="cb3-3"><a></a>  <span class="fu">adorn_percentages</span>(<span class="st">"row"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb3-4"><a></a>  <span class="fu">adorn_pct_formatting</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a>tourists <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a></a>  <span class="fu">tabyl</span>(island, main_purpose) <span class="sc">|&gt;</span></span>
+<span id="cb4-3"><a></a>  <span class="fu">adorn_percentages</span>(<span class="st">"row"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-4"><a></a>  <span class="fu">adorn_pct_formatting</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="correlation" class="slide level2">
 <h2>Correlation</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a>hotels <span class="sc">|&gt;</span></span>
-<span id="cb4-2"><a></a>  <span class="fu">select</span>(price, rating, nights) <span class="sc">|&gt;</span></span>
-<span id="cb4-3"><a></a>  <span class="fu">cor</span>(<span class="at">use =</span> <span class="st">"pairwise.complete.obs"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a>hotels <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a></a>  <span class="fu">select</span>(price, rating, nights) <span class="sc">|&gt;</span></span>
+<span id="cb5-3"><a></a>  <span class="fu">cor</span>(<span class="at">use =</span> <span class="st">"pairwise.complete.obs"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="recap" class="slide level2">
@@ -304,12 +332,13 @@ Juan M. Hernández Guerra
 </section>
 <section id="hands-on" class="title-slide slide level1 center" data-background-color="#0067a2">
 <h1>Hands-on</h1>
-<p>Using ISTAC or Eurostat data:</p>
+<p>Using the <code>hotels</code> and <code>tourists</code> tibbles from the Setup slide:</p>
 <ol type="1">
-<li>Produce a summary table of average nightly price and average stay length by island.</li>
-<li>Build one cross-tabulation with row percentages.</li>
-<li>Compute the correlation matrix of three numeric variables of your choice and comment on the strongest pair in one or two sentences.</li>
+<li>Summary table of mean price, mean rating and mean nights, grouped by <code>stars</code>.</li>
+<li>Cross-tabulation of <code>origin_country</code> × <code>island</code> with row percentages, and one sentence on a striking cell.</li>
+<li>Correlation matrix of <code>price</code>, <code>rating</code> and <code>nights</code> with one sentence on the strongest pair.</li>
 </ol>
+<p>The graded version with real Eurostat data is in <code>exercises/day3/exercise-template.R</code>.</p>
 
 
 </section>

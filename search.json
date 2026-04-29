@@ -256,7 +256,7 @@
     "href": "01-introduction-to-r/01-data-in-r.html#date-and-time",
     "title": "Data in R",
     "section": "Date and time",
-    "text": "Date and time\n\ntoday &lt;- Sys.Date()\ntoday\n\n[1] \"2026-04-28\"\n\nclass(today)\n\n[1] \"Date\"\n\n# arithmetic on dates\ntoday + 30\n\n[1] \"2026-05-28\"\n\nas.Date(\"2026-06-08\") - today     # days to the first exam\n\nTime difference of 41 days\n\nformat(today, \"%A, %d %B %Y\")     # pretty-print\n\n[1] \"Tuesday, 28 April 2026\"\n\n\nUse the lubridate package (inside the tidyverse) for anything more serious — we’ll cover it in Data wrangling."
+    "text": "Date and time\n\ntoday &lt;- Sys.Date()\ntoday\n\n[1] \"2026-04-29\"\n\nclass(today)\n\n[1] \"Date\"\n\n# arithmetic on dates\ntoday + 30\n\n[1] \"2026-05-29\"\n\nas.Date(\"2026-06-08\") - today     # days to the first exam\n\nTime difference of 40 days\n\nformat(today, \"%A, %d %B %Y\")     # pretty-print\n\n[1] \"Wednesday, 29 April 2026\"\n\n\nUse the lubridate package (inside the tidyverse) for anything more serious — we’ll cover it in Data wrangling."
   },
   {
     "objectID": "01-introduction-to-r/01-data-in-r.html#coercion-gotchas",
@@ -686,6 +686,13 @@
     "text": "Outline\n\nUnivariate descriptives: mean, median, variance, quantiles.\nFrequency tables and cross-tabulations.\nCorrelation and covariance.\nCommunicating results with nicely formatted summaries.\n\n\n\n\n\n\n\nHypothesis testing (t-test, chi-squared, regression inference) is covered in Module III with Juan — not here."
   },
   {
+    "objectID": "01-introduction-to-r/04-basic-statistics.html#setup-sample-data",
+    "href": "01-introduction-to-r/04-basic-statistics.html#setup-sample-data",
+    "title": "Basic statistics with R",
+    "section": "Setup · sample data",
+    "text": "Setup · sample data\nRun this once at the start of the session — every example below uses either hotels or tourists.\n\nlibrary(tibble)\n\nhotels &lt;- tibble(\n  island = c(\"Gran Canaria\", \"Tenerife\", \"Lanzarote\",\n             \"Fuerteventura\", \"La Palma\"),\n  stars  = c(4L, 5L, 4L, 3L, 3L),\n  price  = c(82, 95, 110, 100, 78),\n  rating = c(8.2, 9.1, 7.5, 6.9, 8.0),\n  nights = c(12.5, 18.3, 9.8, 11.2, 6.4)\n)\n\ntourists &lt;- tibble(\n  origin_country = c(\"DE\", \"DE\", \"UK\", \"UK\", \"UK\",\n                     \"ES\", \"ES\", \"FR\", \"DE\", \"UK\"),\n  island         = c(\"Gran Canaria\", \"Tenerife\", \"Lanzarote\",\n                     \"Tenerife\", \"Lanzarote\", \"Gran Canaria\",\n                     \"Gran Canaria\", \"Tenerife\", \"Gran Canaria\",\n                     \"Lanzarote\"),\n  main_purpose   = c(\"leisure\", \"leisure\", \"leisure\", \"business\",\n                     \"leisure\", \"leisure\", \"business\", \"leisure\",\n                     \"leisure\", \"leisure\")\n)"
+  },
+  {
     "objectID": "01-introduction-to-r/04-basic-statistics.html#descriptives-in-one-line",
     "href": "01-introduction-to-r/04-basic-statistics.html#descriptives-in-one-line",
     "title": "Basic statistics with R",
@@ -725,7 +732,14 @@
     "href": "02-visual-exploratory-analysis/02-multiple-variables.html#outline",
     "title": "Multi-variable visualisation",
     "section": "Outline",
-    "text": "Outline\n\nMapping aesthetics: x, y, colour, size, shape, alpha.\nTwo continuous variables: scatter, with smoothers.\nOne continuous + one categorical: side-by-side distributions.\nFacets: small multiples.\nCorrelation matrices and heatmaps.\nMapping tourism data to Canary Islands geography."
+    "text": "Outline\n\nMapping aesthetics: x, y, colour, size, shape, alpha.\nTwo continuous variables: scatter, with smoothers.\nOne continuous + one categorical: side-by-side distributions.\nFacets: small multiples.\nCorrelation matrices and heatmaps."
+  },
+  {
+    "objectID": "02-visual-exploratory-analysis/02-multiple-variables.html#setup-sample-data",
+    "href": "02-visual-exploratory-analysis/02-multiple-variables.html#setup-sample-data",
+    "title": "Multi-variable visualisation",
+    "section": "Setup · sample data",
+    "text": "Setup · sample data\nRun this once at the start of the session — every example below uses hotels.\n\nlibrary(tibble)\n\nhotels &lt;- tibble(\n  island = c(\"Gran Canaria\", \"Tenerife\", \"Lanzarote\",\n             \"Fuerteventura\", \"La Palma\"),\n  stars  = c(4L, 5L, 4L, 3L, 3L),\n  price  = c(82, 95, 110, 100, 78),\n  rating = c(8.2, 9.1, 7.5, 6.9, 8.0),\n  nights = c(12.5, 18.3, 9.8, 11.2, 6.4)\n)"
   },
   {
     "objectID": "02-visual-exploratory-analysis/02-multiple-variables.html#scatter-price-vs-rating",
@@ -754,13 +768,6 @@
     "title": "Multi-variable visualisation",
     "section": "Correlation heatmap",
     "text": "Correlation heatmap\n\nlibrary(dplyr)\nlibrary(ggplot2)\nlibrary(tidyr)\n\nhotels |&gt;\n  select(where(is.numeric)) |&gt;\n  cor(use = \"pairwise.complete.obs\") |&gt;\n  as.data.frame() |&gt;\n  tibble::rownames_to_column(\"var1\") |&gt;\n  pivot_longer(-var1, names_to = \"var2\", values_to = \"r\") |&gt;\n  ggplot(aes(var1, var2, fill = r)) +\n  geom_tile() +\n  scale_fill_gradient2(midpoint = 0, limits = c(-1, 1)) +\n  theme_minimal()"
-  },
-  {
-    "objectID": "02-visual-exploratory-analysis/02-multiple-variables.html#maps-istac-data-on-canary-islands",
-    "href": "02-visual-exploratory-analysis/02-multiple-variables.html#maps-istac-data-on-canary-islands",
-    "title": "Multi-variable visualisation",
-    "section": "Maps · ISTAC data on Canary Islands",
-    "text": "Maps · ISTAC data on Canary Islands\n\nlibrary(sf)\nlibrary(ggplot2)\n\n# Shape file for Canary Islands municipalities (download separately).\nmuni &lt;- read_sf(\"datasets/raw/canarias-municipios.geojson\")\n\nmuni |&gt;\n  left_join(occupancy_by_muni, by = \"muni_code\") |&gt;\n  ggplot() +\n  geom_sf(aes(fill = nights_per_capita), colour = \"white\", linewidth = 0.2) +\n  scale_fill_viridis_c() +\n  theme_void()"
   },
   {
     "objectID": "02-visual-exploratory-analysis/02-multiple-variables.html#principles",

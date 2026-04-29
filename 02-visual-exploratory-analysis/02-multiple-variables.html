@@ -11,7 +11,7 @@
 
   <meta name="author" content="Christian González Martel">
   <meta name="author" content="Juan M. Hernández Guerra">
-  <meta name="dcterms.date" content="2026-04-28">
+  <meta name="dcterms.date" content="2026-04-29">
   <title>Quantitative Methods in Tourism – Multi-variable visualisation</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -229,7 +229,7 @@ Juan M. Hernández Guerra
     </div>
 </div>
 
-  <p class="date">April 28, 2026</p>
+  <p class="date">April 29, 2026</p>
 </section>
 <section id="outline" class="slide level2">
 <h2>Outline</h2>
@@ -239,74 +239,72 @@ Juan M. Hernández Guerra
 <li class="fragment">One continuous + one categorical: side-by-side distributions.</li>
 <li class="fragment">Facets: small multiples.</li>
 <li class="fragment">Correlation matrices and heatmaps.</li>
-<li class="fragment">Mapping tourism data to Canary Islands geography.</li>
 </ul>
+</section>
+<section id="setup-sample-data" class="slide level2">
+<h2>Setup · sample data</h2>
+<p>Run this once at the start of the session — every example below uses <code>hotels</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="fu">library</span>(tibble)</span>
+<span id="cb1-2"><a></a></span>
+<span id="cb1-3"><a></a>hotels <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb1-4"><a></a>  <span class="at">island =</span> <span class="fu">c</span>(<span class="st">"Gran Canaria"</span>, <span class="st">"Tenerife"</span>, <span class="st">"Lanzarote"</span>,</span>
+<span id="cb1-5"><a></a>             <span class="st">"Fuerteventura"</span>, <span class="st">"La Palma"</span>),</span>
+<span id="cb1-6"><a></a>  <span class="at">stars  =</span> <span class="fu">c</span>(<span class="dv">4</span>L, <span class="dv">5</span>L, <span class="dv">4</span>L, <span class="dv">3</span>L, <span class="dv">3</span>L),</span>
+<span id="cb1-7"><a></a>  <span class="at">price  =</span> <span class="fu">c</span>(<span class="dv">82</span>, <span class="dv">95</span>, <span class="dv">110</span>, <span class="dv">100</span>, <span class="dv">78</span>),</span>
+<span id="cb1-8"><a></a>  <span class="at">rating =</span> <span class="fu">c</span>(<span class="fl">8.2</span>, <span class="fl">9.1</span>, <span class="fl">7.5</span>, <span class="fl">6.9</span>, <span class="fl">8.0</span>),</span>
+<span id="cb1-9"><a></a>  <span class="at">nights =</span> <span class="fu">c</span>(<span class="fl">12.5</span>, <span class="fl">18.3</span>, <span class="fl">9.8</span>, <span class="fl">11.2</span>, <span class="fl">6.4</span>)</span>
+<span id="cb1-10"><a></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </section>
 <section id="scatter-price-vs-rating" class="slide level2">
 <h2>Scatter · price vs rating</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb1-2"><a></a></span>
-<span id="cb1-3"><a></a><span class="fu">ggplot</span>(hotels, <span class="fu">aes</span>(<span class="at">x =</span> rating, <span class="at">y =</span> price, <span class="at">colour =</span> island)) <span class="sc">+</span></span>
-<span id="cb1-4"><a></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb1-5"><a></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb1-6"><a></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Rating (1–10)"</span>, <span class="at">y =</span> <span class="st">"Nightly price (€)"</span>) <span class="sc">+</span></span>
-<span id="cb1-7"><a></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb2-2"><a></a></span>
+<span id="cb2-3"><a></a><span class="fu">ggplot</span>(hotels, <span class="fu">aes</span>(<span class="at">x =</span> rating, <span class="at">y =</span> price, <span class="at">colour =</span> island)) <span class="sc">+</span></span>
+<span id="cb2-4"><a></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb2-5"><a></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb2-6"><a></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Rating (1–10)"</span>, <span class="at">y =</span> <span class="st">"Nightly price (€)"</span>) <span class="sc">+</span></span>
+<span id="cb2-7"><a></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="facets-one-panel-per-island" class="slide level2">
 <h2>Facets · one panel per island</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a><span class="fu">ggplot</span>(hotels, <span class="fu">aes</span>(<span class="at">x =</span> nights, <span class="at">y =</span> price)) <span class="sc">+</span></span>
-<span id="cb2-2"><a></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb2-3"><a></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> island, <span class="at">ncol =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
-<span id="cb2-4"><a></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a><span class="fu">ggplot</span>(hotels, <span class="fu">aes</span>(<span class="at">x =</span> nights, <span class="at">y =</span> price)) <span class="sc">+</span></span>
+<span id="cb3-2"><a></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb3-3"><a></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> island, <span class="at">ncol =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb3-4"><a></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="categorical-continuous-violin-boxplot" class="slide level2">
 <h2>Categorical × continuous · violin + boxplot</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a><span class="fu">ggplot</span>(hotels, <span class="fu">aes</span>(<span class="at">x =</span> island, <span class="at">y =</span> price)) <span class="sc">+</span></span>
-<span id="cb3-2"><a></a>  <span class="fu">geom_violin</span>(<span class="at">fill =</span> <span class="st">"#f4f3ee"</span>, <span class="at">linewidth =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
-<span id="cb3-3"><a></a>  <span class="fu">geom_boxplot</span>(<span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">fill =</span> <span class="st">"#0067a2"</span>, <span class="at">colour =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
-<span id="cb3-4"><a></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb3-5"><a></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a><span class="fu">ggplot</span>(hotels, <span class="fu">aes</span>(<span class="at">x =</span> island, <span class="at">y =</span> price)) <span class="sc">+</span></span>
+<span id="cb4-2"><a></a>  <span class="fu">geom_violin</span>(<span class="at">fill =</span> <span class="st">"#f4f3ee"</span>, <span class="at">linewidth =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb4-3"><a></a>  <span class="fu">geom_boxplot</span>(<span class="at">width =</span> <span class="fl">0.2</span>, <span class="at">fill =</span> <span class="st">"#0067a2"</span>, <span class="at">colour =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb4-4"><a></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb4-5"><a></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="correlation-heatmap" class="slide level2">
 <h2>Correlation heatmap</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb4-2"><a></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb4-3"><a></a><span class="fu">library</span>(tidyr)</span>
-<span id="cb4-4"><a></a></span>
-<span id="cb4-5"><a></a>hotels <span class="sc">|&gt;</span></span>
-<span id="cb4-6"><a></a>  <span class="fu">select</span>(<span class="fu">where</span>(is.numeric)) <span class="sc">|&gt;</span></span>
-<span id="cb4-7"><a></a>  <span class="fu">cor</span>(<span class="at">use =</span> <span class="st">"pairwise.complete.obs"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb4-8"><a></a>  <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
-<span id="cb4-9"><a></a>  tibble<span class="sc">::</span><span class="fu">rownames_to_column</span>(<span class="st">"var1"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb4-10"><a></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>var1, <span class="at">names_to =</span> <span class="st">"var2"</span>, <span class="at">values_to =</span> <span class="st">"r"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb4-11"><a></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(var1, var2, <span class="at">fill =</span> r)) <span class="sc">+</span></span>
-<span id="cb4-12"><a></a>  <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
-<span id="cb4-13"><a></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">midpoint =</span> <span class="dv">0</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
-<span id="cb4-14"><a></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-<section id="maps-istac-data-on-canary-islands" class="slide level2">
-<h2>Maps · ISTAC data on Canary Islands</h2>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a><span class="fu">library</span>(sf)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb5-2"><a></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb5-3"><a></a></span>
-<span id="cb5-4"><a></a><span class="co"># Shape file for Canary Islands municipalities (download separately).</span></span>
-<span id="cb5-5"><a></a>muni <span class="ot">&lt;-</span> <span class="fu">read_sf</span>(<span class="st">"datasets/raw/canarias-municipios.geojson"</span>)</span>
-<span id="cb5-6"><a></a></span>
-<span id="cb5-7"><a></a>muni <span class="sc">|&gt;</span></span>
-<span id="cb5-8"><a></a>  <span class="fu">left_join</span>(occupancy_by_muni, <span class="at">by =</span> <span class="st">"muni_code"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb5-9"><a></a>  <span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb5-10"><a></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> nights_per_capita), <span class="at">colour =</span> <span class="st">"white"</span>, <span class="at">linewidth =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb5-11"><a></a>  <span class="fu">scale_fill_viridis_c</span>() <span class="sc">+</span></span>
-<span id="cb5-12"><a></a>  <span class="fu">theme_void</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-3"><a></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb5-4"><a></a></span>
+<span id="cb5-5"><a></a>hotels <span class="sc">|&gt;</span></span>
+<span id="cb5-6"><a></a>  <span class="fu">select</span>(<span class="fu">where</span>(is.numeric)) <span class="sc">|&gt;</span></span>
+<span id="cb5-7"><a></a>  <span class="fu">cor</span>(<span class="at">use =</span> <span class="st">"pairwise.complete.obs"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-8"><a></a>  <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="cb5-9"><a></a>  tibble<span class="sc">::</span><span class="fu">rownames_to_column</span>(<span class="st">"var1"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-10"><a></a>  <span class="fu">pivot_longer</span>(<span class="sc">-</span>var1, <span class="at">names_to =</span> <span class="st">"var2"</span>, <span class="at">values_to =</span> <span class="st">"r"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-11"><a></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(var1, var2, <span class="at">fill =</span> r)) <span class="sc">+</span></span>
+<span id="cb5-12"><a></a>  <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
+<span id="cb5-13"><a></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">midpoint =</span> <span class="dv">0</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb5-14"><a></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="principles" class="slide level2">
@@ -320,7 +318,14 @@ Juan M. Hernández Guerra
 </section>
 <section id="hands-on" class="title-slide slide level1 center" data-background-color="#0067a2">
 <h1>Hands-on</h1>
-<p>Produce a faceted scatterplot of Eurostat <em>nights spent</em> vs <em>GDP per capita</em> by country, faceted by year, from 2019 to 2024.</p>
+<p>Using the Eurostat monthly nights file already downloaded (<code>datasets/raw/eurostat-nights_monthly.csv</code>), pick 4-6 EU countries and produce a faceted line plot:</p>
+<ul>
+<li>one panel per country (<code>facet_wrap(~ geo)</code>),</li>
+<li>x = month, y = monthly nights,</li>
+<li>one line per year (<code>colour = factor(year)</code>),</li>
+<li>2019-2024.</li>
+</ul>
+<p>The plot should make seasonality and the COVID dip visible at a glance.</p>
 
 
 </section>
