@@ -1,8 +1,8 @@
 # Day 2 · Exercise (guided)
 # Topic: Data wrangling with the tidyverse
-# Author: Your Name
-# GitHub: @yourhandle
-# Date: YYYY-MM-DD
+# Author: Ilona Miaer
+# GitHub: @ilonamaier
+# Date: 2026-04-29
 
 library(tidyverse)
 library(here)
@@ -61,6 +61,36 @@ library(here)
 # your code here
 
 
+library(readr)
+nights <- read_csv("datasets/raw/eurostat-nights_monthly.csv")
+capacity <- read_csv("datasets/raw/eurostat-capacity_annual.csv")
+
+capacity <- dat    #not sure if I need to keep this in the code. I used it the first time I downloaded the data to rename the variables, but now an error appears when running the script, as the name has already changed.
+nights <- manifest
+
+capacity <- capacity |>               # this is important so that the result is stored in the variable and not only shown in the console
+  filter(accomunit == "BEDPL", unit      == "NR", nace_r2   == "I551", geo       == "ES")
+nights <- nights |>
+  filter(c_resid   == "TOTAL", unit      == "NR", nace_r2   == "I551", geo       == "ES")
+
+library(lubridate)
+nights <- nights |>
+  mutate(year=year(TIME_PERIOD))
+capacity <- capacity |>
+  mutate(year=year(TIME_PERIOD))
+
+nights <- nights |>
+  rename(nights=values)
+capacity <- capacity |>
+  rename(bed_places=values)
+
+final <- nights |>
+  inner_join(capacity,by=c("geo","year","TIME_PERIOD"))
+
+final <- final |>
+  select(year,nights,geo,bed_places,TIME_PERIOD)
+
+
 # ---- 2. Engineer features ---------------------------------------------
 # Compute a monthly occupancy index for Spain in 2024:
 #
@@ -72,6 +102,8 @@ library(here)
 
 # your code here
 
+final <- final|>
+  mutate(occupancy_index=nights/bed_places)
 
 # ---- 3. Summarise ------------------------------------------------------
 # Build a tibble with one row per month showing the occupancy index
@@ -80,6 +112,22 @@ library(here)
 
 # your code here
 
+sorted_final <- final |>
+  arrange(desc(occupancy_index)) |>
+  select(year,occupancy_index) |>
+  rename(time=year)
+
+
+#need to check if the following code is correct.
+
+Occupancy <- final |>
+  mutate(month = month(TIME_PERIOD)) |>
+  group_by(month) |>
+  summarise(occupancy_index = sum(nights) / sum(bed_places)) |>
+  arrange(desc(occupancy_index)) |>
+  select(month, occupancy_index)
+
+
 
 # ---- 4. Comment --------------------------------------------------------
 # In 4-6 lines as comments, describe what the table shows: which months
@@ -87,3 +135,13 @@ library(here)
 # would expect for Spain, and one plausible tourism explanation.
 
 # your comments here
+
+# It makes sense that the occupancy in 2020 was the lowest. However, it doesn't
+# make sense, that it was almost as low in 2024, as tourism grew rapidly after
+# Covid 19. One possible explenation is, that the full data for 2024 didn't
+# exist yet when the data was downloaded. This makes sense, taking into account,
+# that the last data available in the
+# dataframe is from 2024.
+
+
+
