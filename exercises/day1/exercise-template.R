@@ -1,8 +1,8 @@
 # Day 1 · Exercise
 # Topic: Git, GitHub and Data in R
-# Author: Your Name
-# GitHub: @yourhandle
-# Date: YYYY-MM-DD
+# Author: Aida Sadat Ghamiloui
+# GitHub: @aidaghamiloui
+# Date: 2026-04-29
 
 # Fill in the code under each section. Run section by section with
 # Ctrl+Enter (line) or Ctrl+Shift+Enter (whole chunk). Save the file,
@@ -21,27 +21,46 @@
 
 # your code here
 
+sum(1:100)
+
+mean(c(2,4,8,16))
 
 # ---- 3. Vectors --------------------------------------------------------
 # Build a numeric vector with the monthly average temperatures in
 # Las Palmas (°C) from a source of your choice. Compute its minimum,
 # maximum, mean and standard deviation.
 
-# your code here
+Monthly_tem <-   c(19, 18, 19, 20, 21, 23, 25, 25, 25, 24, 22, 20)
+
+min(Monthly_tem)
+max(Monthly_tem)
+sd(Monthly_tem)
+
+
 
 
 # ---- 4. Load a tourism dataset -----------------------------------------
 # Load one ISTAC CSV placed under datasets/raw/ (downloaded via
 # datasets/download.R). Inspect it with glimpse(), summary() and head().
 # Print one or two sentences explaining:
-#   - how many rows and columns it has,
-#   - the types of each column,
-#   - whether there are missing values.
+#   - how many rows and columns it has,Rows: 24,739 - Columns: 7
+#   - the types of each column,: character, Time period: Date Values: Numeric
+#   - whether there are missing values. 16 missing values
 
 library(tidyverse)
 library(here)
 
-# your code here
+library(readr)
+eurostat_capacity_annual <- read_csv("datasets/raw/eurostat-capacity_annual.csv")
+View(eurostat_capacity_annual)
+
+glimpse(hotels)
+glimpse(eurostat_capacity_annual)
+summary(eurostat_capacity_annual)
+head(eurostat_capacity_annual)
+
+
+
 
 
 # ---- 5. Commit, push and open a PR -----------------------------------

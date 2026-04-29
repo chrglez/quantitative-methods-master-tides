@@ -78,3 +78,22 @@ joined <- nights |>
 # covers how to test causal claims formally.
 
 # your comments here
+library(tidyverse)
+
+# install once per laptop
+install.packages("tidyverse")
+install.packages(c("readxl", "haven", "here", "eurostat"))
+
+# load at the top of every script that uses them
+library(tidyverse)
+library(here)
+library(tibble)
+
+hotels <- tibble(
+  island = c("Gran Canaria", "Tenerife", "Lanzarote",
+             "Fuerteventura", "La Palma"),
+  stars  = c(4L, 5L, 4L, 3L, 3L),
+  price  = c(82, 95, 110, 100, 78),
+  nights = c(12.5, 18.3, 9.8, 11.2, 6.4)
+)
+
