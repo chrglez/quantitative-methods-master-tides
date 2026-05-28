@@ -19,7 +19,7 @@ date: last-modified
 
 ````markdown
 ---
-title: "Tourism in the Canary Islands, 2024"
+title: "Tourism nights in Spain, 2024"
 author: "Your Name"
 date: last-modified
 format:
@@ -36,8 +36,14 @@ Regular prose. Markdown **works** as expected.
 
 # Data
 ```{{r}}
-library(dplyr)
-occupancy |> summarise(mean(nights))
+library(tidyverse)
+library(here)
+
+nights <- read_csv(here("datasets","raw","eurostat-nights_monthly.csv")) |>
+  filter(c_resid == "TOTAL", unit == "NR",
+         nace_r2 == "I551", geo == "ES")
+
+nights |> summarise(mean_nights = mean(values, na.rm = TRUE))
 ```
 ````
 
@@ -57,15 +63,25 @@ occupancy |> summarise(mean(nights))
 ```{r}
 #| echo: true
 #| eval: false
+library(tidyverse)
+library(here)
 library(gt)
 
-summary_by_island |>
+nights <- read_csv(here("datasets","raw","eurostat-nights_monthly.csv")) |>
+  filter(c_resid == "TOTAL", unit == "NR", nace_r2 == "I551") |>
+  mutate(year = lubridate::year(TIME_PERIOD)) |>
+  filter(year == 2024)
+
+nights |>
+  group_by(geo) |>
+  summarise(total_nights = sum(values, na.rm = TRUE)) |>
+  arrange(desc(total_nights)) |>
+  head(10) |>
   gt() |>
-  fmt_number(columns = price, decimals = 0, use_seps = TRUE) |>
-  fmt_percent(columns = occupancy_rate, decimals = 1) |>
-  tab_header(title   = "Canary Islands hotel summary",
-             subtitle = "2024 · ISTAC") |>
-  tab_source_note("Source: ISTAC, author's elaboration.")
+  fmt_number(columns = total_nights, decimals = 0, use_seps = TRUE) |>
+  tab_header(title    = "Top 10 EU countries by hotel nights",
+             subtitle = "2024 · Eurostat tour_occ_nim") |>
+  tab_source_note("Source: Eurostat, author's elaboration.")
 ```
 
 ## Rendering
@@ -86,6 +102,7 @@ quarto render report.qmd --to docx    # to Word
 
 # Final submission {background-color="#0067a2"}
 
-Write a 3-page reproducible report on one Canary Islands tourism
-question of your choice, using ISTAC or Eurostat data. Render to HTML
-and PDF. Push the `.qmd` (not the outputs) to your fork.
+Write a 3-page reproducible report on one tourism question of your
+choice, using the Eurostat (or ISTAC) data already in
+`datasets/raw/`. Render to HTML and PDF. Push the `.qmd` (not the
+outputs) to your fork.
