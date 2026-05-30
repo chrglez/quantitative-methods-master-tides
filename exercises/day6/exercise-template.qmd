@@ -1,7 +1,7 @@
 ---
 title: "Day 6 · Final submission"
 subtitle: "A reproducible report on Canary Islands tourism"
-author: "Your Name"
+author: "Ilona Maier"
 date: today
 format:
   html:
@@ -24,39 +24,202 @@ theme_set(theme_minimal(base_size = 11))
 
 # 1. Research question
 
-State in one paragraph the tourism question you address and why it
-matters.
+How does tourist spending and length of stay vary across the Canary Islands?
+This is relevant because tourism is the main economic activity of the
+Canary Islands. In the context of overtourism, islands have to try to achieve
+higher economic output with lower numbers of tourists. The higher the 
+spending per night, the better. Also it is more sustainable if less tourists
+come that stay longer, because there are less in and outbound flights.
 
 # 2. Data
 
-Describe the data source (ISTAC or Eurostat), the time coverage, and
-the cleaning steps you applied. Include one summary table produced
-with `gt`.
+The data comes from the ISTAC Tourist Expenditure Survey 2025, a 
+quarterly survey conducted at Canary Islands airports. 
+It covers tourist departures in 2025 and includes information on spending, 
+length of stay, island visited, nationality, and purpose of visit. The dataset 
+contains 9,083 individual responses.
+
+For this analysis, I selected five variables: island, nights, total spending, 
+purpose of visit, and nationality. I removed respondents with zero nights or 
+zero spending, and excluded records with unidentified island codes. I also 
+computed a new variable, spending per night, by dividing total spending by 
+number of nights. The spending includes accommodation and other spending, but
+does not include the spending for flights.
 
 ```{r}
 # your code here
+
+# Load data
+dat <- read_csv(
+  here("datasets", "raw", "gastoturistico2025.csv"),
+  locale = locale(encoding = "latin1")
+)
+
+# Clean and select relevant variables
+tourists <- dat |>
+  select(
+    island    = ISLA,
+    nights    = NOCHES,
+    spending  = GASTO_EUROS,
+    accom     = COSTE_ALOJ_EUROS,
+    purpose   = PROPOSITO,
+    nationality = NACIONALIDAD
+  ) |>
+  mutate(
+    spending_per_night = (spending + accom) / nights,
+    island = case_when(
+      island == "ES705" ~ "Gran Canaria",
+      island == "ES709" ~ "Tenerife",
+      island == "ES708" ~ "Lanzarote",
+      island == "ES704" ~ "Fuerteventura",
+      island == "ES707" ~ "La Palma",
+      island == "ES706" ~ "La Gomera",
+      island == "ES703" ~ "El Hierro",
+      TRUE ~ NA_character_
+   ) )|>
+  filter(
+    nights > 0,
+    spending > 0,
+    !is.na(island)  )
+
+# Summary table with gt
+summary_table <- tourists |>
+  group_by(island) |>
+  summarise(
+    n           = n(),
+    mean_nights  = round(mean(nights, na.rm = TRUE), 1),
+    mean_spn = round(mean(spending_per_night, na.rm = TRUE), 0)  ) |>
+  arrange(desc(n)) |>
+  gt() |>
+  cols_label(
+    island        = "Island",
+    n             = "Tourists",
+    mean_nights   = "Avg. Nights",
+    mean_spn = "Avg. Spending/Night (€)"
+  ) |>
+  tab_header(
+    title    = "Tourist stays and spending by island",
+    subtitle = "Canary Islands · 2025 · ISTAC"
+  ) |>
+  tab_source_note("Source: ISTAC, Encuesta de Gasto Turístico 2025.")
+
+summary_table
+```
+
+```
+
 ```
 
 # 3. Descriptive analysis
 
-Include at least three plots (one univariate, two multivariate) and
-one inferential test. Every plot must have a title, labelled axes, and
-a source line.
-
 ```{r}
 # your code here
+
+# ---- Plot 1: Univariate - Distribution of spending per night ----------
+plot1 <- ggplot(tourists, aes(x = spending_per_night)) +
+  geom_histogram(aes(y = after_stat(density)),
+                 bins = 30, fill = "#0067a2", alpha = 0.55) +
+  geom_density(linewidth = 1) +
+  xlim(0,1000)+
+  labs(
+    title   = "Distribution of Spending per Night",
+    x       = "Spending per night (€)",
+    y       = "Density",
+    caption = "Source: ISTAC, Encuesta de Gasto Turístico 2025"
+  )
+
+plot1
+
+# ---- Plot 2: Spending per night by island -----------------------------
+plot2 <- ggplot(tourists, aes(x = reorder(island, spending_per_night,
+                                           median), y = spending_per_night)) +
+  geom_boxplot(fill = "#0067a2", colour = "black") +
+  coord_flip() +
+  coord_cartesian(ylim = c(0, 750)) +
+  labs(
+    title   = "Spending per Night by Island",
+    x       = NULL,
+    y       = "Spending per night (€)",
+    caption = "Source: ISTAC, Encuesta de Gasto Turístico 2025"
+  )
+
+plot2
+
+# ---- Plot 3: Length of stay by island ---------------------------------
+plot3 <- ggplot(tourists, aes(x = reorder(island, nights, median),
+                               y = nights)) +
+  geom_boxplot(fill = "#f4f3ee", colour = "#0067a2") +
+  coord_cartesian(ylim = c(0, 30)) +
+  labs(
+    title   = "Length of Stay by Island",
+    x       = NULL,
+    y       = "Nights",
+    caption = "Source: ISTAC, Encuesta de Gasto Turístico 2025"
+  )
+
+plot3
+
+# ---- Inferential test: ANOVA ------------------------------------------
+# Test whether spending per night differs significantly across islands
+anova_result <- aov(spending_per_night ~ island, data = tourists)
+
+# Show ANOVA result as clean table
+anova_result |>
+  broom::tidy() |>
+  gt() |>
+  fmt_number(columns = c(sumsq, meansq, statistic), decimals = 2) |>
+  fmt_number(columns = p.value, decimals = 4) |>
+  cols_label(
+    term      = "Source",
+    df        = "df",
+    sumsq     = "Sum of Squares",
+    meansq    = "Mean Square",
+    statistic = "F value",
+    p.value   = "p-value"
+  ) |>
+  tab_header(
+    title    = "ANOVA: Spending per Night by Island",
+    subtitle = "Source: ISTAC, Encuesta de Gasto Turístico 2025"
+  )
+
+```
+
 ```
 
 # 4. Conclusions
 
-Two-paragraph conclusion. State what you found, what you did **not**
-find, and one limitation of your analysis.
+Plot 1 shows that spending per night is right-skewed, meaning most 
+tourists spend between €50 and €250 per night, but a small number 
+spend considerably more.
+
+Plot 2 shows clear differences between islands. Lanzarote has the 
+highest median spending per night, followed closely by Tenerife. 
+La Palma has the lowest median. Gran Canaria and Fuerteventura fall in between.
+All islands show wide variation, suggesting large differences between tourist 
+profiles even within the same island.
+
+Plot 3 shows that length of stay is remarkably similar across all islands, 
+with a median of 7 nights for every island. This suggests that the typical 
+tourist stays exactly one week regardless of which island they visit, likely 
+reflecting standard package holiday durations. Gran Canaria and La Palma show 
+slightly more variation, with some tourists staying up to 9-10 nights (Q75). 
+Tenerife and Lanzarote have the most concentrated stays, suggesting a more 
+standardised tourism product.
+
+A one-way ANOVA was conducted to test whether average spending per night differs significantly across islands. The result was statistically significant (F = 4.38, p = 0.0015), meaning the differences in spending per night between islands are unlikely to be due to chance alone. This supports the visual finding from Plot 2 that Lanzarote and Tenerife have higher spending per night than La Palma. However, the effect size appears modest given the large sample size (n = 8,726), and the result should be interpreted with caution.
+
+One limitation is that the data only captures tourists surveyed at airports 
+upon departure, which means tourists who left by other means (e.g. ferry) 
+are excluded. This could introduce a selection bias, particularly for smaller 
+islands like La Palma where ferry travel is more common. Also El Hierro and 
+La Gomera are not included in the analysis.
+
 
 # 5. Reproducibility checklist
 
-- [ ] The `.qmd` renders end-to-end from a clean clone.
-- [ ] Data files live under `datasets/raw/` (gitignored) and are
+- [x] The `.qmd` renders end-to-end from a clean clone.
+- [x] Data files live under `datasets/raw/` (gitignored) and are
   downloaded by a script in `datasets/download.R`.
-- [ ] No absolute paths. All paths go through `here::here()`.
-- [ ] The repository is a fork of the course repo, pushed to
+- [x] No absolute paths. All paths go through `here::here()`.
+- [x] The repository is a fork of the course repo, pushed to
   `github.com/<you>/quantitative-methods-master-tides`.
